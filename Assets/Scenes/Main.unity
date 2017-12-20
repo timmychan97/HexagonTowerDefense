@@ -158,33 +158,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1be08122136d6d64ea0ff988dcb528e5, type: 3}
   m_IsPrefabParent: 0
---- !u!84 &327763146
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_Width: 455
-  m_Height: 255
-  m_AntiAliasing: 1
-  m_DepthFormat: 1
-  m_ColorFormat: 0
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
 --- !u!1 &777150066
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,6 +278,7 @@ GameObject:
   - component: {fileID: 965967162}
   - component: {fileID: 965967161}
   - component: {fileID: 965967163}
+  - component: {fileID: 965967164}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -413,9 +387,20 @@ MonoBehaviour:
   sourceCamera: {fileID: 965967159}
   outlineCamera: {fileID: 2014216089}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 327763146}
-  extraRenderTexture: {fileID: 1821035186}
+  renderTexture: {fileID: 1726648274}
+  extraRenderTexture: {fileID: 1001686117}
 --- !u!114 &965967163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 965967156}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a572c0bac558a9a4aaa36208b0560948, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &965967164
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -423,9 +408,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 965967156}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a572c0bac558a9a4aaa36208b0560948, type: 3}
+  m_Script: {fileID: 11500000, guid: be43f733a0c9f644d89dea329246fb48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!84 &1001686117
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_Width: 455
+  m_Height: 255
+  m_AntiAliasing: 1
+  m_DepthFormat: 1
+  m_ColorFormat: 0
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
 --- !u!1001 &1179443878
 Prefab:
   m_ObjectHideFlags: 0
@@ -472,7 +484,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b86f74e6800972e489da3a46c0f19da9, type: 3}
   m_IsPrefabParent: 0
---- !u!84 &1821035186
+--- !u!84 &1726648274
 RenderTexture:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -492,7 +504,7 @@ RenderTexture:
   m_TextureSettings:
     serializedVersion: 2
     m_FilterMode: 1
-    m_Aniso: 1
+    m_Aniso: 0
     m_MipBias: 0
     m_WrapU: 1
     m_WrapV: 1
@@ -541,7 +553,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 327763146}
+  m_TargetTexture: {fileID: 1726648274}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
