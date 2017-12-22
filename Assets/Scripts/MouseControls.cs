@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouseControls : MonoBehaviour {
     //Control settings
     Camera cam;
-    KeyCode primaryMouseButton = KeyCode.Mouse0;
+    KeyCode primaryMouseButton = KeyCode.Mouse0; //left mouseButton
     cakeslice.Outline currentOutlinedComponent;
 	// Use this for initialization
 	void Start () {
@@ -15,18 +15,22 @@ public class MouseControls : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Input.GetKeyDown(primaryMouseButton)) {
-            print("pressed");
+			//click on object and hightlight it.
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             if(Physics.Raycast(ray, out hit)) {
                 Transform objectHit = hit.transform;
+				//if the object is a tile, highlight it.
                 cakeslice.Outline c = objectHit.GetComponent<cakeslice.Outline>();
-                if(c) {
-                    c.eraseRenderer = false;
+				if(c) {
+					c.eraseRenderer = false;
                     if(currentOutlinedComponent) {
                         currentOutlinedComponent.eraseRenderer = true;
-                    }
-                    currentOutlinedComponent = c;
+					}
+					if (currentOutlinedComponent == c)
+						currentOutlinedComponent = null;
+                    else
+						currentOutlinedComponent = c;
                 }
             }
         }

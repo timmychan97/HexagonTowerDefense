@@ -17,7 +17,7 @@ public class MapGenerator : MonoBehaviour {
                 t.transform.position = new Vector3(x, t.transform.position.y, z);
                 z += 8.66025403784f; //2 * sqrt(pow(5,2)+pow(2.5,2)) = y distance between hexagons
             }
-            x += 5;
+            x += 7.5f;
             z = (i % 2 == 0) ? 4.33012701892f : 0f;
         }
 	}

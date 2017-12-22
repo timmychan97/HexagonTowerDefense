@@ -94,9 +94,9 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
+  serializedVersion: 3
   m_Convex: 0
-  m_InflateMesh: 0
+  m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 4300002, guid: 1be08122136d6d64ea0ff988dcb528e5, type: 3}
 --- !u!114 &114175187199096666
@@ -110,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0303d215d3d00d3449ab2db13fbfd287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  appearance: {fileID: 0}
+  goods: {fileID: 0}
 --- !u!114 &114276138843840866
 MonoBehaviour:
   m_ObjectHideFlags: 1
