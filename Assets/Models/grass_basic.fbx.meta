@@ -1,40 +1,46 @@
 fileFormatVersion: 2
-guid: 8f4161b72c70d8846b0766b189f4be34
-timeCreated: 1513718133
+guid: 77f4438f84bec7d499e724b1436fa066
+timeCreated: 1514071687
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: mountain
-    100002: //RootNode
-    100004: tile
-    400000: mountain
-    400002: //RootNode
-    400004: tile
-    2300000: mountain
-    2300002: tile
-    3300000: mountain
-    3300002: tile
-    4300000: tile
-    4300002: mountain
-    7400000: Default Take
+    100000: //RootNode
+    100002: pCube293
+    100004: pCube294
+    100006: pCube295
+    100008: pCube296
+    100010: pCube297
+    100012: pCube298
+    100014: transform38
+    100016: transform39
+    100018: transform40
+    100020: transform41
+    100022: transform42
+    400000: //RootNode
+    400002: pCube293
+    400004: pCube294
+    400006: pCube295
+    400008: pCube296
+    400010: pCube297
+    400012: pCube298
+    400014: transform38
+    400016: transform39
+    400018: transform40
+    400020: transform41
+    400022: transform42
+    2100000: lambert11
+    2100002: grass_green
+    2300000: pCube298
+    3300000: pCube298
+    4300000: pCube298
     9500000: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Grass
-    second: {fileID: 2100000, guid: b86dc4ca4fabd134880bb2975d4b6495, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Mountain01
-    second: {fileID: 2100000, guid: 0f6d9058e3d1f7a4f8d5000e333297b5, type: 2}
+  externalObjects: {}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -72,6 +78,8 @@ ModelImporter:
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88

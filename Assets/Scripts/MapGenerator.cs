@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
     public GameObject tile;
+
     // 10 = x distance between hexagons
     // Use this for initialization
     private float x = 0f;
@@ -20,9 +21,5 @@ public class MapGenerator : MonoBehaviour {
             x += 7.5f;
             z = (i % 2 == 0) ? 4.33012701892f : 0f;
         }
-	}
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }
