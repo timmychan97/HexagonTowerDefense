@@ -21,27 +21,11 @@ public class MouseControls : MonoBehaviour {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 			if(Physics.Raycast(ray, out hit,600)) {
 				Transform objectHit = hit.transform;
-				Tile c = loopParentFindTile (objectHit.transform);
+				Tile c = objectHit.gameObject.GetComponentInParent<Tile>();
 				if (c) {
-					if (c == Tile.active)
-						c.Deactivate ();
-					else
-						c.Activate ();
+					c.OnClick();
 				}
             }
         }
-	}
-
-
-	private static Tile loopParentFindTile(Transform t){ //staic method is better in performance
-		Tile c = t.GetComponent<Tile> ();
-		if (c)
-			return c;
-		else {
-			if (t.parent != null)
-				return loopParentFindTile (t.parent);
-			return null;
-		}
-
 	}
 }
