@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class Tile : MonoBehaviour {
 	public static Tile active;
-	//public enum ID {Empty, Grass, Road, Tower, City, CityBuilding, Forest, Water}
+	public Transform tileContentContainer;
+	public Transform tileMeshContainer;
+	public Vector3Int coords;
+	public enum ID {Empty, Grass, Road, Tower, City, CityBuilding, Forest, Water}
+	public bool isWalkable = false;
 	// Use this for initialization
 	//public ID id = ID.Empty;
-	public GameObject goods;
 	void Start () {
 		
 	}
@@ -18,32 +22,41 @@ public class Tile : MonoBehaviour {
 
 	}
 
-	public void ChangeTile(GameObject obj){
+	public void SetTileMesh(GameObject tileMeshPf)
+    {
+		foreach (Transform c in tileMeshContainer)
+			Destroy(c.gameObject);
+		var tileMesh = Instantiate(tileMeshPf, transform);
+
+	}
+
+
+	public void SetTileContent(GameObject obj){
 		foreach (Transform c in transform) {
-			if(c.name != "geo")
+			if(c.name != "TileHitbox")
 				Destroy (c.gameObject);
 		}
 		Instantiate (obj, transform);
 	}
 
+	public void OnClick()
+    {
+		TileManager.INSTANCE.OnClick(this);
+    }
+
 
 	#region highlighter
 	public void Activate(){
-		if (Tile.active)
-			Tile.active.Deactivate ();
-		loopChild (transform, true);
-		Tile.active = this;
+		SetHighlight (transform, true);
 	}
 	public void Deactivate(){
-		loopChild (transform, false);
-		if (Tile.active == this)
-			Tile.active = null;
+		SetHighlight (transform, false);
 	}
 
-	void loopChild(Transform t, bool isEnabled){
-		//for each element, if it can be outlined, outline it.
+	void SetHighlight(Transform t, bool isEnabled){
+		// for each children, if it can be outlined, outline it.
 		foreach (Transform c in t) {
-			loopChild (c,isEnabled);
+			SetHighlight (c, isEnabled);
 			cakeslice.Outline a = c.gameObject.GetComponent<cakeslice.Outline> ();
 			if (a) {
 				a.eraseRenderer = !isEnabled;
