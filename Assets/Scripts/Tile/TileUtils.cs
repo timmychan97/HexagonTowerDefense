@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class TileUtils : MonoBehaviour
 {
-	public static void CreateTileAtCoord(Tile tilePf, Vector3Int coords)
+	public static Tile CreateTileAtCoord(Tile tilePf, Vector3Int coords)
 	{
 		var tile = Instantiate(tilePf);
 		tile.transform.position = RGBCoordToXY(coords);
 		tile.coords = coords;
+		return tile;
 	}
 
 	public static Vector3 RGBCoordToXY(Vector3Int coords)

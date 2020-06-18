@@ -26,17 +26,16 @@ public class Tile : MonoBehaviour {
     {
 		foreach (Transform c in tileMeshContainer)
 			Destroy(c.gameObject);
-		var tileMesh = Instantiate(tileMeshPf, transform);
+		var tileMesh = Instantiate(tileMeshPf, tileMeshContainer);
 
 	}
 
 
-	public void SetTileContent(GameObject obj){
-		foreach (Transform c in transform) {
-			if(c.name != "TileHitbox")
-				Destroy (c.gameObject);
-		}
-		Instantiate (obj, transform);
+	public void SetTileContent(GameObject obj)
+	{
+		foreach (Transform c in tileContentContainer)
+			Destroy(c.gameObject);
+		Instantiate (obj, tileContentContainer);
 	}
 
 	public void OnClick()

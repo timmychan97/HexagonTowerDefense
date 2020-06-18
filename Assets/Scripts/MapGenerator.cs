@@ -7,8 +7,8 @@ public class MapGenerator : MonoBehaviour {
 
     // 10 = x distance between hexagons
     // Use this for initialization
-    private int xTiles = 30;
-    private int zTiles = 20;
+    public int xTiles = 30;
+    public int zTiles = 20;
     void Start () {
         CreateEmptyBoard(xTiles, zTiles);
     }
@@ -20,7 +20,8 @@ public class MapGenerator : MonoBehaviour {
             {
                 int r = - b / 2 + i;
                 int g = -(r + b);
-                TileUtils.CreateTileAtCoord(tilePf, new Vector3Int(r, g, b));
+                Tile tile = TileUtils.CreateTileAtCoord(tilePf, new Vector3Int(r, g, b));
+                tile.transform.parent = transform;
             }
         }
     }
