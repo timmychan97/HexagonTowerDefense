@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[SelectionBase]
 public class Tile : MonoBehaviour {
 	public static Tile active;
 	public Transform tileContentContainer;

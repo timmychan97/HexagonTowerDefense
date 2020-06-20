@@ -1,71 +1,14 @@
 fileFormatVersion: 2
-guid: 1be08122136d6d64ea0ff988dcb528e5
+guid: 307090883a05cf04fa2a8f432f42c2a0
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable:
-  - first:
-      1: 100000
-    second: Cube_011
-  - first:
-      1: 100002
-    second: Cylinder
-  - first:
-      1: 100004
-    second: //RootNode
-  - first:
-      4: 400000
-    second: Cube_011
-  - first:
-      4: 400002
-    second: Cylinder
-  - first:
-      4: 400004
-    second: //RootNode
-  - first:
-      23: 2300000
-    second: Cube_011
-  - first:
-      23: 2300002
-    second: Cylinder
-  - first:
-      33: 3300000
-    second: Cube_011
-  - first:
-      33: 3300002
-    second: Cylinder
-  - first:
-      43: 4300000
-    second: Cube_011
-  - first:
-      43: 4300002
-    second: Cylinder
-  - first:
-      74: 7400000
-    second: Default Take
-  - first:
-      95: 9500000
-    second: //RootNode
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: DarkWood01
-    second: {fileID: 2100000, guid: 74fd06491f36433469c6b78506277d28, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: DarkWood01_001
-    second: {fileID: 2100000, guid: b07da7f83a5cca94081c12608da2250c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: unnamed
-    second: {fileID: 2100000, guid: eca5a0c1f1c45ee4cb5d1bee6679fb58, type: 2}
+  internalIDToNameTable: []
+  externalObjects: {}
   materials:
     materialImportMode: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 0
+    materialLocation: 1
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -88,7 +31,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -100,7 +43,7 @@ ModelImporter:
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
-    fileIdsGeneration: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 1
     useFileUnits: 1
@@ -122,7 +65,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   referencedClips: []
@@ -141,7 +84,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
