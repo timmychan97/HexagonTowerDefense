@@ -7,19 +7,23 @@ using System;
 
 public class UI_MapEditor_TileMeshButtons : MonoBehaviour
 {
-    public Button buttonPf;
+    public UI_Tool toolPf;
 
     void Start()
     {
         var tileMeshesPf = UI_MapEditor_Utils.GetAllTileMeshesPrefabs();
-        Array.ForEach(tileMeshesPf, go => CreateButtons(go.name, go));
+        Array.ForEach(tileMeshesPf, go => CreateTools(go));
 
     }
 
-    void CreateButtons(string text, GameObject tileMeshPf)
+
+    void CreateTools(GameObject tileContentPf)
     {
-        Button button = Instantiate(buttonPf, transform);
-        button.GetComponentInChildren<Text>().text = text;
-        button.onClick.AddListener(() => TileManager.INSTANCE.SetTileMesh(tileMeshPf));
+        UI_Tool tool = Instantiate(toolPf, transform);
+        tool.SetButtonText(tileContentPf.name);
+        tool.SetAction(() =>
+        {
+            TileManager.INSTANCE.SetTileMesh(tileContentPf);
+        });
     }
 }

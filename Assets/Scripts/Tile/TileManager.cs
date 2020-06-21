@@ -9,7 +9,6 @@ public class TileManager : MonoBehaviour {
 	// Use this for initialization
 	void Start (){
 		INSTANCE = this;
-
 	}
 	
 	// Update is called once per frame
@@ -48,6 +47,7 @@ public class TileManager : MonoBehaviour {
 				Tile.active.Deactivate();
 			tile.Activate();
 			Tile.active = tile;
+			UI_SelectionManager.INSTANCE.UseSelectedTool();
 		}
 	}
 
