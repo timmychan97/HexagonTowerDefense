@@ -28,7 +28,7 @@ public class Tile : MonoBehaviour {
 		foreach (Transform c in tileMeshContainer)
 			Destroy(c.gameObject);
 		var tileMesh = Instantiate(tileMeshPf, tileMeshContainer);
-
+		this.name = "Tile - " + tileMesh.name;
 	}
 
 
