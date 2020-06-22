@@ -13,7 +13,6 @@ public class UI_MapEditor_TileMeshButtons : MonoBehaviour
     {
         var tileMeshesPf = UI_MapEditor_Utils.GetAllTileMeshesPrefabs();
         Array.ForEach(tileMeshesPf, go => CreateTools(go));
-
     }
 
 
