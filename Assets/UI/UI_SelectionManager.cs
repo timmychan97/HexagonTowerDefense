@@ -35,11 +35,18 @@ public class UI_SelectionManager : MonoBehaviour
         }
     }
 
-    public void UseSelectedTool()
+    // returns true when successfully used selected tool
+    public bool UseSelectedTool()
     {
         if (selectedTool)
+        {
             selectedTool.Action();
+        }
         else
+        {
             Debug.Log("No tool is selected");
+            return false;
+        }
+        return true;
     }
 }
