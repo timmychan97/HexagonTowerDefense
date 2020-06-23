@@ -23,7 +23,7 @@ public class UI_Tool : MonoBehaviour
     public void Action()
     {
         // Called by the UI_SelectionManager, when a tile is clicked.
-        // This delegate function should be sat by the parent of this tool.
+        // This delegate function should be set by the parent of this tool.
         action();
     }
 

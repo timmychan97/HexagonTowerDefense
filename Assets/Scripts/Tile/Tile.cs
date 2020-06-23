@@ -12,7 +12,8 @@ public class Tile : MonoBehaviour {
 	public enum ID {Empty, Grass, Road, Tower, City, CityBuilding, Forest, Water}
 	public bool isWalkable = false;
 	// Use this for initialization
-	//public ID id = ID.Empty;
+	public ID id = ID.Empty;
+
 	void Start () {
 		
 	}
@@ -31,6 +32,14 @@ public class Tile : MonoBehaviour {
 		this.name = "Tile - " + tileMesh.name;
 	}
 
+	public bool CanPlaceTower() 
+	{
+		if (id == ID.Empty || id == ID.Grass)
+		{
+			return true;
+		}
+		return false;
+	}
 
 	public void SetTileContent(GameObject obj)
 	{
@@ -46,14 +55,17 @@ public class Tile : MonoBehaviour {
 
 
 	#region highlighter
-	public void Activate(){
+	public void Activate()
+	{
 		SetHighlight (transform, true);
 	}
-	public void Deactivate(){
+	public void Deactivate()
+	{
 		SetHighlight (transform, false);
 	}
 
-	void SetHighlight(Transform t, bool isEnabled){
+	void SetHighlight(Transform t, bool isEnabled)
+	{
 		// for each children, if it can be outlined, outline it.
 		foreach (Transform c in t) {
 			SetHighlight (c, isEnabled);
@@ -65,4 +77,9 @@ public class Tile : MonoBehaviour {
 		return;
 	}
 	#endregion
+
+	public void printCoords()
+	{
+		Debug.Log(coords);
+	}
 }

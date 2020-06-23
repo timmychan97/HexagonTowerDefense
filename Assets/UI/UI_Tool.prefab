@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5398138099221870340}
   - component: {fileID: 5398138099221870343}
   m_Layer: 5
-  m_Name: Tool
+  m_Name: UI_Tool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,7 +89,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 6971075482742811382}
-  prefab: {fileID: 0}
 --- !u!1001 &1914357373632553742
 PrefabInstance:
   m_ObjectHideFlags: 0
