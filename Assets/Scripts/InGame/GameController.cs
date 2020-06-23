@@ -14,7 +14,8 @@ public class GameController : MonoBehaviour
 
     public int money;
     public int hp;
-    public int maxHp = 0;
+    public int maxHp;
+    public int round;
 
     public Text textMoney;
     public Text textHp;
@@ -25,8 +26,13 @@ public class GameController : MonoBehaviour
         panel_gameLost.SetActive(false);
         gameState = GameState.Playing;
         INSTANCE = this;
-        money = 1000;
+
+        // init stats
+        round = 1;
+        money = 500;
+        maxHp = 50;
         hp = maxHp;
+        UpdateUiStats();
     }
 
     // Update is called once per frame
@@ -39,7 +45,6 @@ public class GameController : MonoBehaviour
     {
         textMoney.text = money.ToString();
         textHp.text = hp.ToString();
-        IsGameOver();
     }
 
     // returns false when fails to buy tower (no money)

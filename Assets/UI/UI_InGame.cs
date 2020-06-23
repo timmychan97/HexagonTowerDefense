@@ -32,6 +32,7 @@ public class UI_InGame : MonoBehaviour
         toolTower.tower = tower;
         toolTower.SetAction(() =>
         {
+            Debug.Log("Try setting tile content");
             if (Tile.active.CanPlaceTower() && GameController.INSTANCE.BuyTower(tower))
             {
                 TileManager.INSTANCE.SetTileContent(tower.gameObject);

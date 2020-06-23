@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuManager : MonoBehaviour
+public class UI_BtnBackToMainMenu : MonoBehaviour
 {
-    public GameObject panel_mainMenu;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -19,14 +17,9 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
-    public void StartGame() 
+    public void OnClick() 
     {
-        Debug.Log("Go to scene: 'Test Level'");
-        SceneManager.LoadScene("Test Level");
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        Debug.Log("Back to Main Menu");
+        SceneManager.LoadScene("Main Menu");
     }
 }
