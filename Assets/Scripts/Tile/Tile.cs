@@ -9,13 +9,13 @@ public class Tile : MonoBehaviour {
 	public Transform tileContentContainer;
 	public Transform tileMeshContainer;
 	public Vector3Int coords;
-	public enum ID {Empty, Grass, Road, Tower, City, CityBuilding, Forest, Water}
+	public enum TileType {Empty, Grass, Stone, Road, Forest, Mountain, Water}
 	public bool isWalkable = false;
 	// Use this for initialization
-	public ID id = ID.Empty;
+	public TileType tileType = TileType.Empty;
 
 	void Start () {
-		
+		tileType = TileType.Empty;
 	}
 	
 	// Update is called once per frame
@@ -34,11 +34,19 @@ public class Tile : MonoBehaviour {
 
 	public bool CanPlaceTower() 
 	{
-		if (id == ID.Empty || id == ID.Grass)
+		if (hasTower()) return false;
+		if (tileType == TileType.Empty || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;
 		}
 		return false;
+	}
+
+	public bool hasTower() 
+	{
+		TileContent t = tileContentContainer.GetComponentInChildren<Tower>();
+		if (t == null) return false;
+		return true;
 	}
 
 	public void SetTileContent(GameObject obj)
