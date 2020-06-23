@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+[SelectionBase]
 public class Tile : MonoBehaviour {
 	public static Tile active;
 	public Transform tileContentContainer;
@@ -11,7 +12,8 @@ public class Tile : MonoBehaviour {
 	public enum ID {Empty, Grass, Road, Tower, City, CityBuilding, Forest, Water}
 	public bool isWalkable = false;
 	// Use this for initialization
-	//public ID id = ID.Empty;
+	public ID id = ID.Empty;
+
 	void Start () {
 		
 	}
@@ -26,17 +28,24 @@ public class Tile : MonoBehaviour {
     {
 		foreach (Transform c in tileMeshContainer)
 			Destroy(c.gameObject);
-		var tileMesh = Instantiate(tileMeshPf, transform);
-
+		var tileMesh = Instantiate(tileMeshPf, tileMeshContainer);
+		this.name = "Tile - " + tileMesh.name;
 	}
 
-
-	public void SetTileContent(GameObject obj){
-		foreach (Transform c in transform) {
-			if(c.name != "TileHitbox")
-				Destroy (c.gameObject);
+	public bool CanPlaceTower() 
+	{
+		if (id == ID.Empty || id == ID.Grass)
+		{
+			return true;
 		}
-		Instantiate (obj, transform);
+		return false;
+	}
+
+	public void SetTileContent(GameObject obj)
+	{
+		foreach (Transform c in tileContentContainer)
+			Destroy(c.gameObject);
+		Instantiate (obj, tileContentContainer);
 	}
 
 	public void OnClick()
@@ -46,14 +55,17 @@ public class Tile : MonoBehaviour {
 
 
 	#region highlighter
-	public void Activate(){
+	public void Activate()
+	{
 		SetHighlight (transform, true);
 	}
-	public void Deactivate(){
+	public void Deactivate()
+	{
 		SetHighlight (transform, false);
 	}
 
-	void SetHighlight(Transform t, bool isEnabled){
+	void SetHighlight(Transform t, bool isEnabled)
+	{
 		// for each children, if it can be outlined, outline it.
 		foreach (Transform c in t) {
 			SetHighlight (c, isEnabled);
@@ -65,4 +77,9 @@ public class Tile : MonoBehaviour {
 		return;
 	}
 	#endregion
+
+	public void printCoords()
+	{
+		Debug.Log(coords);
+	}
 }

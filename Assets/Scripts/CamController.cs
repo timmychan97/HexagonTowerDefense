@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CamController : MonoBehaviour {
 	public float relativeSpeed = 1f; //change this to increase the speed overrall!
@@ -57,6 +58,13 @@ public class CamController : MonoBehaviour {
 	public void OnGUI()
 	{      
 		if (Event.current.type == EventType.ScrollWheel) {
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				// The mouse pointer is over EventSystem game object, which is a UI element.
+				// Do not scroll the game camera.
+				return;
+            }
+
 			float dir = Event.current.delta.y;
 			if (dir != 0f)
 				setZoom(curZoom + dir);

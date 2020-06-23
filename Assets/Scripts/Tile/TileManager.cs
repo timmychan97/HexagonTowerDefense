@@ -9,7 +9,6 @@ public class TileManager : MonoBehaviour {
 	// Use this for initialization
 	void Start (){
 		INSTANCE = this;
-
 	}
 	
 	// Update is called once per frame
@@ -17,28 +16,19 @@ public class TileManager : MonoBehaviour {
 		
 	}
 
-	public void UpdateSelectedTile(GameObject obj){
-		if (Tile.active != null) {
+	public void SetTileContent(GameObject obj){
+		if (Tile.active != null)
+		{
 			Tile.active.SetTileContent (obj);
 		}
 	}
 
-	public void ReplaceSelectedTile(GameObject obj)
+	public void SetTileMesh(GameObject tileMeshPf)
 	{
-		Tile tile = obj.GetComponent<Tile>();
-		var coords = Tile.active.coords;
 		if (Tile.active != null)
 		{
-			Destroy(Tile.active.gameObject);
-			Tile.active = null;
+			Tile.active.SetTileMesh(tileMeshPf);
 		}
-		TileUtils.CreateTileAtCoord(tile, coords);
-		Tile.active = tile;
-	}
-
-	public void SetTileMesh(GameObject tileMeshPf)
-    {
-		Tile.active.SetTileMesh(tileMeshPf);
     }
 
 
@@ -57,6 +47,7 @@ public class TileManager : MonoBehaviour {
 				Tile.active.Deactivate();
 			tile.Activate();
 			Tile.active = tile;
+			UI_SelectionManager.INSTANCE.UseSelectedTool();
 		}
 	}
 
