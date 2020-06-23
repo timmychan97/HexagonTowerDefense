@@ -15,7 +15,7 @@ public class MouseControls : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(primaryMouseButton)) {
+		if(Input.GetKey(primaryMouseButton)) {
 			// Do nothing if clicked on the UI elements in front
 			bool hasCanvasUI = UnityEngine.EventSystems.EventSystem.current != null;
 			if (hasCanvasUI && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
