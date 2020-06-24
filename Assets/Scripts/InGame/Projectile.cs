@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private GameObject target;
+    protected GameObject emitter;
+    protected Vector3 origin; // original position
+    public bool follow; 
     public float speed; // move distance per second
     public int dmg;
     // Start is called before the first frame update
@@ -16,39 +18,11 @@ public class Projectile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (target == null) 
-        {
-            Destroy(gameObject);
-        }
-        else 
-        {
-            UpdatePos();
-        }
+
     }
 
-    void UpdatePos() 
+    public virtual void Init(Tower _emitter, GameObject _target)
     {
-        Vector3 toTarget = target.transform.position - transform.position;
-        float dist = toTarget.magnitude;
-        if (dist < speed * Time.deltaTime) // will reach target on next frame
-        {
-            InflictDmg(target);
-            Destroy(gameObject);
-        } 
-        else 
-        {
-            transform.position += toTarget.normalized * speed * Time.deltaTime;
-        }
-    }
 
-    public void SetTarget(GameObject _target)
-    {
-        target = _target;
-    }
-
-    public void InflictDmg(GameObject obj)
-    {
-        Enemy enemy = obj.GetComponent<Enemy>();
-        enemy.LoseHealth(dmg);
     }
 }

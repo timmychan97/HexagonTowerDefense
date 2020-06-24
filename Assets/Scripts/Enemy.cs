@@ -12,13 +12,12 @@ public class Enemy : MonoBehaviour
     public int atk;
     public int maxHp;
     private int hp;
+    public int worth;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("TEST");
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         agent.destination = goal.position;
-        maxHp = 20;
         hp = maxHp;
         id = maxId;
         maxId++;
@@ -47,6 +46,7 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Enemy " + id.ToString() + " dies");
         Destroy(gameObject);
+        GameController.INSTANCE.GainReward(worth);
     }
 
     public int GetId() { return id; }

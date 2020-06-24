@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tower : TileContent
 {
     private int id;
-    public float atk;
+    public int atk;
     public float atkSpeed; // in Hz
     private float atkPeriod; // in s
     public float lastAtkTime;
@@ -20,7 +20,9 @@ public class Tower : TileContent
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<SphereCollider>().radius = range;
+        SphereCollider sphereCollider = GetComponent<SphereCollider>();
+        sphereCollider.radius = range;
+        sphereCollider.isTrigger = true;
         hp = maxHp;
         atkPeriod = 1.0f / atkSpeed;
         lastAtkTime = Time.time;
@@ -29,15 +31,15 @@ public class Tower : TileContent
     // Update is called once per frame
     void Update()
     {
-        if (ChooseATarget()) 
+        if (target != null || ChooseNewTarget())
         {
+            transform.LookAt(target.transform);
             HandleAtk();
         }
     }
 
     public void HandleAtk()
     {
-        
         float timeSinceAtk = Time.time - lastAtkTime;
         if (timeSinceAtk > atkPeriod) 
         {
@@ -48,18 +50,39 @@ public class Tower : TileContent
 
     void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Enter Tower");
         Enemy enemy = other.transform.GetComponent<Enemy>();
-        if (enemy) 
+        if (enemy) // the collided object is an Enemy
         {
-            enemiesInRange.Add(enemy);
-            SetTarget(enemy.gameObject);
+            if (!target) 
+            {
+                SetTarget(enemy.gameObject);
+            }
+            else
+            {
+                enemiesInRange.Add(enemy); // backup enemies
+            }
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        Enemy enemy = other.transform.GetComponent<Enemy>();
+        Debug.Log("OnTriggerExit: " + enemy.gameObject.ToString());
+        if (enemy)
+        {
+            enemiesInRange.Remove(enemy);
+        }
+        if (enemy.gameObject == target) 
+        {
+            ChooseNewTarget();
         }
     }
 
     void Atk(GameObject target) 
     {
         Projectile p = Instantiate(projectile, transform.position, transform.rotation);
-        p.SetTarget(target);
+        p.Init(this, target);
     }
 
     void SetTarget(GameObject _target) 
@@ -67,12 +90,15 @@ public class Tower : TileContent
         target = _target;
     }
 
-    // returns true when successfully chose a target
-    bool ChooseATarget()
+    // returns try when successfully chosen a new target
+    bool ChooseNewTarget()
     {
-        if (target) return true; // already has a target
         if (enemiesInRange.Count == 0) return false;  // no enemies in range
-
+        Debug.Log(enemiesInRange.Count.ToString());
         return true;
+    }
+
+    void HandleTargetDead() {
+
     }
 }

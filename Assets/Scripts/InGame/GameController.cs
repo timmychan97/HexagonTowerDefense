@@ -29,7 +29,7 @@ public class GameController : MonoBehaviour
 
         // init stats
         round = 1;
-        money = 500;
+        // money = 500;
         maxHp = 50;
         hp = maxHp;
         UpdateUiStats();
@@ -85,5 +85,10 @@ public class GameController : MonoBehaviour
     public void BackToMainMenu() 
     {
         SceneManager.LoadScene("Main Menu");
+    }
+
+    public void GainReward(int _money) 
+    {
+        money += _money;
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MouseControls : MonoBehaviour {
     //Control settings
+    int MAP_LAYER_MASK = 1 << 8;
 	Camera cam;
     KeyCode primaryMouseButton = KeyCode.Mouse0; //left mouseButton
     cakeslice.Outline currentOutlinedComponent;
@@ -26,7 +27,7 @@ public class MouseControls : MonoBehaviour {
             // Click on tile and hightlight it.
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 600))
+            if (Physics.Raycast(ray, out hit, 600, MAP_LAYER_MASK))
             {
                 Transform objectHit = hit.transform;
                 Tile c = objectHit.gameObject.GetComponentInParent<Tile>();
