@@ -28,6 +28,7 @@ public class Projectile_FollowTarget : Projectile
     {
         target = _target;
         dmg = _emitter.atk;
+        transform.LookAt(_target.transform, Vector3.up);
     }
 
     void UpdatePos() 
@@ -37,6 +38,7 @@ public class Projectile_FollowTarget : Projectile
         if (dist < speed * Time.deltaTime) // will reach target on next frame
         {
             InflictDmg(target);
+            
             Destroy(gameObject);
         } 
         else 

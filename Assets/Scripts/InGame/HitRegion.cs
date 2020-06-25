@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitRegion : MonoBehaviour
 {
-    SortedSet<Enemy> enemiesInRange = new SortedSet<Enemy>();
+    HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
 
     // Collider collider;
 
@@ -20,9 +20,9 @@ public class HitRegion : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entere HitRegion");
+        Debug.Log("Enter HitRegion");
         Enemy enemy = other.transform.GetComponent<Enemy>();
         if (enemy)
         {
@@ -30,7 +30,7 @@ public class HitRegion : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collision other)
+    void OnTriggerExit(Collider other)
     {
         Enemy enemy = other.transform.GetComponent<Enemy>();
         if (enemy)
@@ -45,7 +45,16 @@ public class HitRegion : MonoBehaviour
         Debug.Log(enemiesInRange.Count);
         foreach (Enemy enemy in enemiesInRange)
         {
+            if (enemy == null) 
+            {
+                enemiesInRange.Remove(enemy);
+                continue;
+            }
             enemy.LoseHealth(dmg);
+            if (enemy == null)  // enemy died after inflicting damage (don't think this will get triggered)
+            {
+                enemiesInRange.Remove(enemy);
+            }
         }
         Destroy(gameObject);
     }

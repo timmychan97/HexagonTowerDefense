@@ -90,5 +90,6 @@ public class GameController : MonoBehaviour
     public void GainReward(int _money) 
     {
         money += _money;
+        UpdateUiStats();
     }
 }

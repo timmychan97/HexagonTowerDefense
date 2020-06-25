@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     public Transform goal;
-    public static int maxId;
+    public static int numEnemies;
     private int id;
     public int atkRange;
     public int atk;
@@ -19,8 +19,8 @@ public class Enemy : MonoBehaviour
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         agent.destination = goal.position;
         hp = maxHp;
-        id = maxId;
-        maxId++;
+        id = numEnemies;
+        numEnemies++;
     }
 
     // Update is called once per frame
@@ -32,9 +32,9 @@ public class Enemy : MonoBehaviour
     // returns false when enemy does not lose hp
     public bool LoseHealth(int dmg)
     {
-        Debug.Log("Original HP: " + hp.ToString());
+        // Debug.Log("Original HP: " + hp.ToString());
         hp -= dmg;
-        Debug.Log("Lost HP, remaining: " + hp.ToString());
+        // Debug.Log("Lost HP, remaining: " + hp.ToString());
         if (hp <= 0) 
         {
             Die();
@@ -45,8 +45,8 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Debug.Log("Enemy " + id.ToString() + " dies");
-        Destroy(gameObject);
         GameController.INSTANCE.GainReward(worth);
+        Destroy(gameObject);
     }
 
     public int GetId() { return id; }

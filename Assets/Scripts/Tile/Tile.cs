@@ -29,6 +29,23 @@ public class Tile : MonoBehaviour {
 		foreach (Transform c in tileMeshContainer)
 			Destroy(c.gameObject);
 		var tileMesh = Instantiate(tileMeshPf, tileMeshContainer);
+
+		// set tile type (Level0Test's map's tiles do not have type assigned)
+		if (tileMesh.tag == "Grass") 
+			tileType = TileType.Grass;
+		else if (tileMesh.tag == "Stone")
+			tileType = TileType.Stone; 
+		else if (tileMesh.tag == "Road")
+			tileType = TileType.Road;
+		else if (tileMesh.tag == "Water")
+			tileType = TileType.Water;
+		else if (tileMesh.tag == "Forest")
+			tileType = TileType.Forest;
+		else if (tileMesh.tag == "Mountain")
+			tileType = TileType.Mountain;
+		else
+			tileType = TileType.Empty;
+
 		this.name = "Tile - " + tileMesh.name;
 	}
 
