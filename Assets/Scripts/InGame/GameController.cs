@@ -11,6 +11,7 @@ public class GameController : MonoBehaviour
     public GameState gameState;
 
     public GameObject panel_gameLost;
+    public GameObject panel_pause;
 
     public int money;
     public int hp;
@@ -24,6 +25,7 @@ public class GameController : MonoBehaviour
     void Start()
     {
         panel_gameLost.SetActive(false);
+        panel_pause.SetActive(false);
         gameState = GameState.Playing;
         INSTANCE = this;
 
@@ -74,6 +76,30 @@ public class GameController : MonoBehaviour
         {
             panel_gameLost.SetActive(true);
         }
+    }
+
+    public void TogglePause()
+    {
+        if (gameState == GameState.Paused) 
+        {
+            ResumeGame();
+        }
+        else
+        {
+            PauseGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        gameState = GameState.Paused;
+        panel_pause.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        gameState = GameState.Playing;
+        panel_pause.SetActive(false);
     }
 
     public bool IsGameOver()

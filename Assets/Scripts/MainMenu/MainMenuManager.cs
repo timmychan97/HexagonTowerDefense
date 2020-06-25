@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
 {
     public GameObject panel_mainMenu;
 
-    private string scene_lvl0 = "Scenes/TestScenes/Level0Test"; 
+    private string scene_lvl0 = "Scenes/TestScenes/DonnyScene"; 
 
     // Start is called before the first frame update
     void Start()
