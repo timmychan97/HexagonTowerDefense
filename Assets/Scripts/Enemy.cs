@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
     public int maxHp;
     private int hp;
     public int worth;
+    private static int maxId = 0;
     // Start is called before the first frame update
     void Start()
     {
