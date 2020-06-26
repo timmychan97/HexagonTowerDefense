@@ -4,17 +4,40 @@ using UnityEngine;
 
 public class HealthBarPivot : MonoBehaviour
 {
-    public float Health { get; set; }
-    public float MaxHealth { get; set; }
+    private UI_HealthBar healthBar;
 
-    void Start()
+    public void AddUIHealthBar()
     {
-        UI_HealthBarDisplayer.INSTANCE.AddHealthBar(this);
+        healthBar = UI_HealthBarManager.INSTANCE.AddHealthBar(this);
     }
 
 
     public void RemoveUIHealthBar()
     {
-        UI_HealthBarDisplayer.INSTANCE.RemoveHealthBar(this);
+        healthBar.Remove();
+    }
+
+
+    public void SetHealth(float health)
+    {
+        healthBar.SetHealth(health);
+    }
+
+    public void SetMaxHealth(float maxHealth)
+    {
+        healthBar.SetMaxHealth(maxHealth);
+    }
+
+
+    // Might be helpful when doing Settings
+    public void HideUIHealthBar()
+    {
+        healthBar.forceHidden = true;
+        healthBar.Hide();
+    }
+    public void ShowUIHealthBar()
+    {
+        healthBar.forceHidden = false;
+        healthBar.Show();
     }
 }

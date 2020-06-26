@@ -24,30 +24,24 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
         id = maxId;
         maxId++;
 
-        healthBarPivot.MaxHealth = maxHp;
-        healthBarPivot.Health = maxHp;
-        Debug.Log("Maxhp: " + healthBarPivot.MaxHealth);
-        Debug.Log("HP: " + healthBarPivot.Health);
-
+        // Initialize the healthBar
+        healthBarPivot.AddUIHealthBar();
+        healthBarPivot.SetMaxHealth(maxHp);
+        healthBarPivot.SetHealth(maxHp);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W)){
-            LoseHealth(10);
-        }
     }
+
 
     // returns false when enemy does not lose hp
     public bool LoseHealth(int dmg)
     {
-        Debug.Log("Original HP: " + hp.ToString());
         hp -= dmg;
+        healthBarPivot.SetHealth(hp);
 
-
-        healthBarPivot.Health -= dmg;
-        Debug.Log("Lost HP, remaining: " + hp.ToString());
         if (hp <= 0) 
         {
             Die();

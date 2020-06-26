@@ -348,7 +348,7 @@ RectTransform:
   m_GameObject: {fileID: 7334690584636303115}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 4045875710903528150}
   m_Father: {fileID: 0}
@@ -371,9 +371,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e3a77c8b0b86045852002dc1368bb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
   pivot: {fileID: 0}
   slider: {fileID: 5555308788309135379}
+  forceHidden: 0
 --- !u!1 &7756313166851787626
 GameObject:
   m_ObjectHideFlags: 0
