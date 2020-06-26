@@ -24,10 +24,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        INSTANCE = this;
         panel_gameLost.SetActive(false);
         panel_pause.SetActive(false);
         gameState = GameState.Playing;
-        INSTANCE = this;
 
         // init stats
         round = 1;
