@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 5336806478540400328}
   - component: {fileID: 5336806478540400331}
   m_Layer: 0
-  m_Name: Gun 1
+  m_Name: Archer Tower 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   maxHp: 10
   cost: 100
   range: 6
-  projectile: {fileID: 4526893974206142802, guid: efebab299689aae469ad5b0c8d4590d7,
+  projectile: {fileID: 279519581720795074, guid: efebab299689aae469ad5b0c8d4590d7,
     type: 3}
 --- !u!135 &5336806478540400331
 SphereCollider:
