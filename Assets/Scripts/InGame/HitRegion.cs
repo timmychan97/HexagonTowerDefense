@@ -20,7 +20,7 @@ public class HitRegion : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         Debug.Log("Entere HitRegion");
         Enemy enemy = other.transform.GetComponent<Enemy>();
@@ -30,7 +30,7 @@ public class HitRegion : MonoBehaviour
         }
     }
 
-    void OnTriggerExit(Collision other)
+    void OnTriggerExit(Collider other)
     {
         Enemy enemy = other.transform.GetComponent<Enemy>();
         if (enemy)

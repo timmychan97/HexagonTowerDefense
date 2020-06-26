@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamagable, IDestroyable
 {
+    public HealthBarPivot healthBarPivot;
     public Transform goal;
     public static int maxId;
     private int id;
@@ -17,16 +18,25 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = goal.position;
+        if (agent)
+            agent.destination = goal.position;
         hp = maxHp;
         id = maxId;
         maxId++;
+
+        healthBarPivot.MaxHealth = maxHp;
+        healthBarPivot.Health = maxHp;
+        Debug.Log("Maxhp: " + healthBarPivot.MaxHealth);
+        Debug.Log("HP: " + healthBarPivot.Health);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.W)){
+            LoseHealth(10);
+        }
     }
 
     // returns false when enemy does not lose hp
@@ -34,6 +44,9 @@ public class Enemy : MonoBehaviour
     {
         Debug.Log("Original HP: " + hp.ToString());
         hp -= dmg;
+
+
+        healthBarPivot.Health -= dmg;
         Debug.Log("Lost HP, remaining: " + hp.ToString());
         if (hp <= 0) 
         {
@@ -45,9 +58,23 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Debug.Log("Enemy " + id.ToString() + " dies");
-        Destroy(gameObject);
         GameController.INSTANCE.GainReward(worth);
+
+        Destroy(gameObject);
     }
 
     public int GetId() { return id; }
+
+
+
+
+    public void Destroy()
+    {
+        Die();
+    }
+
+    public void TakeDamage(float health)
+    {
+        LoseHealth(Mathf.RoundToInt(health));
+    }
 }
