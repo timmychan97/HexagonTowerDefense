@@ -134,10 +134,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarPivot: {fileID: 4327723152103483714}
   goal: {fileID: 0}
-  atkRange: 0
-  atk: 0
+  atkRange: 1
+  atk: 8
+  atkSpeed: 1
   maxHp: 100
-  worth: 0
+  worth: 100
+  prevPos: {x: 0, y: 0, z: 0}
 --- !u!54 &-4728569097123284239
 Rigidbody:
   m_ObjectHideFlags: 0

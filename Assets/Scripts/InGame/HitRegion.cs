@@ -22,7 +22,6 @@ public class HitRegion : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enter HitRegion");
         Enemy enemy = other.transform.GetComponent<Enemy>();
         if (enemy)
         {
@@ -41,8 +40,6 @@ public class HitRegion : MonoBehaviour
 
     public void InflictDmg(int dmg)
     {
-        Debug.Log("Inflict Damage");
-        Debug.Log(enemiesInRange.Count);
         foreach (Enemy enemy in enemiesInRange)
         {
             if (enemy == null) 
@@ -50,7 +47,7 @@ public class HitRegion : MonoBehaviour
                 enemiesInRange.Remove(enemy);
                 continue;
             }
-            enemy.LoseHealth(dmg);
+            enemy.TakeDmg(dmg);
             if (enemy == null)  // enemy died after inflicting damage (don't think this will get triggered)
             {
                 enemiesInRange.Remove(enemy);

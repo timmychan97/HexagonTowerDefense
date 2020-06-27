@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     public Transform goal;
     public EnemySpawner es;
 
-    private int numberOfEnemies;
+    private int numEnemies;
     void Update()
     {
         if (spawnCountdown <= 0f)
@@ -26,5 +26,6 @@ public class EnemySpawner : MonoBehaviour
         var a = Instantiate(enemyPre, spawnLocation);
         Enemy e = a.GetComponent<Enemy>();
         e.goal = goal;
+        e.target = GameController.INSTANCE.myBase;
     }
 }

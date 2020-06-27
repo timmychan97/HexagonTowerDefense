@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : TileContent
+public class Tower : TileContent, IDamagable
 {
     private int id;
     public int atk;
@@ -33,7 +33,8 @@ public class Tower : TileContent
     {
         if (target == null) ChooseNewTarget();
 
-        if (target) {
+        if (target) 
+        {
             Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
             transform.LookAt(lookAtPos);
             HandleAtk();
@@ -52,7 +53,6 @@ public class Tower : TileContent
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Enter Tower");
         Enemy enemy = other.transform.GetComponent<Enemy>();
         if (enemy) // the collided object is an Enemy
         {
@@ -70,12 +70,12 @@ public class Tower : TileContent
     void OnTriggerExit(Collider other)
     {
         Enemy enemy = other.transform.GetComponent<Enemy>();
-        if (enemy)
+        if (enemy != null)
         {
-            Debug.Log("OnTriggerExit: " + enemy.gameObject.ToString());
             enemiesInRange.Remove(enemy);
             if (enemy.gameObject == target) 
             {
+                target = null;
                 ChooseNewTarget();
             }
         }
@@ -84,40 +84,40 @@ public class Tower : TileContent
     void Atk(GameObject target) 
     {
         Projectile p = Instantiate(projectile, transform.position + Vector3.up, transform.rotation);
-        p.Init(this, target);
+        Enemy enemy = target.GetComponent<Enemy>();
+        if (enemy != null) 
+        {
+            p.Init(this, enemy);
+        }
+        else
+        {
+            p.Init(this, target);
+        }
     }
 
     void SetTarget(GameObject _target) 
     {
         target = _target;
-        Debug.Log("Set Target");
+    }
+
+    public void TakeDmg(float dmg)
+    {
+        hp -= Mathf.RoundToInt(dmg);
     }
 
     // returns try when successfully chosen a new target
     bool ChooseNewTarget()
     {
-        Debug.Log("Choose new target");
-        Debug.Log(enemiesInRange.Count);
         if (enemiesInRange.Count == 0) return false;  // no enemies in range
-        Debug.Log(enemiesInRange.Count.ToString());
-        
         foreach (Enemy e in enemiesInRange)
         {
-            if (e == null) 
-            {
-                enemiesInRange.Remove(e);
-            }
-            else 
+            enemiesInRange.Remove(e);
+            if (e != null)
             {
                 target = e.gameObject;
-                enemiesInRange.Remove(e);
                 break;
             }
         }
         return true;
-    }
-
-    void HandleTargetDead() {
-
     }
 }

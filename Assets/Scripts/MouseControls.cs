@@ -6,8 +6,8 @@ public class MouseControls : MonoBehaviour {
     //Control settings
     int MAP_LAYER_MASK = 1 << 8;
 	Camera cam;
-    KeyCode primaryMouseButton = KeyCode.Mouse0; //left mouseButton
-    cakeslice.Outline currentOutlinedComponent;
+    KeyCode primaryMouseButton = KeyCode.Mouse0; // left mouseButton
+    // cakeslice.Outline currentOutlinedComponent;
 	// Use this for initialization
 	void Start () {
 		cam = Camera.main;

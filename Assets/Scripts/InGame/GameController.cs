@@ -9,13 +9,11 @@ public class GameController : MonoBehaviour
     public static GameController INSTANCE;
     public enum GameState {Playing, Paused, Lost, Won};
     public GameState gameState;
-
+    public Base myBase;
     public GameObject panel_gameLost;
     public GameObject panel_pause;
 
     public int money;
-    public int hp;
-    public int maxHp;
     public int round;
 
     public Text textMoney;
@@ -32,8 +30,6 @@ public class GameController : MonoBehaviour
         // init stats
         round = 1;
         // money = 500;
-        maxHp = 50;
-        hp = maxHp;
         UpdateUiStats();
     }
 
@@ -43,10 +39,16 @@ public class GameController : MonoBehaviour
         
     }
 
+    void LateUpdate()
+    {
+        UpdateUiStats();
+        HandleGameOver();
+    }
+
     void UpdateUiStats()
     {
         textMoney.text = money.ToString();
-        textHp.text = hp.ToString();
+        textHp.text = myBase.getHp().ToString();
     }
 
     // returns false when fails to buy tower (no money)
@@ -56,25 +58,22 @@ public class GameController : MonoBehaviour
 
         money -= tower.cost;
         UpdateUiStats();
-        HandleGameOver();
         return true;
     }
 
     // returns false if fails to damage castle
-    public bool DamageCastle(int damage) 
+
+    public void GameOver()
     {
-        hp -= damage;
-        if (hp < 0) hp = 0;
-        UpdateUiStats();
-        HandleGameOver();
-        return true;
+        gameState = GameState.Lost;
+        panel_gameLost.SetActive(true);
     }
 
     public void HandleGameOver() 
     {
         if (IsGameOver())
         {
-            panel_gameLost.SetActive(true);
+            GameOver();
         }
     }
 
@@ -92,19 +91,21 @@ public class GameController : MonoBehaviour
 
     public void PauseGame()
     {
+        Time.timeScale = 0;
         gameState = GameState.Paused;
         panel_pause.SetActive(true);
     }
 
     public void ResumeGame()
     {
+        Time.timeScale = 1;
         gameState = GameState.Playing;
         panel_pause.SetActive(false);
     }
 
     public bool IsGameOver()
     {
-        if (hp <= 0) return true;
+        if (myBase.getHp() <= 0) return true;
         return false;
     }
 

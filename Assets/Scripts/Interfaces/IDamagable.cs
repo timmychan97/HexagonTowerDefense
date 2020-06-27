@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    void TakeDamage(float health);
+    void TakeDmg(float health);
 }

@@ -7,14 +7,19 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
 {
     public HealthBarPivot healthBarPivot;
     public Transform goal;
-    public static int numEnemies;
+    public IDamagable target;
     private int id;
-    public int atkRange;
+    public float atkRange;
+    private float atkRangeSqr;
     public int atk;
+    public float atkSpeed; // in Hz
+    private float atkPeriod;
+    private float lastAtkTime;
     public int maxHp;
     private int hp;
     public int worth;
-    private static int maxId = 0;
+    public static int totalNumEnemies = 0;
+    public Vector3 prevPos;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,56 +27,79 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
         if (agent)
             agent.destination = goal.position;
         hp = maxHp;
-        id = maxId;
-        maxId++;
+        id = totalNumEnemies;
+        totalNumEnemies++;
+        atkRangeSqr = atkRange * atkRange;
+        atkPeriod = 1f / atkSpeed;
+        lastAtkTime = Time.time;
 
         // Initialize the healthBar
         healthBarPivot.AddUIHealthBar();
         healthBarPivot.SetMaxHealth(maxHp);
         healthBarPivot.SetHealth(maxHp);
-        id = numEnemies;
-        numEnemies++;
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleAtk();
     }
 
-
-    // returns false when enemy does not lose hp
-    public bool LoseHealth(int dmg)
+    void LateUpdate()
     {
-        hp -= dmg;
-        healthBarPivot.SetHealth(hp);
+        prevPos = transform.position;
+    }
 
-        if (hp <= 0) 
+    public void HandleAtk()
+    {
+        if (Time.time < lastAtkTime + atkPeriod) return;
+
+        lastAtkTime = Time.time;
+        float dist2 = (goal.position - transform.position).sqrMagnitude;
+        if (atkRangeSqr > dist2) // can attack goal
         {
-            Die();
+            if (target != null) 
+            {
+                if (target is Base)
+                {
+                    Atk(target);
+                }
+            }
         }
-        return true; 
     }
 
     public void Die()
     {
         Debug.Log("Enemy " + id.ToString() + " dies");
         GameController.INSTANCE.GainReward(worth);
-
         Destroy(gameObject);
     }
 
     public int GetId() { return id; }
 
-
-
+    public void Atk(IDamagable b)
+    {
+        Debug.Log("attack");
+        b.TakeDmg(atk);
+    }
 
     public void Destroy()
     {
-        Die();
+        
     }
 
-    public void TakeDamage(float health)
+    public void TakeDmg(float dmg)
     {
-        LoseHealth(Mathf.RoundToInt(health));
+        hp -= Mathf.RoundToInt(dmg);
+        healthBarPivot.SetHealth(hp);
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public Vector3 GetVelocity()
+    {
+        return GetComponent<NavMeshAgent>().velocity;
     }
 }

@@ -92,13 +92,6 @@ public class Tile : MonoBehaviour {
 	void SetHighlight(Transform t, bool isEnabled)
 	{
 		// for each children, if it can be outlined, outline it.
-		foreach (Transform c in t) {
-			SetHighlight (c, isEnabled);
-			cakeslice.Outline a = c.gameObject.GetComponent<cakeslice.Outline> ();
-			if (a) {
-				a.eraseRenderer = !isEnabled;
-			}
-		}
 		return;
 	}
 	#endregion

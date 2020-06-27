@@ -7,16 +7,19 @@ public class TileManager : MonoBehaviour {
 	public static TileManager INSTANCE;
 
 	// Use this for initialization
-	void Start (){
+	void Start ()
+	{
 		INSTANCE = this;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () 
+	{
 		
 	}
 
 	public void SetTileContent(GameObject obj){
+		if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
 		if (Tile.active != null)
 		{
 			Tile.active.SetTileContent (obj);
@@ -25,14 +28,12 @@ public class TileManager : MonoBehaviour {
 
 	public void SetTileMesh(GameObject tileMeshPf)
 	{
+		if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
 		if (Tile.active != null)
 		{
 			Tile.active.SetTileMesh(tileMeshPf);
 		}
     }
-
-
-	
 
 	public void OnClick(Tile tile)
     {
