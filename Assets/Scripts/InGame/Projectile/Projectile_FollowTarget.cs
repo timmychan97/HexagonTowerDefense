@@ -31,6 +31,11 @@ public class Projectile_FollowTarget : Projectile
         transform.LookAt(_target.transform, Vector3.up);
     }
 
+    public override void Init(Tower _emitter, Enemy enemy)
+    {
+        Init(_emitter, enemy.gameObject);
+    }
+
     void UpdatePos() 
     {
         Vector3 toTarget = target.transform.position - transform.position;

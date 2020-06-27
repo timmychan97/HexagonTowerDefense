@@ -20,12 +20,13 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
     public int worth;
     public static int totalNumEnemies = 0;
     public Vector3 prevPos;
+    private NavMeshAgent navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        if (agent)
-            agent.destination = goal.position;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        if (navMeshAgent)
+            navMeshAgent.destination = goal.position;
         hp = maxHp;
         id = totalNumEnemies;
         totalNumEnemies++;
@@ -100,6 +101,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
 
     public Vector3 GetVelocity()
     {
-        return GetComponent<NavMeshAgent>().velocity;
+        if (navMeshAgent == null) return Vector3.zero;
+        return navMeshAgent.velocity;
     }
 }
