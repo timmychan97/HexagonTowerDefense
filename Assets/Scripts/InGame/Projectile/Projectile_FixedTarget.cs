@@ -73,12 +73,8 @@ public class Projectile_FixedTarget : Projectile
 
     Vector3 GetPredictPos(Vector3 proj, Vector3 pos, Vector3 velocity)
     {
-        Debug.Log("GetPredictPos");
-        Debug.Log(pos);
-        Debug.Log(velocity);
         // remove y component
         float t = ComputeDeltaT(proj, pos, velocity);
-        Debug.Log(t);
         return (pos + t * velocity);
     }
 

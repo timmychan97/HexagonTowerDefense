@@ -42,15 +42,9 @@ public class HitRegion : MonoBehaviour
     {
         foreach (Enemy enemy in enemiesInRange)
         {
-            if (enemy == null) 
+            if (enemy != null) 
             {
-                enemiesInRange.Remove(enemy);
-                continue;
-            }
-            enemy.TakeDmg(dmg);
-            if (enemy == null)  // enemy died after inflicting damage (don't think this will get triggered)
-            {
-                enemiesInRange.Remove(enemy);
+                enemy.TakeDmg(dmg);
             }
         }
         Destroy(gameObject);
