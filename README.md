@@ -1,5 +1,5 @@
 # HexagonTowerDefense
-A hexagonal tile based tower defense game created in Unity.
+A simple, indie tower defense game created in Unity by (very) small team of enthusiast. The game is hexagonal tile based, gameplay might be similar to traditional tower defense game.
 <Insert pictures>
 
 
