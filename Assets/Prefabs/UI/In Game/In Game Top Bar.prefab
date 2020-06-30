@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 1410058725920279532}
   - component: {fileID: 1410058725920279533}
   - component: {fileID: 1410058725920279522}
+  - component: {fileID: 3232970531143606660}
   m_Layer: 5
   m_Name: In Game Top Bar
   m_TagString: Untagged
@@ -327,6 +328,21 @@ MonoBehaviour:
   m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &3232970531143606660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1410058725920279523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eddf48ed16e245a4ab929c72088056e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textGold: {fileID: 1410058724907787979}
+  textHp: {fileID: 1410058726502300700}
+  textRound: {fileID: 1410058726155688659}
 --- !u!1 &1410058726129665747
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +420,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Money:'
+  m_Text: 'Gold:'
 --- !u!1 &1410058726155688662
 GameObject:
   m_ObjectHideFlags: 0

@@ -121,14 +121,21 @@ public class Tower : TileContent, IDamagable
     bool ChooseNewTarget()
     {
         if (enemiesInRange.Count == 0) return false;  // no enemies in range
+        List<Enemy> toRemove = new List<Enemy>();
         foreach (Enemy e in enemiesInRange)
         {
-            enemiesInRange.Remove(e);
+            toRemove.Add(e); // save the enemies that turned into null while in range
             if (e != null)
             {
                 target = e.gameObject;
                 break;
             }
+        }
+
+        // remove the null's in enemiesInRange
+        foreach (Enemy e in toRemove)
+        {
+            enemiesInRange.Remove(e);
         }
         return true;
     }

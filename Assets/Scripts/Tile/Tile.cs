@@ -52,6 +52,7 @@ public class Tile : MonoBehaviour {
 	public bool CanPlaceTower() 
 	{
 		if (hasTower()) return false;
+		// Debug.Log("check can place tower");
 		if (tileType == TileType.Empty || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;

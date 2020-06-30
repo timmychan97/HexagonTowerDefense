@@ -25,6 +25,7 @@ public class Base : MonoBehaviour, IDamagable
 
     public void TakeDmg(float dmg)
     {
+        Debug.Log("Base took damage: " + dmg.ToString());
         hp -= Mathf.RoundToInt(dmg);
         if (hp <= 0)
         {
