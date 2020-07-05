@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAttachable : MonoBehaviour
+public class Unit_Slower : Tower
 {
     // Start is called before the first frame update
     void Start()

@@ -6,6 +6,7 @@ public class Tower : TileContent, IDamagable
 {
     private int id;
     public int atk;
+    public Effect effect;
     public float atkSpeed; // in Hz
     private float atkPeriod; // in s
     public float lastAtkTime;

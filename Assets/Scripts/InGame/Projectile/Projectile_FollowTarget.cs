@@ -28,6 +28,7 @@ public class Projectile_FollowTarget : Projectile
     {
         target = _target;
         dmg = _emitter.atk;
+        effect = _emitter.effect;
         transform.LookAt(_target.transform, Vector3.up);
     }
 
@@ -43,7 +44,6 @@ public class Projectile_FollowTarget : Projectile
         if (dist < speed * Time.deltaTime) // will reach target on next frame
         {
             InflictDmg(target);
-            
             Destroy(gameObject);
         } 
         else 
@@ -56,5 +56,7 @@ public class Projectile_FollowTarget : Projectile
     {
         Enemy enemy = obj.GetComponent<Enemy>();
         enemy.TakeDmg(dmg);
+        if (effect != null)
+            enemy.TakeEffect(effect);
     }
 }
