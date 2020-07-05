@@ -16,13 +16,21 @@ public class Tower : TileContent, IDamagable
     GameObject target = null;
     public Projectile projectile;
     HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
+    SphereCollider sphereCollider;
+    public GameObject platform;
+    public GameObject towerContent;
+    public GameObject emitter;
 
     // Start is called before the first frame update
     void Start()
     {
-        SphereCollider sphereCollider = GetComponent<SphereCollider>();
-        sphereCollider.radius = range;
+        sphereCollider = GetComponent<SphereCollider>();
+        if (sphereCollider == null) 
+        {
+            sphereCollider = gameObject.AddComponent<SphereCollider>();
+        }
         sphereCollider.isTrigger = true;
+        sphereCollider.radius = range;
         hp = maxHp;
         atkPeriod = 1.0f / atkSpeed;
         lastAtkTime = Time.time;
@@ -35,8 +43,12 @@ public class Tower : TileContent, IDamagable
 
         if (target) 
         {
-            Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-            transform.LookAt(lookAtPos);
+            // rotate tower content to look at target
+            if (towerContent != null) 
+            {
+                Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                towerContent.transform.LookAt(lookAtPos);
+            }
             HandleAtk();
         }
     }
@@ -83,7 +95,7 @@ public class Tower : TileContent, IDamagable
 
     void Atk(GameObject target) 
     {
-        Projectile p = Instantiate(projectile, transform.position + Vector3.up, transform.rotation);
+        Projectile p = Instantiate(projectile, emitter.transform.position, transform.rotation);
         Enemy enemy = target.GetComponent<Enemy>();
         if (enemy != null) 
         {
@@ -109,14 +121,21 @@ public class Tower : TileContent, IDamagable
     bool ChooseNewTarget()
     {
         if (enemiesInRange.Count == 0) return false;  // no enemies in range
+        List<Enemy> toRemove = new List<Enemy>();
         foreach (Enemy e in enemiesInRange)
         {
-            enemiesInRange.Remove(e);
+            toRemove.Add(e); // save the enemies that turned into null while in range
             if (e != null)
             {
                 target = e.gameObject;
                 break;
             }
+        }
+
+        // remove the null's in enemiesInRange
+        foreach (Enemy e in toRemove)
+        {
+            enemiesInRange.Remove(e);
         }
         return true;
     }

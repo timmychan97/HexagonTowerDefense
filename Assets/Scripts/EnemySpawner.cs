@@ -3,29 +3,37 @@
 public class EnemySpawner : MonoBehaviour
 {
     public Transform enemyPre;
-
-    public float enemySpawnInterval = 10f;
-    public float spawnCountdown = 2f;
+    public float enemySpawnInterval = 6f;
+    public float spawnCountdown = 1f;
     public Transform spawnLocation;
     public Transform goal;
     public EnemySpawner es;
-
+    public int cnt;
     private int numEnemies;
+    void Start()
+    {
+        cnt = 1;
+    }
     void Update()
     {
         if (spawnCountdown <= 0f)
         {
-            SpawnEnemy();
+            NewRound();
             spawnCountdown = enemySpawnInterval;
+            GameController.INSTANCE.OnRoundStart();
         }
-        spawnCountdown -= Time.deltaTime;   // reduced by 1 every second
+        spawnCountdown -= Time.deltaTime;
     }
 
-    void SpawnEnemy()
+    void NewRound()
     {
-        var a = Instantiate(enemyPre, spawnLocation);
-        Enemy e = a.GetComponent<Enemy>();
-        e.goal = goal;
-        e.target = GameController.INSTANCE.myBase;
+        for (int i = 0; i < cnt; i++) 
+        {
+            Transform a = Instantiate(enemyPre, spawnLocation);
+            Enemy e = a.GetComponent<Enemy>();
+            e.goal = goal;
+            e.target = GameController.INSTANCE.myBase;
+        }
+        ++cnt;
     }
 }

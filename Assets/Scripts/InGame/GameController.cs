@@ -9,15 +9,13 @@ public class GameController : MonoBehaviour
     public static GameController INSTANCE;
     public enum GameState {Playing, Paused, Lost, Won};
     public GameState gameState;
+    public UI_TopBar topBar;
     public Base myBase;
     public GameObject panel_gameLost;
     public GameObject panel_pause;
 
-    public int money;
+    public int gold;
     public int round;
-
-    public Text textMoney;
-    public Text textHp;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +27,6 @@ public class GameController : MonoBehaviour
 
         // init stats
         round = 1;
-        // money = 500;
         UpdateUiStats();
     }
 
@@ -41,22 +38,23 @@ public class GameController : MonoBehaviour
 
     void LateUpdate()
     {
-        UpdateUiStats();
+        // UpdateUiStats();
         HandleGameOver();
     }
 
     void UpdateUiStats()
     {
-        textMoney.text = money.ToString();
-        textHp.text = myBase.getHp().ToString();
+        topBar.SetTextGold(gold);
+        topBar.SetTextHp(myBase.getHp());
+        topBar.SetTextRound(round);
     }
 
     // returns false when fails to buy tower (no money)
-    public bool BuyTower(Tower tower) 
+    public bool BuyTower(Tower unit) 
     {
-        if (money < tower.cost) return false;
+        if (gold < unit.cost) return false;
 
-        money -= tower.cost;
+        gold -= unit.cost;
         UpdateUiStats();
         return true;
     }
@@ -116,7 +114,13 @@ public class GameController : MonoBehaviour
 
     public void GainReward(int _money) 
     {
-        money += _money;
+        gold += _money;
+        UpdateUiStats();
+    }
+
+    public void OnRoundStart()
+    {
+        ++round;
         UpdateUiStats();
     }
 }
