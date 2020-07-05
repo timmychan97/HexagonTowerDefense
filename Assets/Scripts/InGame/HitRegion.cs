@@ -5,6 +5,7 @@ using UnityEngine;
 public class HitRegion : MonoBehaviour
 {
     HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
+    Effect effect;
 
     void OnTriggerEnter(Collider other)
     {
@@ -24,6 +25,17 @@ public class HitRegion : MonoBehaviour
         }
     }
 
+    public void ApplyEffect(Effect effect) 
+    {
+        foreach (Enemy enemy in enemiesInRange)
+        {
+            if (enemy != null) 
+            {
+                enemy.TakeEffect(effect);
+            }
+        }
+    }
+
     public void InflictDmg(int dmg)
     {
         foreach (Enemy enemy in enemiesInRange)
@@ -33,9 +45,11 @@ public class HitRegion : MonoBehaviour
                 enemy.TakeDmg(dmg);
             }
         }
-        Destroy(gameObject);
     }
-
+    public void SetEffect(Effect _effect) 
+    {
+        effect = _effect;
+    }
     public void SetPos(Vector3 pos) 
     {
         transform.position = pos;

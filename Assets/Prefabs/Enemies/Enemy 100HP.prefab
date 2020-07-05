@@ -136,6 +136,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   atkRange: 1
   atk: 8
+  moveSpeed: 7
   atkSpeed: 1
   maxHp: 100
   worth: 100

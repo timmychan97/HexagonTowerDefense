@@ -48,6 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   follow: 0
   speed: 20
+  effect: {fileID: 0}
   dmg: 4
 --- !u!1 &3400287904619979929
 GameObject:

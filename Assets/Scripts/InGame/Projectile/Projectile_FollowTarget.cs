@@ -28,6 +28,7 @@ public class Projectile_FollowTarget : Projectile
     {
         target = _target;
         dmg = _emitter.atk;
+        effect = _emitter.effect;
         transform.LookAt(_target.transform, Vector3.up);
     }
 
@@ -42,8 +43,7 @@ public class Projectile_FollowTarget : Projectile
         float dist = toTarget.magnitude;
         if (dist < speed * Time.deltaTime) // will reach target on next frame
         {
-            InflictDmg(target);
-            
+            OnHit();
             Destroy(gameObject);
         } 
         else 
@@ -52,9 +52,11 @@ public class Projectile_FollowTarget : Projectile
         }
     }
     
-    protected void InflictDmg(GameObject obj)
+    public override void OnHit()
     {
-        Enemy enemy = obj.GetComponent<Enemy>();
+        Enemy enemy = target.GetComponent<Enemy>();
         enemy.TakeDmg(dmg);
+        if (effect != null)
+            enemy.TakeEffect(effect);
     }
 }
