@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
+    public int id;
+    public GameObject src { get; set; }
     public string effectName;
     public float duration;
     public int persistence; // for effects that disappear after receiving certain number of attacks
@@ -12,6 +14,7 @@ public class Effect : MonoBehaviour
     public float shieldAmount;
     private IAffectable affected;
     public float countdown;
+    public bool stacked;
 
     // copy contructor for deep copy
     public Effect(Effect other)
@@ -23,6 +26,7 @@ public class Effect : MonoBehaviour
         this.speedScale = other.speedScale;
         this.shieldAmount = other.shieldAmount;
         this.affected = other.affected;
+        this.stacked = other.stacked;
 
         this.countdown = duration; // start counting down
         Debug.Log("countdown: " + countdown.ToString());
@@ -41,6 +45,7 @@ public class Effect : MonoBehaviour
         if (countdown <= 0)
         {
             StopEffect();
+            Destroy(gameObject);
         }
     }
 
@@ -56,5 +61,10 @@ public class Effect : MonoBehaviour
             Debug.LogWarning("No units are affects by " + effectName);
         }
         affected.RemoveEffect(this);
+    }
+
+    public void ResetCountdown()
+    {
+        countdown = duration;
     }
 }

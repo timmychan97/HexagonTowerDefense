@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
     public static int totalNumEnemies = 0;
     public Vector3 prevPos;
     private NavMeshAgent navMeshAgent;
-    public List<Effect> effects;
+    public HashSet<Effect> effects;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
         atkPeriod = 1f / atkSpeed;
         lastAtkTime = Time.time;
 
-        effects = new List<Effect>();
+        effects = new HashSet<Effect>();
 
         // Initialize the healthBar
         healthBarPivot.AddUIHealthBar();
@@ -106,6 +106,26 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
 
     public void TakeEffect(Effect effect)
     {
+        if (effect.stacked) 
+        {
+            AddEffect(effect);
+        }
+        else 
+        {
+            Effect e = GetEffectWithId(effect.id);
+            if (e != null) // already has this effect
+            {
+                e.ResetCountdown();
+            } 
+            else  // does not have this effect, add it as a new effect
+            {
+                AddEffect(effect);
+            }
+        }
+    }
+
+    public void AddEffect(Effect effect)
+    {
         Effect e = Instantiate(effect, transform);
         effects.Add(e);  // will this work for AOE effects?
         e.SetAffected(this);
@@ -113,12 +133,33 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
         navMeshAgent.speed = moveSpeed;
     }
 
+    public bool HasEffect(Effect effect)
+    {
+        return effects.Contains(effect); 
+    }
+    public bool HasEffectWithName(string name) 
+    {
+        foreach (Effect e in effects) 
+        {
+            if (e.effectName == name) return true;
+        }
+        return false;
+    }
+    public Effect GetEffectWithId(int id)
+    {
+        foreach (Effect e in effects) 
+        {
+            if (e.id == id) return e;
+        }
+        return null;
+    }
+
     public void RemoveEffect(Effect effect)
     {
         effects.Remove(effect);
+        // restore parameters (only speed for now)
         moveSpeed /= effect.speedScale;
         navMeshAgent.speed = moveSpeed;
-        Destroy(effect);
     }
 
     public Vector3 GetVelocity()
