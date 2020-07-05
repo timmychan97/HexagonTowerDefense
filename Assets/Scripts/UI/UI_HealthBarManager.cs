@@ -18,6 +18,7 @@ public class UI_HealthBarManager : MonoBehaviour
     {
         var healthBar = Instantiate(healthBarPf, transform);
         healthBar.pivot = pivot;
+        healthBar.UpdatePosition();
         return healthBar;
     }
 }

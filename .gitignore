@@ -1,3 +1,10 @@
+# Custom
+/Assets/Scenes/GitIgnored/*
+!/Assets/Scenes/GitIgnored/.keep
+
+
+# Auto generated
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
