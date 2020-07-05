@@ -44,12 +44,6 @@ public class Tower : TileContent, IDamagable
 
         if (target) 
         {
-            // rotate tower content to look at target
-            if (towerContent != null) 
-            {
-                Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                towerContent.transform.LookAt(lookAtPos);
-            }
             HandleAtk();
         }
     }
@@ -59,6 +53,12 @@ public class Tower : TileContent, IDamagable
         float timeSinceAtk = Time.time - lastAtkTime;
         if (timeSinceAtk > atkPeriod) 
         {
+            // rotate tower content to look at target
+            if (towerContent != null) 
+            {
+                Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                towerContent.transform.LookAt(lookAtPos);
+            }
             Atk(target);
             lastAtkTime = Time.time;
         }
