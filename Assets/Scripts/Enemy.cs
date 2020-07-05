@@ -3,51 +3,105 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamagable, IDestroyable
 {
+    public HealthBarPivot healthBarPivot;
     public Transform goal;
-    public static int maxId;
+    public IDamagable target;
     private int id;
-    public int atkRange;
+    public float atkRange;
+    private float atkRangeSqr;
     public int atk;
+    public float atkSpeed; // in Hz
+    private float atkPeriod;
+    private float lastAtkTime;
     public int maxHp;
     private int hp;
+    public int worth;
+    public static int totalNumEnemies = 0;
+    public Vector3 prevPos;
+    private NavMeshAgent navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("TEST");
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        agent.destination = goal.position;
-        maxHp = 20;
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        if (navMeshAgent)
+            navMeshAgent.destination = goal.position;
         hp = maxHp;
-        id = maxId;
-        maxId++;
+        id = totalNumEnemies;
+        totalNumEnemies++;
+        atkRangeSqr = atkRange * atkRange;
+        atkPeriod = 1f / atkSpeed;
+        lastAtkTime = Time.time;
+
+        // Initialize the healthBar
+        healthBarPivot.AddUIHealthBar();
+        healthBarPivot.SetMaxHealth(maxHp);
+        healthBarPivot.SetHealth(maxHp);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        HandleAtk();
     }
 
-    // returns false when enemy does not lose hp
-    public bool LoseHealth(int dmg)
+    void LateUpdate()
     {
-        Debug.Log("Original HP: " + hp.ToString());
-        hp -= dmg;
-        Debug.Log("Lost HP, remaining: " + hp.ToString());
-        if (hp <= 0) 
+        prevPos = transform.position;
+    }
+
+    public void HandleAtk()
+    {
+        if (Time.time < lastAtkTime + atkPeriod) return;
+
+        lastAtkTime = Time.time;
+        float dist2 = (goal.position - transform.position).sqrMagnitude;
+        if (atkRangeSqr > dist2) // can attack goal
         {
-            Die();
+            if (target != null) 
+            {
+                if (target is Base)
+                {
+                    Atk(target);
+                }
+            }
         }
-        return true; 
     }
 
     public void Die()
     {
         Debug.Log("Enemy " + id.ToString() + " dies");
+        GameController.INSTANCE.GainReward(worth);
         Destroy(gameObject);
     }
 
     public int GetId() { return id; }
+
+    public void Atk(IDamagable b)
+    {
+        Debug.Log("attack");
+        b.TakeDmg(atk);
+    }
+
+    public void Destroy()
+    {
+        
+    }
+
+    public void TakeDmg(float dmg)
+    {
+        hp -= Mathf.RoundToInt(dmg);
+        healthBarPivot.SetHealth(hp);
+        if (hp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public Vector3 GetVelocity()
+    {
+        if (navMeshAgent == null) return Vector3.zero;
+        return navMeshAgent.velocity;
+    }
 }
