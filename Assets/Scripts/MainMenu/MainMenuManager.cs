@@ -18,7 +18,7 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         GenLevelBtns();
-        hideMenus();
+        HideMenus();
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class MainMenuManager : MonoBehaviour
     }
 
     // hide all menus except main menu
-    void hideMenus()
+    void HideMenus()
     {
         panel_options.SetActive(false);
         panel_selectLevel.SetActive(false);
@@ -66,11 +66,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if (panel_selectMode.activeInHierarchy)
         {
-            hideMenus();
+            HideMenus();
         }
         else
         {
-            hideMenus();
+            HideMenus();
             panel_selectMode.SetActive(true);
         }
     }
@@ -79,11 +79,11 @@ public class MainMenuManager : MonoBehaviour
     {
         if (panel_options.activeInHierarchy)
         {
-            hideMenus();
+            HideMenus();
         }
         else
         {
-            hideMenus();
+            HideMenus();
             panel_options.SetActive(true);
         }
     }

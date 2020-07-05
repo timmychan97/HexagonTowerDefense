@@ -80,7 +80,7 @@ public class TileHighlightManager : MonoBehaviour
         Tile tile = (Tile)selectable;
         if (tile)
         {
-            if (tile.hasTower())
+            if (tile.HasTower())
                 return false;
             var invalidTileTypes = selectedTool.GetInvalidTileTypes();
             if (invalidTileTypes.IndexOf(tile.tileType) == -1)

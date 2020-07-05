@@ -34,6 +34,6 @@ public class EnemySpawner : MonoBehaviour
             e.goal = goal;
             e.target = GameController.INSTANCE.myBase;
         }
-        ++cnt;
+        cnt++;
     }
 }

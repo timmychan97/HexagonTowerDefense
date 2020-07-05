@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable
         Destroy(gameObject);
     }
 
-    public int GetId() { return id; }
+    public int GetId() => id;
 
     public void Atk(IDamagable b)
     {

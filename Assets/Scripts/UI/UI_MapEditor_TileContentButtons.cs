@@ -14,7 +14,6 @@ public class UI_MapEditor_TileContentButtons : MonoBehaviour
     {
         var tileContentsPf = UI_MapEditor_Utils.GetAllTileContentsPrefabs();
         Array.ForEach(tileContentsPf, go => CreateTools(go));
-
     }
 
 
@@ -22,9 +21,6 @@ public class UI_MapEditor_TileContentButtons : MonoBehaviour
     {
         UI_Tool tool = Instantiate(toolPf, transform);
         tool.SetButtonText(tileContentPf.name);
-        tool.SetAction(() =>
-        {
-            TileManager.INSTANCE.SetTileContent(tileContentPf);
-        });
+        tool.SetAction(() => TileManager.INSTANCE.SetTileContent(tileContentPf));
     }
 }

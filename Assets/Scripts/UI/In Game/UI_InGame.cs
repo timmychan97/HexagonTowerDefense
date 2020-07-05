@@ -12,17 +12,10 @@ public class UI_InGame : MonoBehaviour
 
     private static string PATH_TOWER_MESH = "TowerMeshes";
 
-    // Start is called before the first frame update
     void Start()
     {
-        Tower[] towerMeshPf = GetPfSortedTower(PATH_TOWER_MESH);
+        Tower[] towerMeshPf = UI_Utils.GetResourcePrefabsSorted<Tower>(PATH_TOWER_MESH);
         Array.ForEach(towerMeshPf, x => CreateBtnTower(x));
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void CreateBtnTower(Tower tower)
@@ -33,18 +26,10 @@ public class UI_InGame : MonoBehaviour
         toolTower.SetAction(() =>
         {
             if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            // Debug.Log("Try setting tile content");
             if (Tile.active.CanPlaceTower() && GameController.INSTANCE.BuyTower(tower))
             {
                 TileManager.INSTANCE.SetTileContent(tower.gameObject);
             }
         });
-    }
-
-    // return array of prefabs sorted by name
-    public static Tower[] GetPfSortedTower(string path) 
-    {
-        Tower[] towerMeshPrefabs = Resources.LoadAll(path, typeof(Tower)).Cast<Tower>().ToArray();
-        return towerMeshPrefabs.OrderBy(go => go.name).ToArray();
     }
 }

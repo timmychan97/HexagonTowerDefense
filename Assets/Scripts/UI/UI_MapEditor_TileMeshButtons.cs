@@ -15,14 +15,10 @@ public class UI_MapEditor_TileMeshButtons : MonoBehaviour
         Array.ForEach(tileMeshesPf, go => CreateTools(go));
     }
 
-
     void CreateTools(GameObject tileContentPf)
     {
         UI_Tool tool = Instantiate(toolPf, transform);
         tool.SetButtonText(tileContentPf.name);
-        tool.SetAction(() =>
-        {
-            TileManager.INSTANCE.SetTileMesh(tileContentPf);
-        });
+        tool.SetAction(() => TileManager.INSTANCE.SetTileMesh(tileContentPf));
     }
 }

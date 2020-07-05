@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour, ISelectable {
 			Destroy(c.gameObject);
 		var tileMesh = Instantiate(tileMeshPf, tileMeshContainer);
 
-		// set tile type (Level0Test's map's tiles do not have type assigned)
+		// Set tile type
 		if (tileMesh.tag == "Grass") 
 			tileType = TileType.Grass;
 		else if (tileMesh.tag == "Stone")
@@ -34,7 +34,7 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public bool CanPlaceTower() 
 	{
-		if (hasTower()) return false;
+		if (HasTower()) return false;
 		if (tileType == TileType.Basic || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;
@@ -42,7 +42,7 @@ public class Tile : MonoBehaviour, ISelectable {
 		return false;
 	}
 
-	public bool hasTower() 
+	public bool HasTower() 
 	{
 		TileContent t = tileContentContainer.GetComponentInChildren<Tower>();
 		if (t == null) return false;
@@ -79,14 +79,9 @@ public class Tile : MonoBehaviour, ISelectable {
 	}
 	#endregion
 
-	public void printCoords()
-	{
-		Debug.Log(coords);
-	}
-
     public void Highlight()
     {
-		Highlight(Color.red);
+		Highlight(null);
 	}
 
 	public void Highlight(Color? color)
