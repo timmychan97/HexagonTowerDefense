@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,5 +66,10 @@ public class UI_Tool : MonoBehaviour
         tempColors.highlightedColor = tempColors.pressedColor;
         tempColors.pressedColor = temp;
         button.colors = tempColors;
+    }
+
+    public List<Tile.TileType> GetInvalidTileTypes()
+    {
+        return new List<Tile.TileType>() { Tile.TileType.Water, Tile.TileType.Road };
     }
 }
