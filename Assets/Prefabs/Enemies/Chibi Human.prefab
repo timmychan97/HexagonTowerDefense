@@ -83,10 +83,12 @@ MonoBehaviour:
   goal: {fileID: 0}
   atkRange: 0.1
   atk: 5
+  moveSpeed: 3
   atkSpeed: 1
   maxHp: 100
   worth: 150
   prevPos: {x: 0, y: 0, z: 0}
+  effects: []
 --- !u!195 &6703593170849819156
 NavMeshAgent:
   m_ObjectHideFlags: 0

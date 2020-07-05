@@ -428,6 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   atk: 9
+  effect: {fileID: 1969129739505833100, guid: 961babe47e39f4043804badf7654087d, type: 3}
   atkSpeed: 1
   lastAtkTime: 0
   maxHp: 100
