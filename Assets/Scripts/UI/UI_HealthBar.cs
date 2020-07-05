@@ -18,20 +18,25 @@ public class UI_HealthBar : MonoBehaviour
             Destroy(gameObject);
         else
         {
-            var screenDestination = Camera.main.WorldToScreenPoint(pivot.transform.position);
-            transform.position = screenDestination;
-            var rectTransform = GetComponent<RectTransform>();
+            UpdatePosition();
+        }
+    }
 
-            if (screenDestination.z < 0 || !UI_Utils.IsVisibleOnScreen(rectTransform))
-            {
-                // The object is behind the canvas. Do not render.
-                // Need to update the position too, because we need to know when it gets back to the screen
-                Hide();
-            }
-            else
-            {
-                Show();
-            }
+    public void UpdatePosition()
+    {
+        var screenDestination = Camera.main.WorldToScreenPoint(pivot.transform.position);
+        transform.position = screenDestination;
+        var rectTransform = GetComponent<RectTransform>();
+
+        if (screenDestination.z < 0 || !UI_Utils.IsVisibleOnScreen(rectTransform))
+        {
+            // The object is behind the canvas. Do not render.
+            // Need to update the position too, because we need to know when it gets back to the screen
+            Hide();
+        }
+        else
+        {
+            Show();
         }
     }
 

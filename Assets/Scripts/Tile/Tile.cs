@@ -1,28 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEngine;
+﻿using UnityEngine;
 
 [SelectionBase]
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour, ISelectable {
 	public static Tile active;
 	public Transform tileContentContainer;
 	public Transform tileMeshContainer;
 	public Vector3Int coords;
-	public enum TileType {Empty, Grass, Stone, Road, Forest, Mountain, Water}
+	public enum TileType {Basic, Grass, Stone, Road, Water}
 	public bool isWalkable = false;
 	// Use this for initialization
-	public TileType tileType = TileType.Empty;
-
-	void Start () {
-		tileType = TileType.Empty;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-
-	}
+	public TileType tileType = TileType.Basic;
 
 	public void SetTileMesh(GameObject tileMeshPf)
     {
@@ -39,12 +26,8 @@ public class Tile : MonoBehaviour {
 			tileType = TileType.Road;
 		else if (tileMesh.tag == "Water")
 			tileType = TileType.Water;
-		else if (tileMesh.tag == "Forest")
-			tileType = TileType.Forest;
-		else if (tileMesh.tag == "Mountain")
-			tileType = TileType.Mountain;
 		else
-			tileType = TileType.Empty;
+			tileType = TileType.Basic;
 
 		this.name = "Tile - " + tileMesh.name;
 	}
@@ -52,7 +35,7 @@ public class Tile : MonoBehaviour {
 	public bool CanPlaceTower() 
 	{
 		if (hasTower()) return false;
-		if (tileType == TileType.Empty || tileType == TileType.Grass || tileType == TileType.Stone)
+		if (tileType == TileType.Basic || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;
 		}
@@ -100,4 +83,59 @@ public class Tile : MonoBehaviour {
 	{
 		Debug.Log(coords);
 	}
+
+    public void Highlight()
+    {
+		Highlight(Color.red);
+	}
+
+	public void Highlight(Color? color)
+	{
+		var _propBlock = new MaterialPropertyBlock();
+		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
+		_renderer.GetPropertyBlock(_propBlock);
+
+		// Create two colors to loop between
+		Color color1 = _renderer.material.color;
+		color1 = color1 * 1.12f;
+		if (color != null)
+        {
+			float gs = color1.grayscale;
+			//color1 = new Color(gs, gs, gs, 1) + (Color)color * 0.7f;
+			Color gsColor = new Color(gs, gs, gs, 1);
+
+			// Average the colors
+			color1 = Color.Lerp(gsColor, (Color)color, .6f);
+		}
+		Color color2 = color1 * 1.14f;
+
+		var speed = 5f;
+		var offset = 1f;
+		// Assign our new value.
+		_propBlock.SetColor("_Color", Color.Lerp(color1, color2, (Mathf.Sin(Time.time * speed + offset) + 1) / 2f));
+		// Apply the edited values to the renderer.
+		_renderer.SetPropertyBlock(_propBlock);
+	}
+
+	public void Select()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DeHighlight()
+	{
+		var _propBlock = new MaterialPropertyBlock();
+		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
+		_renderer.GetPropertyBlock(_propBlock);
+
+		Color color1 = _renderer.material.color;
+		_propBlock.SetColor("_Color", color1);
+		_renderer.SetPropertyBlock(_propBlock);
+
+	}
+
+    public void DeSelect()
+    {
+        throw new System.NotImplementedException();
+    }
 }
