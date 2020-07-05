@@ -14,7 +14,7 @@ public class UI_InGame : MonoBehaviour
 
     void Start()
     {
-        Tower[] towerMeshPf = UI_Utils.GetResourcePrefabsSorted<Tower>(PATH_TOWER_MESH);
+        Tower[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Tower>(PATH_TOWER_MESH);
         Array.ForEach(towerMeshPf, x => CreateBtnTower(x));
     }
 

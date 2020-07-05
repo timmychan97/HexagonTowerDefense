@@ -17,12 +17,12 @@ public class UI_Utils : MonoBehaviour
 
 
     // Get Component T in Resources folder
-    public static T[] GetResourcePrefabsSorted<T>(string resourcesPath)
+    public static T[] GetResourcePrefabsComponentsSorted<T>(string resourcesPath)
     {
-        var sortedPfs = GetResourcePrefabsSorted(resourcesPath);
-
-        T[] sortedTs = Array.ConvertAll(sortedPfs, go => go.GetComponent<T>());
-        return sortedTs;
+        // The path within Assets/Resources/ which contains the prefabs
+        T[] pfs = Resources.LoadAll(resourcesPath, typeof(T)).Cast<T>().ToArray();
+        // Sort the objects by name
+        return pfs.OrderBy(x => ((Component)(object)x).gameObject.name).ToArray();
     }
 
 

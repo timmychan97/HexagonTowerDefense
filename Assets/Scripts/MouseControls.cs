@@ -6,10 +6,12 @@ using UnityEngine;
  */ 
 public class MouseControls : MonoBehaviour {
     int MAP_LAYER_MASK = 1 << 8;
-	private Camera cam = Camera.main;
+	private Camera cam;
     KeyCode primaryMouseButton = KeyCode.Mouse0; // left mouseButton
-	
-	void Update () {
+
+    void Start() => cam = Camera.main;
+
+    void Update () {
 		if(Input.GetKey(primaryMouseButton)) {
 			// Do nothing if clicked on the UI elements in front
 			bool hasCanvasUI = UnityEngine.EventSystems.EventSystem.current != null;
