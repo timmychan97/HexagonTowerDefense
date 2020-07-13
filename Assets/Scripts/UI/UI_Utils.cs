@@ -6,13 +6,23 @@ using UnityEngine.UI;
 
 public class UI_Utils : MonoBehaviour
 {
-    public static GameObject[] GetPrefabsSorted(string resourcesPath)
+    public static GameObject[] GetResourcePrefabsSorted(string resourcesPath)
     {
         // The path within Assets/Resources/ which contains the prefabs
-        GameObject[] pf = Resources.LoadAll(resourcesPath, typeof(GameObject)).Cast<GameObject>().ToArray();
+        GameObject[] pfs = Resources.LoadAll(resourcesPath, typeof(GameObject)).Cast<GameObject>().ToArray();
 
         // Sort the objects by name
-        return pf.OrderBy(x => x.name).ToArray();
+        return pfs.OrderBy(x => x.name).ToArray();
+    }
+
+
+    // Get Component T in Resources folder
+    public static T[] GetResourcePrefabsComponentsSorted<T>(string resourcesPath)
+    {
+        // The path within Assets/Resources/ which contains the prefabs
+        T[] pfs = Resources.LoadAll(resourcesPath, typeof(T)).Cast<T>().ToArray();
+        // Sort the objects by name
+        return pfs.OrderBy(x => ((Component)(object)x).gameObject.name).ToArray();
     }
 
 
