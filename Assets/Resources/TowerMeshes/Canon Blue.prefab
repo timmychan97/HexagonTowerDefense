@@ -328,7 +328,7 @@ GameObject:
   - component: {fileID: 8505330775437707364}
   - component: {fileID: 8505330775437707365}
   m_Layer: 0
-  m_Name: Gun 2
+  m_Name: Canon Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -364,14 +364,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 4
-  atkSpeed: 1.2
+  atk: 2
+  effect: {fileID: 0}
+  atkSpeed: 1.5
   lastAtkTime: 0
   maxHp: 20
   cost: 200
   range: 8
   projectile: {fileID: 7537679607396884572, guid: 3951d4f4791fd684cb0d900cb8e351c8,
     type: 3}
+  platform: {fileID: 0}
+  towerContent: {fileID: 0}
+  emitter: {fileID: 0}
 --- !u!135 &8505330775437707365
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -156,7 +156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  atk: 9
+  atk: 20
   effect: {fileID: 1969129739505833100, guid: 961babe47e39f4043804badf7654087d, type: 3}
   atkSpeed: 1
   lastAtkTime: 0
