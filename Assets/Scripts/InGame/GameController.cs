@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
+using System;
 
 public class GameController : MonoBehaviour
 {
@@ -13,10 +15,14 @@ public class GameController : MonoBehaviour
     public Base myBase;
     public GameObject panel_gameLost;
     public GameObject panel_pause;
-
+    public int numRounds;
     public int gold;
     public int round;
-
+    public int hp;
+    public RoundParser roundParser;
+    public EnemySpawner enemySpawner;
+    private List<Round> rounds;
+    public string pathFileRounds;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +31,23 @@ public class GameController : MonoBehaviour
         panel_pause.SetActive(false);
         gameState = GameState.Playing;
 
+        // parse txt file containing info about rounds
+        pathFileRounds = Application.dataPath + "/Rounds/level1.txt";
+        Debug.Log($"Start parsing file: {pathFileRounds}");
+        roundParser.ParseFileRounds(pathFileRounds);
+        Debug.Log("Done parsing");
+        
+        gold = roundParser.GetGold();
+        hp = roundParser.GetHp();
+        numRounds = roundParser.GetNumRounds();
+        rounds = roundParser.GetRounds();
+        
+        Debug.Log($"numRounds = {numRounds}");
+        Debug.Log($"gold = {gold}");
+        Debug.Log($"hp = {hp}");
+
         // init stats
-        round = 1;
+        round = 0;
         UpdateUiStats();
     }
 
@@ -47,6 +68,15 @@ public class GameController : MonoBehaviour
         topBar.SetTextGold(gold);
         topBar.SetTextHp(myBase.getHp());
         topBar.SetTextRound(round);
+    }
+
+    // start next round
+    public void NextRound()
+    {
+        Debug.Log("NextRound()");
+        enemySpawner.StartRound(rounds[round]);
+        round++;
+        UpdateUiStats();
     }
 
     // returns false when fails to buy tower (no money)
