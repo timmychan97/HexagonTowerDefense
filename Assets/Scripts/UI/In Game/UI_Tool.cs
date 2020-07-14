@@ -37,13 +37,11 @@ public class UI_Tool : MonoBehaviour
     {
         SetButtonSelected();
     }
+
     public void Deselect()
     {
         SetButtonDeselected();
     }
-
-
-
 
     public void SetButtonSelected()
     {

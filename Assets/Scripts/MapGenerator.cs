@@ -9,9 +9,9 @@ public class MapGenerator : MonoBehaviour {
     // Use this for initialization
     public int xTiles = 30;
     public int zTiles = 20;
-    void Start () {
-        CreateEmptyBoard(xTiles, zTiles);
-    }
+
+    void Start() => CreateEmptyBoard(xTiles, zTiles);
+
     public void CreateEmptyBoard(int nx, int nz)
     {
         for (int b = 0; b < nz; b++)

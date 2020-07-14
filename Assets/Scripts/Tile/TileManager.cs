@@ -6,19 +6,10 @@ using UnityEngine;
 public class TileManager : MonoBehaviour {
 	public static TileManager INSTANCE;
 
-	// Use this for initialization
-	void Start ()
-	{
-		INSTANCE = this;
-	}
-	
-	// Update is called once per frame
-	void Update () 
-	{
-		
-	}
+	void Start () => INSTANCE = this;
 
-	public void SetTileContent(GameObject obj){
+	public void SetTileContent(GameObject obj)
+	{
 		if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
 		if (Tile.active != null)
 		{

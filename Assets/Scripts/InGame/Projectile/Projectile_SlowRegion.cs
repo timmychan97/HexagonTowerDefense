@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IAttachable : MonoBehaviour
+public class Projectile_SlowRegion : Projectile
 {
     // Start is called before the first frame update
     void Start()

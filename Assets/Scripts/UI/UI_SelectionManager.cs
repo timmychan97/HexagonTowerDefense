@@ -7,19 +7,10 @@ public class UI_SelectionManager : MonoBehaviour
     public static UI_SelectionManager INSTANCE;
     public UI_Tool selectedTool;
 
-	void Start (){
-		INSTANCE = this;
-	}
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    void Start() => INSTANCE = this;
 
     public void SetSelection(UI_Tool tool)
     {
-
         if (selectedTool == tool)
         {
             selectedTool.Deselect();
@@ -28,7 +19,10 @@ public class UI_SelectionManager : MonoBehaviour
         else
         {
             if (selectedTool)
+            {
                 selectedTool.Deselect();
+            }
+
             selectedTool = tool;
             Debug.Log("Changed tool");
             selectedTool.Select();

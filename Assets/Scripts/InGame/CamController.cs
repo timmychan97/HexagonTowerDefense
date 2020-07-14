@@ -21,7 +21,7 @@ public class CamController : MonoBehaviour {
 
 	void Start () {
 		initY = transform.position.y;
-		updateMoveSpeed ();
+		UpdateMoveSpeed ();
 		//initForward = transform.forward;
 	}
 
@@ -68,15 +68,15 @@ public class CamController : MonoBehaviour {
 
 			float dir = Event.current.delta.y;
 			if (dir != 0f)
-				setZoom(curZoom + dir);
+				SetZoom(curZoom + dir);
 		}
 	}
 
-	public void zoom(float zoomAmount){ //related to current zoom
+	public void Zoom(float zoomAmount){ //related to current zoom
 		curZoom += zoomAmount;
 		transform.position += -transform.forward.normalized * zoomAmount;
 	}
-	public void setZoom(float zoom){ //set zoom to a specific amount
+	public void SetZoom(float zoom){ //set zoom to a specific amount
 		//assuming y != 0f
 		var startPos = transform.position +
 			(transform.forward/Mathf.Abs(transform.forward.y)) *
@@ -84,10 +84,10 @@ public class CamController : MonoBehaviour {
 		curZoom = Mathf.Clamp (zoom, minZoom, maxZoom);
 		transform.position = startPos - transform.forward.normalized * curZoom;
 		//change the maxSpeed, so that it matches the relative speed
-		updateMoveSpeed();
+		UpdateMoveSpeed();
 	}
 
-	public void updateMoveSpeed(){
+	public void UpdateMoveSpeed(){
 		maxSpeed = (2f + (curZoom + 15) / 10) * relativeSpeed;
 	}
 

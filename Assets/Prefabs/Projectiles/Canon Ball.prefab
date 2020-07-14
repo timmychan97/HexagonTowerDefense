@@ -107,7 +107,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   follow: 0
-  speed: 16
+  speed: 10
+  effect: {fileID: 0}
   dmg: 10
   hitRegionPf: {fileID: 6693992145538670459, guid: 33b94c31b228a5d4a856e6fc9ccac211,
     type: 3}

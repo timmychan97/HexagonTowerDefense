@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     protected Vector3 origin; // original position
     public bool follow; 
     public float speed; // move distance per second
+    public Effect effect;
     public int dmg;
     // Start is called before the first frame update
     void Start()
@@ -21,8 +22,8 @@ public class Projectile : MonoBehaviour
 
     }
 
-    public virtual void Init(Tower _emitter, GameObject _target)
-    {
-    }
-    public virtual void Init(Tower _emitter, Enemy enemy){}
+    public virtual void Init(Tower _emitter, GameObject _target) {}
+    public virtual void Init(Tower _emitter, Enemy enemy) {}
+
+    public virtual void OnHit() {}
 }

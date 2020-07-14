@@ -8,11 +8,7 @@ public class UI_HealthBarManager : MonoBehaviour
     public static UI_HealthBarManager INSTANCE;
     public UI_HealthBar healthBarPf;
 
-    void Awake()
-    {
-        INSTANCE = this;
-    }
-
+    void Awake() => INSTANCE = this;
 
     public UI_HealthBar AddHealthBar(HealthBarPivot pivot)
     {
