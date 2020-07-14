@@ -3,7 +3,7 @@ init
 	hp 100
 end
 
-rounds 20
+rounds 10
 round 1
 	brute 1
 end
@@ -34,36 +34,7 @@ round 9
 	sprinter 10
 end
 round 10
-	brute 3
-end
-round 11
-	brute 5
-end
-round 12
-	sprinter 2
-end
-round 13
-	brute 1
-end
-round 14
-	brute 3
-end
-round 15
-	brute 5
-end
-round 16
-	sprinter 2
-end
-round 17
-	brute 1
-end
-round 18
-	brute 3
-end
-round 19
-	brute 5
-end
-round 20
-	sprinter 2
+	brute 16
+	sprinter 30
 end
 end

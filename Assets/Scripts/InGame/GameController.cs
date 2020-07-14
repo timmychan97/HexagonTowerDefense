@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     public UI_TopBar topBar;
     public Base myBase;
     public GameObject panel_gameLost;
+    public GameObject panel_gameWon;
     public GameObject panel_pause;
     public int numRounds;
     public int gold;
@@ -22,32 +23,35 @@ public class GameController : MonoBehaviour
     public RoundParser roundParser;
     public EnemySpawner enemySpawner;
     private List<Round> rounds;
-    public string pathFileRounds;
+    public string roundsFilename = "level1.txt";
+    string pathFileRounds;
     // Start is called before the first frame update
     void Start()
     {
         INSTANCE = this;
-        panel_gameLost.SetActive(false);
-        panel_pause.SetActive(false);
-        gameState = GameState.Playing;
 
         // parse txt file containing info about rounds
-        pathFileRounds = Application.dataPath + "/Rounds/level1.txt";
+        pathFileRounds = Application.dataPath + "/Rounds/" + roundsFilename;
         Debug.Log($"Start parsing file: {pathFileRounds}");
         roundParser.ParseFileRounds(pathFileRounds);
         Debug.Log("Done parsing");
         
+        // set initial game data
         gold = roundParser.GetGold();
         hp = roundParser.GetHp();
         numRounds = roundParser.GetNumRounds();
         rounds = roundParser.GetRounds();
+        round = 0;
         
         Debug.Log($"numRounds = {numRounds}");
         Debug.Log($"gold = {gold}");
         Debug.Log($"hp = {hp}");
 
-        // init stats
-        round = 0;
+        // init UI elements
+        panel_gameLost.SetActive(false);
+        panel_gameWon.SetActive(false);
+        panel_pause.SetActive(false);
+        gameState = GameState.Playing;
         UpdateUiStats();
     }
 
@@ -73,10 +77,12 @@ public class GameController : MonoBehaviour
     // start next round
     public void NextRound()
     {
-        Debug.Log("NextRound()");
-        enemySpawner.StartRound(rounds[round]);
-        round++;
-        UpdateUiStats();
+        if (round < rounds.Count)
+        {
+            enemySpawner.StartRound(rounds[round]);
+            round++;
+            UpdateUiStats();
+        }
     }
 
     // returns false when fails to buy tower (no money)
@@ -91,17 +97,27 @@ public class GameController : MonoBehaviour
 
     // returns false if fails to damage castle
 
-    public void GameOver()
+    public void OnGameLost()
     {
         gameState = GameState.Lost;
         panel_gameLost.SetActive(true);
     }
 
+    public void OnGameWon()
+    {
+        gameState = GameState.Won;
+        panel_gameWon.SetActive(true);
+    }
+
     public void HandleGameOver() 
     {
-        if (IsGameOver())
+        if (IsGameLost())
         {
-            GameOver();
+            OnGameLost();
+        } 
+        else if (IsGameWon()) 
+        {
+            OnGameWon();
         }
     }
 
@@ -131,12 +147,20 @@ public class GameController : MonoBehaviour
         panel_pause.SetActive(false);
     }
 
-    public bool IsGameOver()
+    public bool IsGameLost()
     {
         if (myBase.getHp() <= 0) return true;
         return false;
     }
 
+    public bool IsGameWon()
+    {
+        if (round == rounds.Count && enemySpawner.GetEnemies().Count == 0) 
+        {
+            return true;
+        }
+        return false;
+    }
     public void BackToMainMenu() 
     {
         SceneManager.LoadScene("Main Menu");

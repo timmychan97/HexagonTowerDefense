@@ -3,21 +3,19 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public Transform enemyPre;
-    public Transform enemySprinter;
     public float enemySpawnInterval;
     public float spawnCountdown;
     public Transform spawnLocation;
     public Transform goal;
     public EnemySpawner es;
-    public int cnt;
     private int numEnemies;
     private int numRounds;
     HashSet<Round> ongoingRounds;
+    HashSet<Enemy> enemies;
     void Start()
     {
         ongoingRounds = new HashSet<Round>();
-        cnt = 1;
+        enemies = new HashSet<Enemy>();
     }
     void Update()
     {
@@ -63,22 +61,30 @@ public class EnemySpawner : MonoBehaviour
         Enemy e = t.GetComponent<Enemy>();
         e.goal = goal;
         e.target = GameController.INSTANCE.myBase;
-    }
-
-    void NewRound()
-    {
-        for (int i = 0; i < cnt; i++) 
-        {
-            Transform a = Instantiate(enemyPre, spawnLocation);
-            Enemy e = a.GetComponent<Enemy>();
-            e.goal = goal;
-            e.target = GameController.INSTANCE.myBase;
-        }
-        cnt++;
+        enemies.Add(e);
     }
 
     public void StartRound(Round round) 
     {
         ongoingRounds.Add(round);
+    }
+
+    public HashSet<Enemy> GetEnemies() { 
+        UpdateEnemySet();
+        return enemies; 
+    }
+    public void UpdateEnemySet() {
+        // remove dead enemies from the Set
+        List<Enemy> toRemove = new List<Enemy>();
+        foreach (Enemy enemy in enemies) 
+        {
+            if (enemy == null) {
+                toRemove.Add(enemy);
+            }
+        }
+        foreach (Enemy enemy in toRemove)
+        {
+            enemies.Remove(enemy);
+        }
     }
 }

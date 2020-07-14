@@ -116,7 +116,7 @@ MonoBehaviour:
   moveSpeed: 6
   atkSpeed: 3
   maxHp: 50
-  worth: 50
+  worth: 40
   prevPos: {x: 0, y: 0, z: 0}
 --- !u!54 &382724846640780429
 Rigidbody:
