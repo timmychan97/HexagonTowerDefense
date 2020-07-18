@@ -5,16 +5,17 @@ end
 
 rounds 20
 round 1
-	sprinter 100
+	sprinter 2
 end
 round 2
 	brute 100
 end
 round 3
 	brute 100
+	sprinter 100
 end
 round 4
-	brute 100
+	sprinter 1000
 end
 round 5
 	sprinter 3
