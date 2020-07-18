@@ -72,38 +72,47 @@ public class Projectile_FixedTarget : Projectile
         vy = (deltaY - 0.5f * downAccel * deltaT * deltaT) / deltaT;
     }
 
-    Vector3 GetPredictPos(Vector3 proj, Vector3 pos, Vector3 velocity)
+    Vector3 GetPredictPos(Vector3 projPos, Vector3 targetPos, Vector3 targetVelocity)
     {
+        Debug.Log($"GetPredictPos({projPos}, {targetPos}, {targetVelocity}");
         // remove y component
-        float t = ComputeDeltaT(proj, pos, velocity);
-        return (pos + t * velocity);
+        float t = ComputeDeltaT(projPos, targetPos, targetVelocity);
+        Debug.Log($"t = {t}");
+        return (targetPos + t * targetVelocity);
     }
 
-    float ComputeDeltaT(Vector3 _T, Vector3 _P, Vector3 _vt)
+    float ComputeDeltaT(Vector3 _P, Vector3 _T, Vector3 _vt)
     {
         // _T: target current pos
         // _P: projectile current pos
         // _vt: velocity of target
+        Debug.Log($"ComputeDeltaT({_P}, {_T}, {_vt})");
 
         // remove y component，摊平到xz平面
         Vector3 T = new Vector3(_T.x, 0, _T.z);
         Vector3 P = new Vector3(_P.x, 0, _P.z);
-        Vector3 vt = new Vector3(_vt.x, 0, _vt.y);
-        Vector3 PT = T - P; 
+        Vector3 vt = new Vector3(_vt.x, 0, _vt.z);
+        Vector3 TP = P - T; 
+        float TP2 = TP.sqrMagnitude;      // = |TP|^2
+        float vt2 = vt.sqrMagnitude;      // = |v_t|^2
+        float vtLen = Mathf.Sqrt(vt2);    // = |v_t|
 
-        if (_vt == Vector3.zero) // exception
+        // Exceptions: 
+        // if target is idle or faster than projectile, 
+        // shoot at target's current position
+        if (_vt == Vector3.zero) 
         {
-            return PT.magnitude / speed;
+            return TP.magnitude / speed;
+        } 
+        if (vtLen >= speed)
+        {
+            return 0.0f;
         }
 
         // turn into second order polynomial, d = sqrt(b^2 - 4ac), (discriminant)
-        float PT2 = PT.sqrMagnitude;            // = PT^2
-        float PTLen = Mathf.Sqrt(PT2);
-        float vtDotPT = Vector3.Dot(vt, PT);    // = v_t · PT
-        float k = vt.magnitude / speed;         // k = |v_t| / speed
-        float a = speed*speed*(1-k*k) / PTLen;  // a = (speed^2 * 1-k^2) / |PT|
-        float b = - 2 * vtDotPT / PTLen;        // b = -2 (v_t · PT) / |PT|
-        float c = - PTLen;                      // c = -|PT|
+        float a = speed*speed-vt2;              // a = (speed^2 * |v_t|^2)
+        float b = 2 * Vector3.Dot(TP, vt);      // b = 2 (TP · v_t)
+        float c = -TP2;                         // c = -|TP|^2
         float d = Mathf.Sqrt(b*b - 4 * a * c);  // d = discriminant
         float t =  (-b + d) / (2 * a);
         return t;
