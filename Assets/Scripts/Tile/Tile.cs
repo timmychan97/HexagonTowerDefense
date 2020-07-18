@@ -86,6 +86,7 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public void Highlight(Color? color)
 	{
+		Debug.Log("nice");
 		var _propBlock = new MaterialPropertyBlock();
 		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
 		_renderer.GetPropertyBlock(_propBlock);
@@ -107,7 +108,8 @@ public class Tile : MonoBehaviour, ISelectable {
 		var speed = 5f;
 		var offset = 1f;
 		// Assign our new value.
-		_propBlock.SetColor("_Color", Color.Lerp(color1, color2, (Mathf.Sin(Time.time * speed + offset) + 1) / 2f));
+		// URP uses "_BaseColor" instead of the old name "_Color"
+		_propBlock.SetColor("_BaseColor", Color.Lerp(color1, color2, (Mathf.Sin(Time.time * speed + offset) + 1) / 2f));
 		// Apply the edited values to the renderer.
 		_renderer.SetPropertyBlock(_propBlock);
 	}
@@ -124,7 +126,7 @@ public class Tile : MonoBehaviour, ISelectable {
 		_renderer.GetPropertyBlock(_propBlock);
 
 		Color color1 = _renderer.material.color;
-		_propBlock.SetColor("_Color", color1);
+		_propBlock.SetColor("_BaseColor", color1);
 		_renderer.SetPropertyBlock(_propBlock);
 
 	}
