@@ -86,7 +86,6 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public void Highlight(Color? color)
 	{
-		Debug.Log("nice");
 		var _propBlock = new MaterialPropertyBlock();
 		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
 		_renderer.GetPropertyBlock(_propBlock);
