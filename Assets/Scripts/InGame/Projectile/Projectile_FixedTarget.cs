@@ -138,8 +138,12 @@ public class Projectile_FixedTarget : Projectile
 
     public override void OnHit()
     {
-        var pfx = Instantiate(particleEffect.gameObject);
-        pfx.transform.position = transform.position;
+        // If there is a particle effect assigned. The effect will be instantiated
+        if (particleEffect)
+        {
+            var pfx = Instantiate(particleEffect.gameObject);
+            pfx.transform.position = transform.position;
+        }
 
         hitRegion.InflictDmg(dmg);
         if (effect != null) {
