@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Projectile_FixedTarget : Projectile
 {
+    public ParticleEffect particleEffect;
+
     public HitRegion hitRegionPf;
     private HitRegion hitRegion;
     public float downAccel = -9.8f;
@@ -136,6 +138,9 @@ public class Projectile_FixedTarget : Projectile
 
     public override void OnHit()
     {
+        var pfx = Instantiate(particleEffect.gameObject);
+        pfx.transform.position = transform.position;
+
         hitRegion.InflictDmg(dmg);
         if (effect != null) {
             hitRegion.ApplyEffect(effect);
