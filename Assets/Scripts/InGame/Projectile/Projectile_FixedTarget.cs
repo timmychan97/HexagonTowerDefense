@@ -76,10 +76,8 @@ public class Projectile_FixedTarget : Projectile
 
     Vector3 GetPredictPos(Vector3 projPos, Vector3 targetPos, Vector3 targetVelocity)
     {
-        Debug.Log($"GetPredictPos({projPos}, {targetPos}, {targetVelocity}");
         // remove y component
         float t = ComputeDeltaT(projPos, targetPos, targetVelocity);
-        Debug.Log($"t = {t}");
         return (targetPos + t * targetVelocity);
     }
 
@@ -88,7 +86,6 @@ public class Projectile_FixedTarget : Projectile
         // _T: target current pos
         // _P: projectile current pos
         // _vt: velocity of target
-        Debug.Log($"ComputeDeltaT({_P}, {_T}, {_vt})");
 
         // remove y component，摊平到xz平面
         Vector3 T = new Vector3(_T.x, 0, _T.z);
