@@ -11,6 +11,7 @@ public class UI_PanelUnitInfo_Tower : UI_PanelUnitInfo
     public Text atk;
     public Text atkSpeed;
     public Text description;
+    public Text cost;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,14 +28,14 @@ public class UI_PanelUnitInfo_Tower : UI_PanelUnitInfo
     {
         // updates info based on tower object
         // can be optimized by updating only part of the info
-        SetInfo(tower.towerName, tower.level, tower.GetHp(), tower.maxHp, tower.atk, tower.atkSpeed, tower.description);
+        SetInfo(tower.towerName, tower.level, tower.GetHp(), tower.maxHp, tower.atk, tower.atkSpeed, tower.description, tower.cost);
     }
 
     public void SetTower(Tower _t) 
     {
         tower = _t;
     }
-    void SetInfo(string _name, int _level, int _hp, int _maxHp, int _atk, float _atkSpeed, string _description) 
+    void SetInfo(string _name, int _level, int _hp, int _maxHp, int _atk, float _atkSpeed, string _description, int _cost) 
     {
         SetTowerName(_name);
         SetLevel(_level);
@@ -42,6 +43,7 @@ public class UI_PanelUnitInfo_Tower : UI_PanelUnitInfo
         SetAtk(_atk);
         SetAtkSpeed(_atkSpeed);
         SetDescription(_description);
+        SetCost(_cost);
     }
     void SetTowerName(string s) => towerName.text = s;
     void SetLevel(int n) => level.text = n.ToString(); 
@@ -52,4 +54,5 @@ public class UI_PanelUnitInfo_Tower : UI_PanelUnitInfo
     void SetAtk(int n) => atk.text = n.ToString();
     void SetAtkSpeed(float f) => atkSpeed.text = f.ToString("0.00");
     void SetDescription(string s) => description.text = s;
+    void SetCost(int n) => cost.text = n.ToString();
 }

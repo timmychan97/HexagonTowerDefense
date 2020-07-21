@@ -12,13 +12,16 @@ public class UI_PanelUnitInfo_Enemy : UI_PanelUnitInfo
     public Text atk;
     public Text speed;
     public Text atkSpeed;
+    public Text worth;
 
     public override void UpdateInfo()
     {
-        SetInfo(enemy.enemyName, enemy.level, enemy.GetHp(), enemy.maxHp, enemy.atk, enemy.moveSpeed, enemy.atkSpeed);
+        SetInfo(enemy.enemyName, enemy.level, enemy.GetHp(), enemy.maxHp, enemy.atk, 
+                enemy.moveSpeed, enemy.atkSpeed, enemy.worth);
     }
 
-    public void SetInfo(string _name, int _level, int _hp, int _maxHp, int _atk, float _speed, float _atkSpeed) 
+    public void SetInfo(string _name, int _level, int _hp, int _maxHp, 
+                        int _atk, float _speed, float _atkSpeed, int _worth) 
     {
         SetEnemyName(_name);
         SetLevel(_level);
@@ -26,6 +29,7 @@ public class UI_PanelUnitInfo_Enemy : UI_PanelUnitInfo
         SetAtk(_atk);
         SetSpeed(_speed);
         SetAtkSpeed(_atkSpeed);
+        SetWorth(_worth);
     }
     public void SetEnemy(Enemy _e) => enemy = _e;
     void SetEnemyName(string s) => enemyName.text = s;
@@ -37,4 +41,5 @@ public class UI_PanelUnitInfo_Enemy : UI_PanelUnitInfo
     void SetAtk(int n) => atk.text = n.ToString();
     void SetSpeed(float f) => speed.text = f.ToString("0.00");
     void SetAtkSpeed(float f) => atkSpeed.text = f.ToString("0.00");
+    void SetWorth(int n) => worth.text = n.ToString();
 }
