@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
+public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IPropertiesDisplayable
 {
     public HealthBarPivot healthBarPivot;
     public Transform goal;
     public IDamagable target;
+    public string enemyName;
+    public int level;
     private int id;
     public float atkRange;
     private float atkRangeSqr;
@@ -16,6 +18,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
     public float atkSpeed; // in Hz
     private float atkPeriod;
     private float lastAtkTime;
+    float atkCountdown;
     public int maxHp;
     private int hp;
     public int worth;
@@ -102,6 +105,12 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
         {
             Die();
         }
+        // if panel unit info is displaying this unit's info, update it
+        Enemy displaying  = UI_PanelUnitInfoManager.INSTANCE.displaying as Enemy;
+        if (displaying == this) 
+        {
+            UI_PanelUnitInfoManager.INSTANCE.UpdateInfo();
+        }
     }
 
     public void TakeEffect(Effect effect)
@@ -162,9 +171,23 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable
         navMeshAgent.speed = moveSpeed;
     }
 
+    public int GetHp()
+    {
+        return hp;
+    }
+
     public Vector3 GetVelocity()
     {
         if (navMeshAgent == null) return Vector3.zero;
         return navMeshAgent.velocity;
+    }
+
+    public UI_PanelUnitInfo GetPanelUnitInfo() 
+    {
+        // get the prefab from Panel Unit Info Manager, 
+        // link it with this object, then return 
+        UI_PanelUnitInfo_Enemy panel = UI_PanelUnitInfoManager.INSTANCE.pf_enemyPanel;
+        panel.SetEnemy(this);
+        return panel; 
     }
 }

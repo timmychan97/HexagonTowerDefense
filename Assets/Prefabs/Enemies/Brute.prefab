@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 6052302600996808314}
   - component: {fileID: 1068784263485453221}
   - component: {fileID: 6703593170849819156}
-  m_Layer: 0
-  m_Name: Chibi Human
-  m_TagString: Untagged
+  m_Layer: 8
+  m_Name: Brute
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -81,7 +81,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarPivot: {fileID: 5175063115101555778}
   goal: {fileID: 0}
-  atkRange: 0.1
+  enemyName: Brute
+  level: 1
+  atkRange: 0.4
   atk: 8
   moveSpeed: 3
   atkSpeed: 1
@@ -120,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5964724961620239119}
   - component: {fileID: 5175063115101555778}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +166,7 @@ GameObject:
   - component: {fileID: 7384242131007845257}
   - component: {fileID: 4368358186895037527}
   - component: {fileID: 7748500501954952356}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +245,7 @@ GameObject:
   - component: {fileID: 7857998424376538679}
   - component: {fileID: 8984678839808923590}
   - component: {fileID: 5724474351699826560}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}

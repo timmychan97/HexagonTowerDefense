@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 929487788594758457}
   - component: {fileID: 929487788594758458}
   - component: {fileID: -4728569097123284239}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy 100HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarPivot: {fileID: 4327723152103483714}
   goal: {fileID: 0}
+  enemyName: 
+  level: 0
   atkRange: 1
   atk: 8
   moveSpeed: 7
@@ -167,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1969744412015263934}
   - component: {fileID: 4327723152103483714}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
