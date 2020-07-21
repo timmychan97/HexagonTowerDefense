@@ -76,20 +76,6 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
                 atkCountdown = atkPeriod;
             }
         }
-        // if (Time.time < lastAtkTime + atkPeriod) return;
-
-        // lastAtkTime = Time.time;
-        // float dist2 = (goal.position - transform.position).sqrMagnitude;
-        // if (atkRangeSqr > dist2) // can attack goal
-        // {
-        //     if (target != null) 
-        //     {
-        //         if (target is Base)
-        //         {
-        //             Atk(target);
-        //         }
-        //     }
-        // }
     }
 
     public void Destroy()
