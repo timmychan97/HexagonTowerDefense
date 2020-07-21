@@ -16,6 +16,7 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     public int maxHp;
     private int hp;
     public int cost;
+    public int sellWorth;
     public float range;
     GameObject target = null;
     public Projectile projectile;
@@ -36,13 +37,6 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
         }
         towerRange.Init(this);
 
-        // sphereCollider = GetComponent<SphereCollider>();
-        // if (sphereCollider == null) 
-        // {
-        //     sphereCollider = gameObject.AddComponent<SphereCollider>();
-        // }
-        // sphereCollider.isTrigger = true;
-        // sphereCollider.radius = range;
         hp = maxHp;
         atkPeriod = 1.0f / atkSpeed;
         lastAtkTime = Time.time;
@@ -75,36 +69,6 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
         }
     }
 
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     Enemy enemy = other.transform.GetComponent<Enemy>();
-    //     if (enemy) // the collided object is an Enemy
-    //     {
-    //         if (!target) 
-    //         {
-    //             SetTarget(enemy.gameObject);
-    //         }
-    //         else
-    //         {
-    //             enemiesInRange.Add(enemy); // backup enemies
-    //         }
-    //     }
-    // }
-
-    // void OnTriggerExit(Collider other)
-    // {
-    //     Enemy enemy = other.transform.GetComponent<Enemy>();
-    //     if (enemy != null)
-    //     {
-    //         enemiesInRange.Remove(enemy);
-    //         if (enemy.gameObject == target) 
-    //         {
-    //             target = null;
-    //             ChooseNewTarget();
-    //         }
-    //     }
-    // }
-
     void Atk(GameObject target) 
     {
         Projectile p = Instantiate(projectile, emitter.position, transform.rotation);
@@ -130,35 +94,6 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     void ChooseNewTarget()
     {
         target = towerRange.GetNewTarget();
-        // /*
-        // chooses a new target by following policy:
-        // - the firstmost enemy that entered tower's range
-        
-        // RETURN: true when successfully chosen a new target
-        // */
-
-        // if (enemiesInRange.Count == 0) return false;  // no enemies in range
-        // // store nulls in the list of enemies 
-        // // (a result of enemies dying without leaving the range)
-        // List<Enemy> toRemove = new List<Enemy>();
-        // foreach (Enemy e in enemiesInRange)
-        // {
-        //     // mark for removal afterwards 
-        //     // (can't remove during foreach loop of hashset)
-        //     toRemove.Add(e);  
-        //     if (e != null)
-        //     {
-        //         target = e.gameObject;
-        //         break;
-        //     }
-        // }
-
-        // // remove the null's in enemiesInRange
-        // foreach (Enemy e in toRemove)
-        // {
-        //     enemiesInRange.Remove(e);
-        // }
-        // return true;
     }
 
     public UI_PanelUnitInfo GetPanelUnitInfo() 
