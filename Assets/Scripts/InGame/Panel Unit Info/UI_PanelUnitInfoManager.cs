@@ -34,8 +34,6 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
             {
                 return;
             }
-
-            Debug.Log("Raycasting");
             // Raycast a unit and invoke click event
             int mask = (1 << unitsLayerMask);
             RaycastHit hit;
@@ -49,7 +47,6 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
     }
     public void CloseInfo()
     {
-        Debug.Log("CloseInfo()");
         if (panelUnitInfo != null) 
         {
             Destroy(panelUnitInfo.gameObject);
@@ -73,7 +70,6 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
     }
     public void ShowInfo(IPropertiesDisplayable displayable)
     {
-        Debug.Log($"ShowInfo({displayable})");
         // display info of selected unit
         panelUnitInfo = Instantiate(displayable.GetPanelUnitInfo(), canvas.transform);
         UpdateInfo();
