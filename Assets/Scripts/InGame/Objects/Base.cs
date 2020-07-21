@@ -31,6 +31,7 @@ public class Base : MonoBehaviour, IDamagable
         {
             Die();
         }
+        GameController.INSTANCE.UpdateUiStats();
     }
 
     public int getHp() { return hp; }

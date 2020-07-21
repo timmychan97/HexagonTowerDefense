@@ -39,6 +39,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
         atkRangeSqr = atkRange * atkRange;
         atkPeriod = 1f / atkSpeed;
         lastAtkTime = Time.time;
+        atkCountdown = atkPeriod;
 
         effects = new HashSet<Effect>();
 
@@ -61,20 +62,34 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     public void HandleAtk()
     {
-        if (Time.time < lastAtkTime + atkPeriod) return;
+        if (target == null) return;
 
-        lastAtkTime = Time.time;
         float dist2 = (goal.position - transform.position).sqrMagnitude;
         if (atkRangeSqr > dist2) // can attack goal
         {
-            if (target != null) 
-            {
+            atkCountdown -= Time.deltaTime;
+            if (atkCountdown < 0){
                 if (target is Base)
                 {
                     Atk(target);
                 }
+                atkCountdown = atkPeriod;
             }
         }
+        // if (Time.time < lastAtkTime + atkPeriod) return;
+
+        // lastAtkTime = Time.time;
+        // float dist2 = (goal.position - transform.position).sqrMagnitude;
+        // if (atkRangeSqr > dist2) // can attack goal
+        // {
+        //     if (target != null) 
+        //     {
+        //         if (target is Base)
+        //         {
+        //             Atk(target);
+        //         }
+        //     }
+        // }
     }
 
     public void Destroy()

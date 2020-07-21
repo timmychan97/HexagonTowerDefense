@@ -83,7 +83,7 @@ MonoBehaviour:
   goal: {fileID: 0}
   enemyName: Brute
   level: 1
-  atkRange: 0.4
+  atkRange: 1
   atk: 8
   moveSpeed: 3
   atkSpeed: 1

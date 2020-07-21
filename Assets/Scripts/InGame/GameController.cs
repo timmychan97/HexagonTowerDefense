@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
         HandleGameOver();
     }
 
-    void UpdateUiStats()
+    public void UpdateUiStats()
     {
         topBar.SetTextGold(gold);
         topBar.SetTextHp(myBase.getHp());
