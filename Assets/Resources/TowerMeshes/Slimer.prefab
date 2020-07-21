@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 227245959558673643}
   - component: {fileID: 227245959558673641}
   - component: {fileID: 227245959558673642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 227245959900369415}
   - component: {fileID: 227245959900369413}
   - component: {fileID: 227245959900369414}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 227245960577785197}
   - component: {fileID: 227245960577785195}
   - component: {fileID: 227245960577785196}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 227245960978861767}
   - component: {fileID: 227245960978861765}
   - component: {fileID: 227245960978861766}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +325,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 227245961080252016}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Machine Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -360,8 +360,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7052657976688930940}
   - component: {fileID: 8458149256500891302}
-  m_Layer: 0
-  m_Name: Slime Gun
+  - component: {fileID: 9157065472683096271}
+  m_Layer: 8
+  m_Name: Slimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -395,6 +396,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerName: Slimer
+  level: 1
+  description: A magical gun that can fire slime to slow down units.
   atk: 1
   effect: {fileID: 0}
   atkSpeed: 0.5
@@ -406,7 +410,22 @@ MonoBehaviour:
     type: 3}
   platform: {fileID: 7742991344682757469}
   towerContent: {fileID: 5753028609386045434}
-  emitter: {fileID: 5946830588745483724}
+  emitter: {fileID: 3440779263149411080}
+  pf_towerRange: {fileID: 7617467167282982110, guid: 973a47fc178937445a6266a3acce55c5,
+    type: 3}
+--- !u!65 &9157065472683096271
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353135024908262344}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 1.2, z: 1.4}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!1 &5753028609386045434
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,7 +435,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7713868668597228566}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Transformer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -448,7 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3440779263149411080}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -478,7 +497,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4109078374783776865}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}

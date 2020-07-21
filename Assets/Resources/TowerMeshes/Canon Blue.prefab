@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8505330774295490815}
   - component: {fileID: 8505330774295490813}
   - component: {fileID: 8505330774295490814}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 8505330774590366354}
   - component: {fileID: 8505330774590366352}
   - component: {fileID: 8505330774590366353}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 8505330774878783641}
   - component: {fileID: 8505330774878783639}
   - component: {fileID: 8505330774878783640}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cube.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +248,7 @@ GameObject:
   - component: {fileID: 8505330775015451691}
   - component: {fileID: 8505330775015451689}
   - component: {fileID: 8505330775015451690}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,7 @@ GameObject:
   - component: {fileID: 8505330775437707363}
   - component: {fileID: 8505330775437707364}
   - component: {fileID: 8505330775437707365}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Canon Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -364,6 +364,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerName: Canon Blue
+  level: 0
+  description: This unit shouldn't be used.
   atk: 2
   effect: {fileID: 0}
   atkSpeed: 1.5
@@ -376,6 +379,7 @@ MonoBehaviour:
   platform: {fileID: 0}
   towerContent: {fileID: 0}
   emitter: {fileID: 0}
+  pf_towerRange: {fileID: 0}
 --- !u!135 &8505330775437707365
 SphereCollider:
   m_ObjectHideFlags: 0

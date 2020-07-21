@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8463018003148413940}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Archer Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5960847061325793285}
   - component: {fileID: 7744075218945878533}
   - component: {fileID: 7200882140332034225}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: archer_bow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,7 +121,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3477406967018082049}
   - component: {fileID: 4568717014394486124}
-  m_Layer: 0
+  - component: {fileID: 7925472284903144649}
+  m_Layer: 8
   m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,6 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerName: Archer
+  level: 1
+  description: Apprentice Archer born in the Rain of Diamonds.
   atk: 20
   effect: {fileID: 1969129739505833100, guid: 961babe47e39f4043804badf7654087d, type: 3}
   atkSpeed: 1
@@ -167,7 +171,22 @@ MonoBehaviour:
     type: 3}
   platform: {fileID: 215764606067705237}
   towerContent: {fileID: 8260472239800050090}
-  emitter: {fileID: 3784820897791189091}
+  emitter: {fileID: 7411698439418154507}
+  pf_towerRange: {fileID: 7617467167282982110, guid: 973a47fc178937445a6266a3acce55c5,
+    type: 3}
+--- !u!65 &7925472284903144649
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3093612581242504104}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &3784820897791189091
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7411698439418154507}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Emitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +226,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8813810961031875811}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Archer Tower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +259,7 @@ GameObject:
   - component: {fileID: 1019137622832830949}
   - component: {fileID: 5146277990939498958}
   - component: {fileID: 785272531426798240}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: archer_righthand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +338,7 @@ GameObject:
   - component: {fileID: 5215476161520151419}
   - component: {fileID: 7967575506919988307}
   - component: {fileID: 2183171427409709051}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: archer_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +417,7 @@ GameObject:
   - component: {fileID: 7512637227583070271}
   - component: {fileID: 5728514914523412901}
   - component: {fileID: 9191404915679987456}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: archer_head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,7 +496,7 @@ GameObject:
   - component: {fileID: 6999736828906578131}
   - component: {fileID: 3349946885822929901}
   - component: {fileID: 1743068503326601139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tower001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +575,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4412754643507759246}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8349040525411231893}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Archer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
