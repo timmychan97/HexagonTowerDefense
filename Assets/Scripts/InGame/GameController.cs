@@ -166,15 +166,21 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene("Main Menu");
     }
 
-    public void GainReward(int _money) 
+    public void GainReward(int _gold) 
     {
-        gold += _money;
+        gold += _gold;
         UpdateUiStats();
     }
 
     public void OnRoundStart()
     {
         ++round;
+        UpdateUiStats();
+    }
+
+    public void OnSellTower(Tower t)
+    {
+        gold += t.sellWorth;
         UpdateUiStats();
     }
 }

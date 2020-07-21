@@ -405,6 +405,7 @@ MonoBehaviour:
   lastAtkTime: 0
   maxHp: 23
   cost: 120
+  sellWorth: 60
   range: 6
   projectile: {fileID: 4116944752452527415, guid: 4c2cb4c6414b38d4aa246606421d7b74,
     type: 3}

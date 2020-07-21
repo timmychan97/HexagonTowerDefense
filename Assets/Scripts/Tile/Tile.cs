@@ -49,6 +49,11 @@ public class Tile : MonoBehaviour, ISelectable {
 		return true;
 	}
 
+	public Tower GetTower()
+	{
+		return tileContentContainer.GetComponentInChildren<Tower>();
+	}
+
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)
