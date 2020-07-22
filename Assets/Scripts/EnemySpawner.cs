@@ -74,6 +74,12 @@ public class EnemySpawner : MonoBehaviour
         UpdateEnemySet();
         return enemies; 
     }
+
+    public HashSet<Wave> GetOngoingWaves()
+    {
+        return ongoingWaves;
+    }
+
     public void UpdateEnemySet() {
         // remove dead enemies from the Set
         List<Enemy> toRemove = new List<Enemy>();

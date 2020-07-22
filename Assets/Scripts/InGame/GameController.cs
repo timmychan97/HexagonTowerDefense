@@ -185,7 +185,8 @@ public class GameController : MonoBehaviour
 
     public bool IsGameWon()
     {
-        if (wave == waves.Count && enemySpawner.GetEnemies().Count == 0) 
+        if (wave == waves.Count && enemySpawner.GetEnemies().Count == 0 
+            && enemySpawner.GetOngoingWaves().Count == 0) 
         {
             return true;
         }
