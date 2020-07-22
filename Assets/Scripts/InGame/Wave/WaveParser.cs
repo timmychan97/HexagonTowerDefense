@@ -4,21 +4,21 @@ using UnityEngine;
 using System.IO;
 using System;
 
-public class RoundParser : MonoBehaviour
+public class WaveParser : MonoBehaviour
 {
     public Transform pfBrute;
     public Transform pfSprinter;
     private int hp;
     private int gold;
-    private int numRounds;
+    private int numWaves;
     float waveCd = 5.0f;
-    private List<Round> rounds;
+    private List<Wave> waves;
     // Start is called before the first frame update
     void Start()
     {
         hp = 0;
         gold = 0;;
-        numRounds = 0;
+        numWaves = 0;
         waveCd = 20.0f;
     }
 
@@ -29,10 +29,10 @@ public class RoundParser : MonoBehaviour
         
     }
 
-    public List<Round> GetRounds() { return rounds; }
+    public List<Wave> GetWaves() { return waves; }
     public int GetHp() { return hp; }
     public int GetGold() { return gold; }
-    public int GetNumRounds() { return numRounds; }
+    public int GetNumWaves() { return numWaves; }
     public float GetWaveCd() { return waveCd; }
 
 
@@ -41,7 +41,7 @@ public class RoundParser : MonoBehaviour
     //         Parse functions
     //
     //////////////////////////////////////////////////
-    public void ParseFileRounds(string filename) 
+    public void ParseFileWaves(string filename) 
     {
         string text = System.IO.File.ReadAllText(filename);
         string[] words = System.Text.RegularExpressions.Regex.Split(text, @"\s+");;
@@ -52,9 +52,9 @@ public class RoundParser : MonoBehaviour
             {
                 ParseInitData(words, ref head);
             } 
-            else if (words[head] == "rounds") 
+            else if (words[head] == "waves") 
             {
-                rounds = ParseRounds(words, ref head);
+                waves = ParseWaves(words, ref head);
             }
             head++;
         }
@@ -69,9 +69,9 @@ public class RoundParser : MonoBehaviour
             {
                 gold = int.Parse(words[++head]);
             } 
-            else if (words[head] == "numRounds") 
+            else if (words[head] == "numWaves") 
             {
-                numRounds = int.Parse(words[++head]);
+                numWaves = int.Parse(words[++head]);
             } 
             else if (words[head] == "hp") 
             {
@@ -91,35 +91,36 @@ public class RoundParser : MonoBehaviour
 
 
     /////////////////////////////////////////////////
-    //              parse rounds
+    //              parse waves
     /////////////////////////////////////////////////
 
-    List<Round> ParseRounds(string[] words, ref int head) 
+    List<Wave> ParseWaves(string[] words, ref int head) 
     {
-        int numRounds;
+        int numWaves;
         head++;
-        if (!Int32.TryParse(words[head], out numRounds)) 
+        if (!Int32.TryParse(words[head], out numWaves)) 
         {
-            Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"rounds\" specifying the number of rounds");
+            Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"waves\" specifying the number of waves");
         }
-        List<Round> rounds = new List<Round>(new Round[numRounds]);
+        List<Wave> waves = new List<Wave>(new Wave[numWaves]);
+        Debug.Log(waves);
         head++;
         while (words[head] != "end")
         {
-            if (words[head] == "round") 
+            if (words[head] == "wave") 
             {
                 // NOTE: indices in txt file starts from 1
                 int idx;
                 head++;
                 if (!Int32.TryParse(words[head], out idx)) 
                 {
-                    Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"round\" specifying the index of the round");
+                    Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"wave\" specifying the index of the wave");
                 }
-                if (idx < 1 || numRounds < idx) {
-                    Debug.LogWarning($"Error parsing file (head = {head}): the index of the round is invalid");
+                if (idx < 1 || numWaves < idx) {
+                    Debug.LogWarning($"Error parsing file (head = {head}): the index of the wave is invalid");
                 }
-                rounds[idx - 1] = ParseRound(words, ref head);
-                // Debug.Log($"Got round {idx}");
+                waves[idx - 1] = ParseWave(words, ref head);
+                // Debug.Log($"Got wave {idx}");
             } 
             else 
             {
@@ -127,30 +128,31 @@ public class RoundParser : MonoBehaviour
             }
             head++;
         }
-        return rounds;
+        Debug.Log(waves);
+        return waves;
     }
-    Round ParseRound(string[] words, ref int head) 
+    Wave ParseWave(string[] words, ref int head) 
     {
-        Round round = new Round();
+        Wave wave = new Wave();
         head++;
         while (words[head] != "end") 
         {
             if (words[head] == "sprinter")
             {
                 int cnt = int.Parse(words[++head]);
-                round.AddUnit(pfSprinter, cnt);
+                wave.AddUnit(pfSprinter, cnt);
             }
             else if (words[head] == "brute")
             {
                 int cnt = int.Parse(words[++head]);
-                round.AddUnit(pfBrute, cnt);
+                wave.AddUnit(pfBrute, cnt);
             }
             else 
             {
-                Debug.Log($"Error parsing round (head = {head}): Unidentified token: {words[head]}");
+                Debug.Log($"Error parsing wave (head = {head}): Unidentified token: {words[head]}");
             }
             head++;
         }
-        return round;
+        return wave;
     }
 }

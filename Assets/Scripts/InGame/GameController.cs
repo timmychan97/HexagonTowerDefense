@@ -16,15 +16,15 @@ public class GameController : MonoBehaviour
     public GameObject panel_gameLost;
     public GameObject panel_gameWon;
     public GameObject panel_pause;
-    public int numRounds;
+    public int numWaves;
     public int gold;
-    public int round;
+    public int wave;
     public int hp;
-    public RoundParser roundParser;
+    public WaveParser waveParser;
     public EnemySpawner enemySpawner;
-    private List<Round> rounds;
-    public string roundsFilename = "level1.txt";
-    string pathFileRounds;
+    private List<Wave> waves;
+    public string wavesFilename = "level1.txt";
+    string pathFileWaves;
     public float waveCd;
     float waveCountdown;
     // Start is called before the first frame update
@@ -32,22 +32,22 @@ public class GameController : MonoBehaviour
     {
         INSTANCE = this;
 
-        // parse txt file containing info about rounds
-        pathFileRounds = Application.dataPath + "/Rounds/" + roundsFilename;
-        Debug.Log($"Start parsing file: {pathFileRounds}");
-        roundParser.ParseFileRounds(pathFileRounds);
+        // parse txt file containing info about waves
+        pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
+        Debug.Log($"Start parsing file: {pathFileWaves}");
+        waveParser.ParseFileWaves(pathFileWaves);
         Debug.Log("Done parsing");
         
         // set initial game data
-        gold = roundParser.GetGold();
-        hp = roundParser.GetHp();
-        numRounds = roundParser.GetNumRounds();
-        waveCd = roundParser.GetWaveCd();
-        rounds = roundParser.GetRounds();
-        round = 0;
+        gold = waveParser.GetGold();
+        hp = waveParser.GetHp();
+        numWaves = waveParser.GetNumWaves();
+        waveCd = waveParser.GetWaveCd();
+        waves = waveParser.GetWaves();
+        wave = 0;
         waveCountdown = waveCd;
         
-        Debug.Log($"numRounds = {numRounds}");
+        Debug.Log($"numWaves = {numWaves}");
         Debug.Log($"gold = {gold}");
         Debug.Log($"hp = {hp}");
         Debug.Log($"waveCd = {waveCd}");
@@ -75,12 +75,12 @@ public class GameController : MonoBehaviour
     void HandleWave()
     {
         // Starts next wave automatically when countdown reaches zero
-        if (round == rounds.Count) return; // has reached last round => don't countdown
+        if (wave == waves.Count) return; // has reached last wave => don't countdown
         waveCountdown -= Time.deltaTime;
         UpdateUiStats();
         if (waveCountdown < 0) 
         {
-            NextRound();
+            NextWave();
         }
     }
 
@@ -88,18 +88,18 @@ public class GameController : MonoBehaviour
     {
         topBar.SetTextGold(gold);
         topBar.SetTextHp(myBase.getHp());
-        topBar.SetTextRound(round);
+        topBar.SetTextWave(wave);
         topBar.SetTextCountdown(waveCountdown);
     }
 
-    // start next round
-    public void NextRound()
+    // start next wave
+    public void NextWave()
     {
-        if (round < rounds.Count)
+        if (wave < waves.Count)
         {
-            enemySpawner.StartRound(rounds[round]);
-            round++;
-            if (round < rounds.Count) 
+            enemySpawner.StartWave(waves[wave]);
+            wave++;
+            if (wave < waves.Count) 
             {
                 waveCountdown = waveCd;
             }
@@ -181,7 +181,7 @@ public class GameController : MonoBehaviour
 
     public bool IsGameWon()
     {
-        if (round == rounds.Count && enemySpawner.GetEnemies().Count == 0) 
+        if (wave == waves.Count && enemySpawner.GetEnemies().Count == 0) 
         {
             return true;
         }
@@ -198,9 +198,9 @@ public class GameController : MonoBehaviour
         UpdateUiStats();
     }
 
-    public void OnRoundStart()
+    public void OnWaveStart()
     {
-        ++round;
+        ++wave;
         UpdateUiStats();
     }
 

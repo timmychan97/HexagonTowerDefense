@@ -1,76 +1,77 @@
 init
 	gold 1000
 	hp 1
+	waveCd 3
 end
 
-rounds 20
-round 1
+waves 20
+wave 1
 	sprinter 2
 end
-round 2
+wave 2
 	brute 100
 end
-round 3
+wave 3
 	brute 100
 	sprinter 100
 end
-round 4
+wave 4
 	sprinter 1000
 end
-round 5
+wave 5
 	sprinter 3
 end
-round 6
+wave 6
 	sprinter 5
 end
-round 7
+wave 7
 	sprinter 8
 end
-round 8 
+wave 8 
 	brute 4
 	sprinter 4
 end
-round 9
+wave 9
 	brute 10
 	sprinter 10
 end
-round 10
+wave 10
 	brute 12
 	sprinter 20
 end
-round 11
+wave 11
 	brute 12
 	sprinter 50
 end
-round 12
+wave 12
 	sprinter 100
 end
-round 13
+wave 13
 	brute 1
 end
-round 14
+wave 14
 	brute 3
 end
-round 15
+wave 15
 	brute 5
 end
-round 16
+wave 16
 	brute 12
 	sprinter 500
 end
-round 17
+wave 17
 	brute 12
 	sprinter 500
 end
-round 18
+wave 18
 	brute 12
 	sprinter 500
 end
-round 19
+wave 19
 	brute 12
 	sprinter 500
 end
-round 20
+wave 20
 	brute 1000
 	sprinter 1000
 end

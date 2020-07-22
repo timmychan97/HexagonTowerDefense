@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Round
+public class Wave : MonoBehaviour
 {
     private List<SpawnAction> spawnActions = new List<SpawnAction>();
     private int idx = 0;
