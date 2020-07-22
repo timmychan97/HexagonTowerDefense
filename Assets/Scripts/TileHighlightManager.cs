@@ -13,7 +13,7 @@ using UnityEngine;
  */
 public class TileHighlightManager : MonoBehaviour
 {
-    int MAP_LAYER_MASK = 1 << 8;
+    int MAP_LAYER_MASK = 1 << 9;
 
     // Use a list to support multiple highlights
     List<ISelectable> highlightedSelectables = new List<ISelectable>();

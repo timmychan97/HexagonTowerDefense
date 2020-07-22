@@ -5,7 +5,7 @@ using UnityEngine;
 /* Handles user mouse input on tiles
  */ 
 public class MouseControls : MonoBehaviour {
-    int MAP_LAYER_MASK = 1 << 8;
+    int MAP_LAYER_MASK = 1 << 9;
 	private Camera cam;
     KeyCode primaryMouseButton = KeyCode.Mouse0; // left mouseButton
 
