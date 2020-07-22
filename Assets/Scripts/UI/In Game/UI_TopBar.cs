@@ -4,7 +4,8 @@ using System.Collections;
 
 public class UI_TopBar : MonoBehaviour
 {
-    Color red = new Color(1.0f, 0.3f, 0.3f);
+    Color red = Color.red;
+    Color green = Color.green;
     Color white = Color.white;
     public Text textGold;
     public Text textHp;
@@ -24,9 +25,25 @@ public class UI_TopBar : MonoBehaviour
         StartCoroutine(ShowNotEnoughGold());
     }
 
+    public void OnGainGold()
+    {
+        StartCoroutine(ShowGainGold());
+    }
+
     IEnumerator ShowNotEnoughGold()
     {
         textGold.color = red;
+        textGold.fontSize = 18;
+        textGold.fontStyle = FontStyle.Bold;
+        yield return new WaitForSeconds(0.3f);
+        textGold.color = white;
+        textGold.fontSize = 14;
+        textGold.fontStyle = FontStyle.Normal;
+    }
+
+    IEnumerator ShowGainGold()
+    {
+        textGold.color = green;
         textGold.fontSize = 18;
         textGold.fontStyle = FontStyle.Bold;
         yield return new WaitForSeconds(0.3f);

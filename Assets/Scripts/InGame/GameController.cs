@@ -201,6 +201,7 @@ public class GameController : MonoBehaviour
     {
         gold += _gold;
         UpdateUiStats();
+        topBar.OnGainGold();
     }
 
     public void OnWaveStart()
