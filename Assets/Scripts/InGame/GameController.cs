@@ -114,7 +114,11 @@ public class GameController : MonoBehaviour
     // returns false when fails to buy tower (no money)
     public bool BuyTower(Tower unit) 
     {
-        if (gold < unit.cost) return false;
+        if (gold < unit.cost) 
+        {
+            topBar.OnNotEnoughGold();
+            return false;
+        }
 
         gold -= unit.cost;
         UpdateUiStats();
