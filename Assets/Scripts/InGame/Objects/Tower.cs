@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tower : TileContent, IDamagable, IPropertiesDisplayable
 {
+    public Sprite iconSmall;
     public string towerName;
     public int level;
     public string description;

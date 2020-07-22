@@ -21,7 +21,15 @@ public class UI_InGame : MonoBehaviour
     void CreateBtnTower(Tower tower)
     {
         UI_Tool_Tower toolTower = Instantiate(toolPf, transform);
-        toolTower.SetButtonText(tower.name);
+        if (tower.iconSmall != null)
+        {
+            toolTower.SetButtonSprite(tower.iconSmall);
+            toolTower.SetButtonText("");
+        }
+        else
+        {
+            toolTower.SetButtonText(tower.name);
+        }
         toolTower.tower = tower;
         toolTower.SetAction(() =>
         {

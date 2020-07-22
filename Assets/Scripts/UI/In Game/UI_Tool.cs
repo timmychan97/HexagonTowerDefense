@@ -16,6 +16,11 @@ public class UI_Tool : MonoBehaviour
         button.GetComponentInChildren<Text>().text = text;
     }
 
+    public void SetButtonSprite(Sprite sprite)
+    {
+        button.GetComponent<Image>().sprite = sprite;
+    }
+
     public void SetAction(Action action)
     {
         this.action = action;
