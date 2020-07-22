@@ -11,6 +11,7 @@ public class RoundParser : MonoBehaviour
     private int hp;
     private int gold;
     private int numRounds;
+    float waveCd = 5.0f;
     private List<Round> rounds;
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,7 @@ public class RoundParser : MonoBehaviour
         hp = 0;
         gold = 0;;
         numRounds = 0;
+        waveCd = 20.0f;
     }
 
 
@@ -31,6 +33,7 @@ public class RoundParser : MonoBehaviour
     public int GetHp() { return hp; }
     public int GetGold() { return gold; }
     public int GetNumRounds() { return numRounds; }
+    public float GetWaveCd() { return waveCd; }
 
 
     ///////////////////////////////////////////////////
@@ -74,6 +77,10 @@ public class RoundParser : MonoBehaviour
             {
                 hp = int.Parse(words[++head]);
             } 
+            else if (words[head] == "waveCd")
+            {
+                waveCd = float.Parse(words[++head]);
+            }
             else 
             {
                 Debug.LogWarning($"Error parsing init data (head = {head}): Unidentified token: {words[head]}");

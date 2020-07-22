@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
     private List<Round> rounds;
     public string roundsFilename = "level1.txt";
     string pathFileRounds;
+    public float waveCd;
+    float waveCountdown;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +42,15 @@ public class GameController : MonoBehaviour
         gold = roundParser.GetGold();
         hp = roundParser.GetHp();
         numRounds = roundParser.GetNumRounds();
+        waveCd = roundParser.GetWaveCd();
         rounds = roundParser.GetRounds();
         round = 0;
+        waveCountdown = waveCd;
         
         Debug.Log($"numRounds = {numRounds}");
         Debug.Log($"gold = {gold}");
         Debug.Log($"hp = {hp}");
+        Debug.Log($"waveCd = {waveCd}");
 
         // init UI elements
         panel_gameLost.SetActive(false);
@@ -58,7 +63,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        HandleWave();
     }
 
     void LateUpdate()
@@ -67,11 +72,24 @@ public class GameController : MonoBehaviour
         HandleGameOver();
     }
 
+    void HandleWave()
+    {
+        // Starts next wave automatically when countdown reaches zero
+        if (round == rounds.Count) return; // has reached last round => don't countdown
+        waveCountdown -= Time.deltaTime;
+        UpdateUiStats();
+        if (waveCountdown < 0) 
+        {
+            NextRound();
+        }
+    }
+
     public void UpdateUiStats()
     {
         topBar.SetTextGold(gold);
         topBar.SetTextHp(myBase.getHp());
         topBar.SetTextRound(round);
+        topBar.SetTextCountdown(waveCountdown);
     }
 
     // start next round
@@ -81,6 +99,14 @@ public class GameController : MonoBehaviour
         {
             enemySpawner.StartRound(rounds[round]);
             round++;
+            if (round < rounds.Count) 
+            {
+                waveCountdown = waveCd;
+            }
+            else
+            {
+                waveCountdown = 0;
+            }
             UpdateUiStats();
         }
     }
