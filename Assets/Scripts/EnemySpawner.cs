@@ -67,6 +67,7 @@ public class EnemySpawner : MonoBehaviour
     public void StartWave(Wave wave) 
     {
         ongoingWaves.Add(wave);
+        HandleSpawning();
     }
 
     public HashSet<Enemy> GetEnemies() { 
