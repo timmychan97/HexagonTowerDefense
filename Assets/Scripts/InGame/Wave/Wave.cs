@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Wave : MonoBehaviour
+public class Wave
 {
     private List<SpawnAction> spawnActions = new List<SpawnAction>();
     private int idx = 0;
