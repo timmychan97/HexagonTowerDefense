@@ -111,4 +111,10 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     {
         return hp;
     }
+
+
+    public float GetRange()
+    {
+        return towerRange.GetRadius();
+    }
 }

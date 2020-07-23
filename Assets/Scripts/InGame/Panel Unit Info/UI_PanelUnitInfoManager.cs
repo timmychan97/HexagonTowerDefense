@@ -14,7 +14,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
     public static UI_PanelUnitInfoManager INSTANCE;
     Camera cam;
     KeyCode primaryMouseButton = KeyCode.Mouse0; // left mouseButton
-    // Start is called before the first frame update
+
     void Start()
     {
         INSTANCE = this;
@@ -34,6 +34,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
             {
                 return;
             }
+
             // Raycast a unit and invoke click event
             int mask = (1 << unitsLayerMask);
             RaycastHit hit;
@@ -43,14 +44,20 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
                 Transform unitHit = hit.transform;
                 OnClick(unitHit.gameObject);
             }
+            else
+            {
+                CloseInfo();
+            }
         }
     }
+
     public void CloseInfo()
     {
         if (panelUnitInfo != null) 
         {
             Destroy(panelUnitInfo.gameObject);
         }
+        TowerRangeMarker.ShowTowerRangeMarkerOnTower(null);
     }
 
     public void OnClick(GameObject unit)
@@ -67,7 +74,13 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         {
             ShowInfo(displayable);
         }
+
+        // Show tower range marker, if the selected unit is a Tower
+        // TODO: Move to elsewhere, as it does not really fit in here
+        TowerRangeMarker.ShowTowerRangeMarkerOnTower(unit.GetComponent<Tower>());
     }
+
+
     public void ShowInfo(IPropertiesDisplayable displayable)
     {
         // display info of selected unit
