@@ -35,6 +35,9 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
                 return;
             }
 
+            // Do nothing if a tool is selected
+            if (UI_SelectionManager.INSTANCE.selectedTool) return;
+
             // Raycast a unit and invoke click event
             int mask = (1 << unitsLayerMask);
             RaycastHit hit;
