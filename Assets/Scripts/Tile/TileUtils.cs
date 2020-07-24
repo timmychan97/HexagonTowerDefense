@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TileUtils : MonoBehaviour
 {
-	const int MAP_LAYER_MASK = 1 << 9;
+	public const int MAP_LAYER_MASK = 1 << 9;
 	static float sqrt3 = Mathf.Sqrt(3);
 
 	/* The coordinate system look like this:

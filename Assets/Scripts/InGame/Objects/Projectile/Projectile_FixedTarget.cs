@@ -30,6 +30,7 @@ public class Projectile_FixedTarget : Projectile
 
     public override void Init(Tower _emitter, GameObject _target)
     {
+        // NOTE: this assumes that _target is idle
         orig = transform.position;
         target = _target.transform.position;
         dir = (target - orig);
@@ -55,6 +56,7 @@ public class Projectile_FixedTarget : Projectile
         dmg = _emitter.atk;
         orig = transform.position;
         target = GetPredictPos(orig, enemy.transform.position, enemy.GetVelocity());   // shoot in the direction target is moving towards
+        ToGnd(ref target);
         // set hit region
         hitRegion = Instantiate(hitRegionPf, target, transform.rotation);
 
@@ -115,6 +117,25 @@ public class Projectile_FixedTarget : Projectile
         float d = Mathf.Sqrt(b*b - 4 * a * c);  // d = discriminant
         float t =  (-b + d) / (2 * a);
         return t;
+    }
+
+    Vector3 ToGnd(ref Vector3 pos) 
+    {
+        // return 
+        Vector3 above = pos + Vector3.up * 100;
+        RaycastHit hit;
+        Ray ray = new Ray(above, Vector3.down);
+        if (Physics.Raycast(ray, out hit, 200, TileUtils.MAP_LAYER_MASK))
+        {
+			Transform objectHit = hit.transform;
+			Tile tile = objectHit.gameObject.GetComponentInParent<Tile>();
+            if (tile != null) 
+            {
+                pos += Vector3.up * (tile.GetY() - pos.y); // changes it
+            }
+
+        }
+        return pos;
     }
 
     protected void UpdatePos()
