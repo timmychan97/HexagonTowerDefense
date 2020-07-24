@@ -11,59 +11,11 @@ using UnityEngine;
  *      The class will make sure the tile is highlighted red when hovering over a path tile.
  *      And the tile is highlighted green when hovering over other tiles.
  */
-public class TileHighlightManager : MonoBehaviour
+public class TileHighlightManager : MonoBehaviour, ISelectionObserver
 {
-    int MAP_LAYER_MASK = 1 << 9;
-
-    // Use a list to support multiple highlights
-    List<ISelectable> highlightedSelectables = new List<ISelectable>();
-    List<ISelectable> toBeHighlighted = new List<ISelectable>();
-
-
-    // Update is called once per frame
-    void Update()
+    void Start()
     {
-        if (UI_SelectionManager.INSTANCE.selectedTool) {
-            DeHighlightAll(highlightedSelectables);
-            highlightedSelectables.Clear();
-
-            ISelectable selectableAtMousePos = GetSelectableAtMousePos();
-            if (selectableAtMousePos != null)
-                toBeHighlighted.Add(selectableAtMousePos);
-            // Add other tiles to be highlighted corresponding to the selected UI_Tool
-
-            if (toBeHighlighted.Count > 0)
-            {
-                if (IsValidTileForSelectedTool(selectableAtMousePos, UI_SelectionManager.INSTANCE.selectedTool))
-                    HighlightAll(toBeHighlighted, Color.green);
-                else
-                    HighlightAll(toBeHighlighted, Color.red);
-                highlightedSelectables.Add(selectableAtMousePos);
-
-                toBeHighlighted.Clear();
-            }
-        }
-    }
-
-    void DeHighlightAll(List<ISelectable> selectables) => selectables.ForEach(s => s.DeHighlight());
-
-    void HighlightAll(List<ISelectable> selectables, Color? color) => selectables.ForEach(s => s.Highlight(color));
-
-    ISelectable GetSelectableAtMousePos()
-    {
-        int cameraToSelectableDistance = 600;
-        RaycastHit a;
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(r, out a, cameraToSelectableDistance, MAP_LAYER_MASK))
-        {
-            Transform objectHit = a.transform;
-            ISelectable selectableObj = objectHit.gameObject.GetComponentInParent<ISelectable>();
-            if (selectableObj != null)
-            {
-                return selectableObj;
-            }
-        }
-        return null;
+        SelectionManager.INSTANCE.AddListener(SelectionManager.ObserverType.Tile, this);
     }
 
     /* TODO: This function adds the support for towers that covers more than one tile.
@@ -90,6 +42,45 @@ public class TileHighlightManager : MonoBehaviour
     }
 
 
-    private static void HighlightSelectable(ISelectable selectable, Color? color) => selectable.Highlight(color);
 
+    void ISelectionObserver.OnSelect(Object obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void ISelectionObserver.OnDeselect(Object obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void ISelectionObserver.OnMouseDown(Object obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void ISelectionObserver.OnMouseUp(Object obj)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void ISelectionObserver.OnMouseEnter(Object obj)
+    {
+        ISelectable selectable = (ISelectable)obj;
+        if (selectable == null) return;
+
+        if (IsValidTileForSelectedTool(selectable, UI_SelectionManager.INSTANCE.selectedTool))
+            selectable.Highlight(Color.green);
+        else
+            selectable.Highlight(Color.red);
+        print("Enter");
+    }
+
+    void ISelectionObserver.OnMouseExit(Object obj)
+    {
+        ISelectable selectable = (ISelectable)obj;
+        if (selectable == null) return;
+
+        selectable.DeHighlight();
+        print("Exit");
+    }
 }
