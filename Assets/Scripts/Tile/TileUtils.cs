@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class TileUtils : MonoBehaviour
 {
+	const int MAP_LAYER_MASK = 1 << 9;
+	static float sqrt3 = Mathf.Sqrt(3);
+
 	/* The coordinate system look like this:
 	 *					   .
 	 *					  /|\
@@ -31,8 +34,8 @@ public class TileUtils : MonoBehaviour
 
 	public static Vector3 RGBCoordsToWorld(Vector3Int coords)
 	{
-		Vector3 r = new Vector3(Mathf.Sqrt(3), 0f, -1f) / 2f;
-		Vector3 g = new Vector3(-Mathf.Sqrt(3), 0f, -1f) / 2f;
+		Vector3 r = new Vector3(sqrt3, 0f, -1f) / 2f;
+		Vector3 g = new Vector3(-sqrt3, 0f, -1f) / 2f;
 		Vector3 b = new Vector3(0f, 0f, 1f);
 
 		return coords.x * r + coords.y * g + coords.z * b;
@@ -41,13 +44,13 @@ public class TileUtils : MonoBehaviour
 	public static Vector3Int WorldToRGBCoords(Vector3 coords)
 	{
 
-		Vector3 r = new Vector3(Mathf.Sqrt(3), 0f, -1f) / 2f;
-		Vector3 g = new Vector3(-Mathf.Sqrt(3), 0f, -1f) / 2f;
+		Vector3 r = new Vector3(sqrt3, 0f, -1f) / 2f;
+		Vector3 g = new Vector3(-sqrt3, 0f, -1f) / 2f;
 		Vector3 b = new Vector3(0f, 0f, 1f);
 
 
 		var newB = coords.z;
-		var newR = (Mathf.Sqrt(3) * coords.x - coords.z) / 2f;
+		var newR = (sqrt3 * coords.x - coords.z) / 2f;
 		var newG = 0 - newR - newB;
 
 		Vector3 rgbfloat = new Vector3(newR, newG, newB);
@@ -61,4 +64,18 @@ public class TileUtils : MonoBehaviour
 		return Vector3Int.zero;
     }
 
+
+	public static Tile GetTileUnderMouse(){
+		// Raycast through mouse position, and get the Tile
+		// NOTE: returns null when no intersection
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		if (Physics.Raycast(ray, out hit, 600, MAP_LAYER_MASK))
+		{
+			Transform objectHit = hit.transform;
+			Tile tile = objectHit.gameObject.GetComponentInParent<Tile>();
+			return tile;
+        }
+		return null;
+	}
 }

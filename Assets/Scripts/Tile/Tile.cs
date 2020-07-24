@@ -139,4 +139,9 @@ public class Tile : MonoBehaviour, ISelectable {
     {
         throw new System.NotImplementedException();
     }
+
+	public float GetY()
+	{
+		return transform.position.y;
+	}
 }

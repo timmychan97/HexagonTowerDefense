@@ -20,6 +20,8 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     public int cost;
     public int sellWorth;
     public float range;
+    bool isDummy = false;
+    Tile tile;
     GameObject target = null;
     public Projectile projectile;
     HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
@@ -32,14 +34,9 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     // Start is called before the first frame update
     void Start()
     {
-        Transform t = Instantiate(pf_towerRange, transform);
-        towerRange = t.GetComponent<TowerRange>();
-        if (towerRange == null) {
-            Debug.LogWarning("Tower Range prefab has no TowerRange script applied");
-        }
-        towerRange.Init(this);
+        Init();
 
-        hp = maxHp;
+        // following are only applicable after instantiation
         atkPeriod = 1.0f / atkSpeed;
         lastAtkTime = Time.time;
     }
@@ -47,6 +44,7 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
     // Update is called once per frame
     void Update()
     {
+        if (isDummy) return;
         if (target == null) ChooseNewTarget();
 
         if (target) 
@@ -59,6 +57,19 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
             }
             HandleAtk();
         }
+    }
+
+    public void Init()
+    {
+        // initial member variables
+        // we might need them before instantiation (i.e. before Start() is called)
+        hp = maxHp;
+        Transform t = Instantiate(pf_towerRange, transform);
+        towerRange = t.GetComponent<TowerRange>();
+        if (towerRange == null) {
+            Debug.LogWarning("Tower Range prefab has no TowerRange script applied");
+        }
+        towerRange.Init(this);
     }
 
     public void HandleAtk()
@@ -115,6 +126,13 @@ public class Tower : TileContent, IDamagable, IPropertiesDisplayable
 
     public float GetRange()
     {
-        return towerRange.GetRadius();
+        return range;
+    }
+
+    public void SetIsDummy(bool b) { isDummy = true; }
+    public Tile GetTile() 
+    {
+        if (transform.parent == null) return null;
+        return transform.parent.GetComponentInParent<Tile>();
     }
 }

@@ -10,7 +10,6 @@ public class UI_Tool : MonoBehaviour
 
     private Action action;
 
-
     public void SetButtonText(string text)
     {
         button.GetComponentInChildren<Text>().text = text;
@@ -36,7 +35,6 @@ public class UI_Tool : MonoBehaviour
     public void OnClick()
     {
         UI_SelectionManager.INSTANCE.SetSelection(this);
-        Debug.Log($"SetSelection{this}");
     }
 
     public void Select()
