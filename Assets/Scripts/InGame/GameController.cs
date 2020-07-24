@@ -47,10 +47,7 @@ public class GameController : MonoBehaviour
         wave = 0;
         waveCountdown = waveCd;
         
-        Debug.Log($"numWaves = {numWaves}");
-        Debug.Log($"gold = {gold}");
-        Debug.Log($"hp = {hp}");
-        Debug.Log($"waveCd = {waveCd}");
+        Debug.Log($"numWaves = {numWaves}, gold = {gold}, hp = {hp}, waveCd = {waveCd}");
 
         // init UI elements
         panel_gameLost.SetActive(false);

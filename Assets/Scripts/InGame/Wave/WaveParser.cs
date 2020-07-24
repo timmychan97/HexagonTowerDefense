@@ -103,7 +103,6 @@ public class WaveParser : MonoBehaviour
             Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"waves\" specifying the number of waves");
         }
         List<Wave> waves = new List<Wave>(new Wave[numWaves]);
-        Debug.Log(waves);
         head++;
         while (words[head] != "end")
         {
@@ -128,7 +127,6 @@ public class WaveParser : MonoBehaviour
             }
             head++;
         }
-        Debug.Log(waves);
         return waves;
     }
     Wave ParseWave(string[] words, ref int head) 

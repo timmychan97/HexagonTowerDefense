@@ -27,9 +27,8 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
         return;
     }
 
-    private static bool IsValidTileForSelectedTool(ISelectable selectable, UI_Tool selectedTool)
+    private static bool IsValidTileForSelectedTool(Tile tile, UI_Tool selectedTool)
     {
-        Tile tile = (Tile)selectable;
         if (tile)
         {
             if (tile.HasTower())
@@ -53,20 +52,20 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
 
     void ISelectionObserver.OnMouseEnter(Object obj)
     {
-        ISelectable selectable = (ISelectable)obj;
-        if (selectable == null) return;
+        Tile tile = (Tile)obj;
+        if (tile == null) return;
 
-        if (IsValidTileForSelectedTool(selectable, UI_SelectionManager.INSTANCE.selectedTool))
-            selectable.Highlight(Color.green);
+        if (IsValidTileForSelectedTool(tile, UI_SelectionManager.INSTANCE.selectedTool))
+            tile.Highlight(Color.green);
         else
-            selectable.Highlight(Color.red);
+            tile.Highlight(Color.red);
     }
 
     void ISelectionObserver.OnMouseExit(Object obj)
     {
-        ISelectable selectable = (ISelectable)obj;
-        if (selectable == null) return;
+        Tile tile = (Tile)obj;
+        if (tile == null) return;
 
-        selectable.DeHighlight();
+        tile.DeHighlight();
     }
 }

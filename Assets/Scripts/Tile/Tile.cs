@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [SelectionBase]
-public class Tile : MonoBehaviour, ISelectable {
+public class Tile : MonoBehaviour {
 	public static Tile active;
 	public Transform tileContentContainer;
 	public Transform tileMeshContainer;
@@ -118,11 +118,6 @@ public class Tile : MonoBehaviour, ISelectable {
 		_renderer.SetPropertyBlock(_propBlock);
 	}
 
-	public void Select()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void DeHighlight()
 	{
 		var _propBlock = new MaterialPropertyBlock();
@@ -134,11 +129,6 @@ public class Tile : MonoBehaviour, ISelectable {
 		_renderer.SetPropertyBlock(_propBlock);
 
 	}
-
-    public void DeSelect()
-    {
-        throw new System.NotImplementedException();
-    }
 
 	public float GetY()
 	{
