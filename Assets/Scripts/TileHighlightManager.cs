@@ -43,25 +43,13 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
 
 
 
-    void ISelectionObserver.OnSelect(Object obj)
-    {
-        throw new System.NotImplementedException();
-    }
+    void ISelectionObserver.OnSelect(Object obj) { }
 
-    void ISelectionObserver.OnDeselect(Object obj)
-    {
-        throw new System.NotImplementedException();
-    }
+    void ISelectionObserver.OnDeselect(Object obj) { }
 
-    void ISelectionObserver.OnMouseDown(Object obj)
-    {
-        throw new System.NotImplementedException();
-    }
+    void ISelectionObserver.OnMouseDown(Object obj) { }
 
-    void ISelectionObserver.OnMouseUp(Object obj)
-    {
-        throw new System.NotImplementedException();
-    }
+    void ISelectionObserver.OnMouseUp(Object obj) { }
 
     void ISelectionObserver.OnMouseEnter(Object obj)
     {
@@ -72,7 +60,6 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
             selectable.Highlight(Color.green);
         else
             selectable.Highlight(Color.red);
-        print("Enter");
     }
 
     void ISelectionObserver.OnMouseExit(Object obj)
@@ -81,6 +68,5 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
         if (selectable == null) return;
 
         selectable.DeHighlight();
-        print("Exit");
     }
 }

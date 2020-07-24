@@ -17,15 +17,17 @@ public class SelectionManager : MonoBehaviour
 
 
 
-    private struct PrevState
+    private struct State
     {
         public Object mouseOver;
-        public bool mouseDown;
+        public Object mouseDown;
         public Object selected;
     }
 
-    PrevState tilePrevState = new PrevState();
-    PrevState unitPrevState = new PrevState();
+    State tilePrevState = new State();
+    State unitPrevState = new State();
+    State tileCurState = new State();
+    State unitCurState = new State();
 
 
     // Alias
@@ -42,32 +44,80 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
+        // Compute states
+        tileCurState = GetTileCurState();
+        unitCurState = GetUnitCurState();
+
+        if (unitCurState.selected)
+            print(((GameObject)unitCurState.selected).name);
+
+        // Propagate events to observers, based on the computed states
         UpdateUnitSelection();
 
         UpdateTileSelection();
         // Update tile after Tile selection.
         // Tile selection could place a tower on the tile
         UpdateTileHover();
-        tilePrevState.mouseDown = Input.GetKey(primaryMouseButton);
+
+
+        // Save previous states
+        tilePrevState = tileCurState;
+        unitPrevState = unitCurState;
+    }
+
+    Tile GetTileAtMousePos() => GetCompenentAtMousePos<Tile>(tilesLayerMask);
+    GameObject GetUnitAtMousePos() => GetGameObjectAtMousePos(unitsLayerMask);
+
+
+    private State GetUnitCurState()
+    {
+        var result = new State();
+
+        // If a tool is selected, set every state to null
+        if (UI_SelectionManager.INSTANCE.selectedTool) return result;
+
+        result.mouseOver = GetUnitAtMousePos();
+        result.mouseDown = Input.GetKey(primaryMouseButton) ? result.mouseOver : null;
+
+        // If the user released the mouse button while hovering over a unit,
+        // it makes the unit stay selected
+        if (result.mouseOver && result.mouseDown != unitPrevState.mouseDown && result.mouseDown == null)
+            result.selected = unitPrevState.mouseDown;
+        return result;
+    }
+
+    private State GetTileCurState()
+    {
+        var result = new State();
+        result.mouseOver = GetTileAtMousePos();
+        result.mouseDown = Input.GetKey(primaryMouseButton) ? result.mouseOver : null;
+
+        // If no selected tool, or the selected tool is being deselected on the UI
+        if (!UI_SelectionManager.INSTANCE.selectedTool)
+            result.mouseOver = null;
+        return result;
     }
 
     private void UpdateTileSelection()
     {
-        if (tilePrevState.mouseDown != Input.GetKey(primaryMouseButton))
+        if (tileCurState.mouseDown != tilePrevState.mouseDown)
         {
             // If clicked on the UI elements in front
             if (isPointerOverUIElement()) return;
 
-            // Raycast a unit and invoke click event
-            RaycastHit hit;
-            Tile tile = null;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 600, tilesLayerMask))
-                tile = hit.transform.gameObject.GetComponentInParent<Tile>();
-
-            if (tile)
+            // On mouse button release
+            if (tileCurState.mouseDown == null)
             {
+                // Propagate the mouse down event to the tile
+                Tile tile = (Tile)tilePrevState.mouseDown;
                 tile.OnClick();
+                observers[ObserverType.Tile].ForEach(e => e.OnMouseUp(tilePrevState.mouseDown));
+            }
+            else
+            {
+                Tile tile = (Tile)tileCurState.mouseDown;
+                if (tileCurState.mouseDown)
+                    observers[ObserverType.Tile].ForEach(e => e.OnMouseDown(tileCurState.mouseDown));
             }
 
         }
@@ -75,100 +125,57 @@ public class SelectionManager : MonoBehaviour
 
     private void UpdateTileHover()
     {
-        // If no selected tool, or the selected tool is deselected on the UI
-        if (!UI_SelectionManager.INSTANCE.selectedTool)
-        {
-            // If there is a tile hovered already
-            if (tilePrevState.mouseOver)
-            {
-                // Set prev to null, and then call MouseExit on the previously registered tile
-                var tmp = tilePrevState.mouseOver;
-                tilePrevState.mouseOver = null;
-                observers[ObserverType.Tile].ForEach(e => e.OnMouseExit(tmp));
-            }
-            return;
-        }
-
         // If tile at mouse pos is changed
-        ISelectable selectableAtMousePos = GetSelectableAtMousePos();
-        if ((Object)selectableAtMousePos != tilePrevState.mouseOver)
+        if (tileCurState.mouseOver != tilePrevState.mouseOver)
         {
-            var prev = tilePrevState.mouseOver;
-            tilePrevState.mouseOver = (Object)selectableAtMousePos;
-            if (prev)
-                observers[ObserverType.Tile].ForEach(e => e.OnMouseExit(prev));
-            if ((Object)selectableAtMousePos)
-                observers[ObserverType.Tile].ForEach(e => e.OnMouseEnter(tilePrevState.mouseOver));
+            if (tilePrevState.mouseOver)
+                observers[ObserverType.Tile].ForEach(e => e.OnMouseExit(tilePrevState.mouseOver));
+            if (tileCurState.mouseOver)
+                observers[ObserverType.Tile].ForEach(e => e.OnMouseEnter(tileCurState.mouseOver));
         }
 
-        // Check if the user placed a tower right now, which should OnMouseEnter once more.
+        // If the user clicked on a tile.
+        // Check if the user placed a tower, which should call OnMouseEnter once more.
         // FIXME: Fix properly
-        if (tilePrevState.mouseOver)
+        if (tileCurState.mouseDown != tilePrevState.mouseDown)
         {
-            if (tilePrevState.mouseDown != Input.GetKey(primaryMouseButton))
-            {
-                var prev = tilePrevState.mouseDown;
-                tilePrevState.mouseDown = Input.GetKey(primaryMouseButton);
-                observers[ObserverType.Tile].ForEach(e => e.OnMouseEnter(tilePrevState.mouseOver));
-            }
+            if (tilePrevState.mouseOver)
+                observers[ObserverType.Tile].ForEach(e => e.OnMouseExit(tilePrevState.mouseOver));
+            if (tileCurState.mouseOver)
+                observers[ObserverType.Tile].ForEach(e => e.OnMouseEnter(tileCurState.mouseOver));
         }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns>null when no selectable at mouse position</returns>
-    ISelectable GetSelectableAtMousePos()
-    {
-        int cameraToSelectableDistance = 600;
-        RaycastHit a;
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(r, out a, cameraToSelectableDistance, tilesLayerMask))
-        {
-            Transform objectHit = a.transform;
-            ISelectable selectableObj = objectHit.gameObject.GetComponentInParent<ISelectable>();
-            return selectableObj;
-        }
-        return null;
     }
 
     void UpdateUnitSelection()
     {
-        // If a tool is selected
-        if (UI_SelectionManager.INSTANCE.selectedTool)
+        if (unitPrevState.selected != unitCurState.selected)
         {
-            // If there is a unit selected already
+            // If clicked on the UI elements in front
+            if (isPointerOverUIElement()) return;
+
             if (unitPrevState.selected)
-            {
-                // Set prev to null, and then call SelectionDelect on the previously registered unit
-                var tmp = unitPrevState.selected;
-                unitPrevState.selected = null;
-                observers[ObserverType.Tile].ForEach(e => e.OnDeselect(tmp));
-            }
-            return;
+                observers[ObserverType.Unit].ForEach(e => e.OnDeselect(unitPrevState.selected));
+            if (unitCurState.selected)
+                observers[ObserverType.Unit].ForEach(e => e.OnSelect(unitCurState.selected));
         }
 
-        // If left mouse button not clicked
-        if (!Input.GetKey(primaryMouseButton)) return;
-
-        // If clicked on the UI elements in front
-        if (isPointerOverUIElement()) return;
+    }
 
 
-        // Raycast a unit and invoke click event
-        RaycastHit hit;
-        GameObject unitHit = null;
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 600, unitsLayerMask)) 
-            unitHit = hit.transform.gameObject;
+    GameObject GetGameObjectAtMousePos(LayerMask layerMask)
+    {
+        int cameraDistance = 600;
+        RaycastHit rh;
+        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(r, out rh, cameraDistance, layerMask))
+            return rh.transform.gameObject;
+        return default;
+    }
 
-
-        var prev = unitPrevState.selected;
-        unitPrevState.selected = unitHit;
-        if (prev)
-            observers[ObserverType.Unit].ForEach(e => e.OnDeselect(prev));
-        if (unitPrevState.selected)
-            observers[ObserverType.Unit].ForEach(e => e.OnSelect(unitPrevState.selected));
+    T GetCompenentAtMousePos<T>(LayerMask layerMask)
+    {
+        var go = GetGameObjectAtMousePos(layerMask);
+        return go ? go.GetComponentInParent<T>() : default;
     }
 
     private bool isPointerOverUIElement()
