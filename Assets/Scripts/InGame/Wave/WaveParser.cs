@@ -7,7 +7,10 @@ using System;
 public class WaveParser : MonoBehaviour
 {
     public Transform pfBrute;
+    public Transform pfBrute2;
+    public Transform pfTanker;
     public Transform pfSprinter;
+    public Transform pfSprinter2;
     private int hp;
     private int gold;
     private int numWaves;
@@ -137,22 +140,40 @@ public class WaveParser : MonoBehaviour
         head++;
         while (words[head] != "end") 
         {
-            if (words[head] == "sprinter")
-            {
-                int cnt = int.Parse(words[++head]);
-                wave.AddUnit(pfSprinter, cnt);
-            }
-            else if (words[head] == "brute")
-            {
-                int cnt = int.Parse(words[++head]);
-                wave.AddUnit(pfBrute, cnt);
-            }
-            else 
-            {
-                Debug.Log($"Error parsing wave (head = {head}): Unidentified token: {words[head]}");
-            }
+            SpawnAction spawnAction = ParseSpawnAction(words, ref head);
+            wave.AddSpawnAction(spawnAction);
             head++;
         }
         return wave;
+    }
+
+    SpawnAction ParseSpawnAction(string[] words, ref int head) 
+    {
+        SpawnAction sa = new SpawnAction();
+        if (words[head] == "sprinter" || words[head] == "sprinter1")
+        {
+            int cnt = int.Parse(words[++head]);
+            sa.SetSpawnUnit(pfSprinter, cnt);
+        }
+        else if (words[head] == "brute" || words[head] == "brute1")
+        {
+            int cnt = int.Parse(words[++head]);
+            sa.SetSpawnUnit(pfBrute, cnt);
+        }
+        else if (words[head] == "brute2")
+        {
+            int cnt = int.Parse(words[++head]);
+            sa.SetSpawnUnit(pfBrute2, cnt);
+        }
+        else if (words[head] == "tanker" || words[head] == "tanker1")
+        {
+            int cnt = int.Parse(words[++head]);
+            sa.SetSpawnUnit(pfTanker, cnt);
+        }
+        else 
+        {
+            Debug.Log($"Error parsing wave (head = {head}): Unidentified token: {words[head]}");
+        }
+        return sa;
     }
 }
