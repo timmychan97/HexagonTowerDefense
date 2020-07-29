@@ -12,31 +12,31 @@ wave 2
 	brute2 1
 end
 wave 3
-	brute2 5
+	brute2 2
 end
 wave 4
 	tanker 2
 end
 wave 5
-	brute2 4
-	tanker 4
+	brute2 2
+	tanker 2
 end
 wave 6
-	tanker 10
+	tanker 4
 end
 wave 7
-	tanker 10
-	brute2 10
+	tanker 5
+	brute2 5
 end
 wave 8 
-	tanker 30
+	tanker 10
 end
 wave 9
 	sprinter 30
 end
 wave 10
-	tanker 30
-	brute2 30
+	tanker 20
+	brute2 20
 	sprinter 30
 end
 end
