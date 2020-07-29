@@ -23,7 +23,6 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
     private int hp;
     public int worth;
     public static int totalNumEnemies = 0;
-    public Vector3 prevPos;
     private NavMeshAgent navMeshAgent;
     public HashSet<Effect> effects;
     // Start is called before the first frame update
@@ -53,11 +52,6 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
     void Update()
     {
         HandleAtk();
-    }
-
-    void LateUpdate()
-    {
-        prevPos = transform.position;
     }
 
     public void HandleAtk()
