@@ -7,7 +7,7 @@ public class Panel_SelectMode : MainMenuPanel
 {
     public MainMenuPanel panel_selectLevel;
 
-    protected void Start()
+    new void Start()
     {
         base.Start();
         // NOTE: Have to set RectTransfrom from parent!

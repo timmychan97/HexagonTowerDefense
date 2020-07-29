@@ -8,6 +8,7 @@ using System;
 
 public class GameController : MonoBehaviour
 {
+    public static GlobalSettings.Difficulty difficulty;
     public static GameController INSTANCE;
     public enum GameState {Playing, Paused, Lost, Won};
     public GameState gameState;
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour
     public WaveParser waveParser;
     public EnemySpawner enemySpawner;
     private List<Wave> waves;
-    public string wavesFilename = "level1.txt";
+    public string wavesFilename = "level1";
     string pathFileWaves;
     public float waveCd;
     float waveCountdown;
@@ -33,6 +34,18 @@ public class GameController : MonoBehaviour
         INSTANCE = this;
 
         // parse txt file containing info about waves
+        if (difficulty == GlobalSettings.Difficulty.Easy) 
+        {
+            wavesFilename += "_easy.txt";
+        }
+        else if (difficulty == GlobalSettings.Difficulty.Normal)
+        {
+            wavesFilename += "_normal.txt";
+        }
+        else
+        {
+            wavesFilename += "_hard.txt";
+        }
         pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
         Debug.Log($"Start parsing file: {pathFileWaves}");
         waveParser.ParseFileWaves(pathFileWaves);

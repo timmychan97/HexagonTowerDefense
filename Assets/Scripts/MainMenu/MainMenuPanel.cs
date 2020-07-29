@@ -51,7 +51,6 @@ public class MainMenuPanel : MonoBehaviour
         if (rectTransform == null) yield return null;
 
         float startWidth = 0;
-        Debug.Log($"{rectTransform}");
         float h = rectTransform.sizeDelta.y;
         float endWidth = rectTransform.sizeDelta.x;
         float startOpacity = 0f;
@@ -73,7 +72,6 @@ public class MainMenuPanel : MonoBehaviour
 
     protected void SetOpacity(float a)
     {
-        Debug.Log($"Set Opacity {a}");
         foreach (var b in btnList)
         {
             b.SetOpacity(a);

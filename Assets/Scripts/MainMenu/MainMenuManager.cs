@@ -6,17 +6,21 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public static MainMenuManager INSTANCE;
     public GameObject panel_mainMenu;
     public MainMenuPanel panel_selectMode;
+    public Panel_SelectDifficulty panel_selectDifficulty;
     public GameObject panel_selectLevel;
     public GameObject panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
     private string path_levelScenes = "Scenes/Levels/";
-    private string scene_lvl0 = "Scenes/TestScenes/DonnyScene"; 
+    string curScenePath;
+    GlobalSettings.Difficulty curDifficulty;
 
     // Start is called before the first frame update
     void Start()
     {
+        INSTANCE = this;
         // GenLevelBtns();
         HideMenus();
     }
@@ -33,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
         panel_options.SetActive(false);
         panel_selectLevel.SetActive(false);
         panel_selectMode.Hide();
+        panel_selectDifficulty.Hide();
     }
 
     public void GenLevelBtns()
@@ -76,20 +81,20 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void OnClickLevel()
+    public void OnSelectLevel(Btn_LoadLevel btn)
     {
-        
+        curScenePath = btn.scenePath;
+        PromptDifficulty();
     }
 
     public void PromptDifficulty()
     {
-        
+        panel_selectDifficulty.Show();
     }
 
-    public void StartGame() 
+    public void OnSelectDifficulty(GlobalSettings.Difficulty d)
     {
-        Debug.Log("Go to scene: 'Level 0 Test'");
-        SceneManager.LoadScene(scene_lvl0);
+        SceneLoader.INSTANCE.LoadScene(curScenePath, d);
     }
 
     public void QuitGame()
