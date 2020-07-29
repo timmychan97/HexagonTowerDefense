@@ -61,11 +61,7 @@ public class MainMenuManager : MonoBehaviour
         {
             HideMenus();
         }
-        else
-        {
-            HideMenus();
-            panel_selectMode.Show();
-        }
+        panel_selectMode.Show();
     }
 
     public void OnClickedOptions()
@@ -74,11 +70,7 @@ public class MainMenuManager : MonoBehaviour
         {
             HideMenus();
         }
-        else
-        {
-            HideMenus();
-            panel_options.SetActive(true);
-        }
+        panel_options.SetActive(true);
     }
 
     public void OnSelectLevel(Btn_LoadLevel btn)

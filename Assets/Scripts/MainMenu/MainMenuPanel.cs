@@ -31,11 +31,12 @@ public class MainMenuPanel : MonoBehaviour
 
     public void Show()
     {
+        Debug.Log("Show", this);
         gameObject.SetActive(true);
         StartCoroutine(ShowSelf(animDuration));
     }
 
-    public void Hide()
+    public virtual void Hide()
     {
         gameObject.SetActive(false);
     }
@@ -47,7 +48,8 @@ public class MainMenuPanel : MonoBehaviour
 
     protected IEnumerator ShowSelf(float duration)
     {
-        // RectTransform rectTransform = GetComponent<RectTransform>();
+        Debug.Log("Show");
+        RectTransform rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null) yield return null;
 
         float startWidth = 0;
