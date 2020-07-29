@@ -130,7 +130,7 @@ MonoBehaviour:
   atk: 1
   moveSpeed: 2
   atkSpeed: 1
-  maxHp: 500
+  maxHp: 600
   worth: 100
 --- !u!54 &2584187340496091028
 Rigidbody:
