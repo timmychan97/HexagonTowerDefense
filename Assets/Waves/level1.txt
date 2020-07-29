@@ -4,7 +4,7 @@ init
 	waveCd 10.0
 end
 
-waves 10
+waves
 wave 1
 	brute 1
 end
