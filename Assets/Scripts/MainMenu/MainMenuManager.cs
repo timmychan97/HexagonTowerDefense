@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuManager : MonoBehaviour
 {
     public GameObject panel_mainMenu;
-    public GameObject panel_selectMode;
+    public MainMenuPanel panel_selectMode;
     public GameObject panel_selectLevel;
     public GameObject panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
@@ -17,7 +17,7 @@ public class MainMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GenLevelBtns();
+        // GenLevelBtns();
         HideMenus();
     }
 
@@ -32,7 +32,7 @@ public class MainMenuManager : MonoBehaviour
     {
         panel_options.SetActive(false);
         panel_selectLevel.SetActive(false);
-        panel_selectMode.SetActive(false);
+        panel_selectMode.Hide();
     }
 
     public void GenLevelBtns()
@@ -50,28 +50,16 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void OnClickedCampaign()
-    {
-        if (panel_selectLevel.activeInHierarchy)
-        {
-            panel_selectLevel.SetActive(false);
-        }
-        else
-        {
-            panel_selectLevel.SetActive(true);
-        }
-    }
-
     public void OnClickedStartGame()
     {
-        if (panel_selectMode.activeInHierarchy)
+        if (panel_selectMode.gameObject.activeInHierarchy)
         {
             HideMenus();
         }
         else
         {
             HideMenus();
-            panel_selectMode.SetActive(true);
+            panel_selectMode.Show();
         }
     }
 
@@ -86,6 +74,16 @@ public class MainMenuManager : MonoBehaviour
             HideMenus();
             panel_options.SetActive(true);
         }
+    }
+
+    public void OnClickLevel()
+    {
+        
+    }
+
+    public void PromptDifficulty()
+    {
+        
     }
 
     public void StartGame() 

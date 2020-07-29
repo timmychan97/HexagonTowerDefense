@@ -4,17 +4,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Btn_LoadLevel : MonoBehaviour
+public class Btn_LoadLevel : Btn_MainMenu
 {
-    public Text text;
+    // Text text;
     Button btn;
     public string scenePath;
 
     // Start is called before the first frame update
     void Start()
     {
-        text = GetComponentInChildren<Text>();
+        // text = GetComponentInChildren<Text>();
         btn = GetComponent<Button>();
+
+        // if (text == null) 
+        // {
+        //     Debug.LogWarning("No Text component in children of Btn_LoadLevel");
+        // }
 
         btn.onClick.AddListener(OnClick);
     }
@@ -24,13 +29,8 @@ public class Btn_LoadLevel : MonoBehaviour
         SceneManager.LoadScene(scenePath);
     }
 
-    public void SetText(string s)
-    {
-        text = GetComponentInChildren<Text>();
-        if (text == null) 
-        {
-            Debug.LogWarning("No Text component in children of Btn_LoadLevel");
-        }
-        text.text = s;
-    }
+    // public void SetText(string s)
+    // {
+    //     this.text.text = s;
+    // }
 }
