@@ -6,6 +6,7 @@ public class UI_TopBar : MonoBehaviour
 {
     Color red = Color.red;
     Color green = Color.green;
+    Color yellow = Color.yellow;
     Color white = Color.white;
     public Text textGold;
     public Text textHp;
@@ -28,6 +29,22 @@ public class UI_TopBar : MonoBehaviour
     public void OnGainGold()
     {
         StartCoroutine(ShowGainGold());
+    }
+
+    public void onSpendGold()
+    {
+        StartCoroutine(ShowSpendGold());
+    }
+
+    IEnumerator ShowSpendGold()
+    {
+        textGold.color = yellow;
+        textGold.fontSize = 18;
+        textGold.fontStyle = FontStyle.Bold;
+        yield return new WaitForSeconds(0.3f);
+        textGold.color = white;
+        textGold.fontSize = 14;
+        textGold.fontStyle = FontStyle.Normal;
     }
 
     IEnumerator ShowNotEnoughGold()

@@ -121,6 +121,7 @@ public class GameController : MonoBehaviour
         }
 
         gold -= unit.cost;
+        topBar.onSpendGold();
         UpdateUiStats();
         return true;
     }
