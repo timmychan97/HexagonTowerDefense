@@ -13,6 +13,11 @@ public class Wave
         spawnActions.Add(action);
     }
 
+    public void AddSpawnAction(SpawnAction spawnAction)
+    {
+        spawnActions.Add(spawnAction);
+    }
+
     public List<SpawnAction> GetSpawnActions()
     {
         return spawnActions;
