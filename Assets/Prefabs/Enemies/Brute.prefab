@@ -88,8 +88,7 @@ MonoBehaviour:
   moveSpeed: 3
   atkSpeed: 1
   maxHp: 100
-  worth: 80
-  prevPos: {x: 0, y: 0, z: 0}
+  worth: 70
 --- !u!195 &6703593170849819156
 NavMeshAgent:
   m_ObjectHideFlags: 0

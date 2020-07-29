@@ -87,9 +87,8 @@ MonoBehaviour:
   atk: 16
   moveSpeed: 3
   atkSpeed: 1
-  maxHp: 200
+  maxHp: 300
   worth: 100
-  prevPos: {x: 0, y: 0, z: 0}
 --- !u!195 &7150910318308204630
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -170,7 +169,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 3803413693955921579, guid: b64c32a69c1ed9148b5c0473dedcc062, type: 3}
+  - {fileID: -3534392140715823719, guid: 3a43bc87f53894f4481c7f20acb862f5, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
