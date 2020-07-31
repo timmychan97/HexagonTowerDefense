@@ -9,25 +9,30 @@ public class UI_SelectionManager : MonoBehaviour
 
     void Start() => INSTANCE = this;
 
+    private void Update()
+    {
+        // Right click deselect selected tool
+        if (Input.GetMouseButtonDown(1) && selectedTool)
+        {
+            if (!UI_Utils.IsPointerOverUIElement())
+            {
+                DeselectTool();
+            }
+        } 
+    }
     public void SetSelection(UI_Tool tool)
     {
         if (selectedTool == tool)
         {
-            DummyTowerManager.INSTANCE.OnToolDeselected(selectedTool);
-            selectedTool.Deselect();
-            selectedTool = null;
+            DeselectTool();
         }
         else
         {
             if (selectedTool)
             {
-                selectedTool.Deselect();
+                DeselectTool();
             }
-
-            selectedTool = tool;
-            Debug.Log("Changed tool");
-            selectedTool.Select();
-            DummyTowerManager.INSTANCE.OnToolSelected(selectedTool);
+            SelectTool(tool);
         }
     }
 
@@ -44,5 +49,20 @@ public class UI_SelectionManager : MonoBehaviour
             return false;
         }
         return true;
+    }
+
+    public void DeselectTool()
+    {
+        DummyTowerManager.INSTANCE.OnToolDeselected(selectedTool);
+        selectedTool.Deselect();
+        selectedTool = null;
+    }
+
+    public void SelectTool(UI_Tool tool)
+    {
+        selectedTool = tool;
+        Debug.Log("Changed tool");
+        selectedTool.Select();
+        DummyTowerManager.INSTANCE.OnToolSelected(selectedTool);
     }
 }

@@ -4,8 +4,6 @@ using UnityEngine;
 
 /* This class listens to the selected UI_Tool and changes the highlight method accordingly
  * 
- * FIXME: Can be optimized better, but no need to, yet.
- * 
  * Example:
  *      A tower that can only be placed on non-Path tiles is the selected tool.
  *      The class will make sure the tile is highlighted red when hovering over a path tile.

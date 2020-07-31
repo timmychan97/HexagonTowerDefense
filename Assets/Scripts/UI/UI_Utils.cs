@@ -46,4 +46,12 @@ public class UI_Utils : MonoBehaviour
 
         return true;
     }
+
+    public static bool IsPointerOverUIElement()
+    {
+        var currentEventSystem = UnityEngine.EventSystems.EventSystem.current;
+        bool hasCanvasUI = currentEventSystem != null;
+        bool isPointerOverUIElement = currentEventSystem.IsPointerOverGameObject();
+        return hasCanvasUI && isPointerOverUIElement;
+    }
 }

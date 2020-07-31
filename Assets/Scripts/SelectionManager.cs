@@ -103,7 +103,7 @@ public class SelectionManager : MonoBehaviour
         if (tileCurState.mouseDown != tilePrevState.mouseDown)
         {
             // If clicked on the UI elements in front
-            if (isPointerOverUIElement()) return;
+            if (UI_Utils.IsPointerOverUIElement()) return;
 
             // On mouse button release
             if (tileCurState.mouseDown == null)
@@ -151,7 +151,7 @@ public class SelectionManager : MonoBehaviour
         if (unitPrevState.selected != unitCurState.selected)
         {
             // If clicked on the UI elements in front
-            if (isPointerOverUIElement()) return;
+            if (UI_Utils.IsPointerOverUIElement()) return;
 
             if (unitPrevState.selected)
                 observers[ObserverType.Unit].ForEach(e => e.OnDeselect(unitPrevState.selected));
@@ -177,15 +177,6 @@ public class SelectionManager : MonoBehaviour
         var go = GetGameObjectAtMousePos(layerMask);
         return go ? go.GetComponentInParent<T>() : default;
     }
-
-    private bool isPointerOverUIElement()
-    {
-        var currentEventSystem = UnityEngine.EventSystems.EventSystem.current;
-        bool hasCanvasUI = currentEventSystem != null;
-        bool isPointerOverUIElement = currentEventSystem.IsPointerOverGameObject();
-        return hasCanvasUI && isPointerOverUIElement;
-    }
-
 
     public void AddListener(ObserverType type, ISelectionObserver observer)
     {
