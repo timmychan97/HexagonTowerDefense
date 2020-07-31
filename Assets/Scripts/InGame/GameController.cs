@@ -191,6 +191,16 @@ public class GameController : MonoBehaviour
         panel_pause.SetActive(false);
     }
 
+    public bool IsGamePlaying()
+    {
+        return gameState == GameState.Playing;
+    }
+
+    public bool IsGamePaused()
+    {
+        return gameState == GameState.Paused;
+    }
+
     public bool IsGameLost()
     {
         if (myBase.getHp() <= 0) return true;

@@ -71,11 +71,22 @@ public class UI_TopBar : MonoBehaviour
 
     public void OnBtnNextWaveClicked()
     {
-        GameController.INSTANCE.NextWave();
+        if (GameController.INSTANCE.IsGamePlaying()) 
+        {
+            GameController.INSTANCE.NextWave();
+        }
     }
 
     public void OnBtnPauseClicked()
     {
-        GameController.INSTANCE.PauseGame();
+        if (GameController.INSTANCE.IsGamePlaying()) 
+        {
+            
+            GameController.INSTANCE.PauseGame();
+        }
+        else if (GameController.INSTANCE.IsGamePaused())
+        {
+            GameController.INSTANCE.ResumeGame();
+        }
     }
 }
