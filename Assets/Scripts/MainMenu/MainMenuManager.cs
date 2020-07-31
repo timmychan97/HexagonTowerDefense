@@ -8,10 +8,9 @@ public class MainMenuManager : MonoBehaviour
 {
     public static MainMenuManager INSTANCE;
     public GameObject panel_mainMenu;
-    public MainMenuPanel panel_selectMode;
+    public Panel_SelectMode panel_selectMode;
     public Panel_SelectDifficulty panel_selectDifficulty;
-    public GameObject panel_selectLevel;
-    public GameObject panel_options;
+    public Panel_Options panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
     private string path_levelScenes = "Scenes/Levels/";
     Level curLevel;
@@ -21,7 +20,7 @@ public class MainMenuManager : MonoBehaviour
     void Start()
     {
         INSTANCE = this;
-        // GenLevelBtns();
+        ClearData();    // TURN THIS OFF WHEN BUILDING PROJECT!!!
 
         HideMenus();
         Time.timeScale = 1.0f;
@@ -33,47 +32,19 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
+    // Clear all player data, when developing, this is to make sure completed levels
+    // are not registered as completed.
+    public void ClearData()
+    {
+        PlayerPrefs.DeleteAll();
+    }
+
     // hide all menus except main menu
     void HideMenus()
     {
-        panel_options.SetActive(false);
-        panel_selectLevel.SetActive(false);
+        panel_options.Hide();
         panel_selectMode.Hide();
         panel_selectDifficulty.Hide();
-    }
-
-    public void GenLevelBtns()
-    {
-        List<Level> levels = LevelManager.INSTANCE.GetLevels();
-        foreach (Level level in levels)
-        {
-            Btn_LoadLevel btn = Instantiate(pf_btnLoadLevel, panel_selectLevel.transform);
-            btn.SetLevel(level);
-        }
-    }
-
-    public void OnStartGameClicked()
-    {
-        if (panel_selectMode.gameObject.activeInHierarchy)
-        {
-            HideMenus();
-        }
-        panel_selectMode.Show();
-    }
-
-    public void OnClickedOptions()
-    {
-        if (panel_options.activeInHierarchy)
-        {
-            HideMenus();
-        }
-        panel_options.SetActive(true);
-    }
-
-    public void OnLevelSelected(Level level)
-    {
-        curLevel = level;
-        PromptDifficulty();
     }
 
     public void PromptDifficulty()
@@ -95,5 +66,46 @@ public class MainMenuManager : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    ///////////////////////////////////////////
+    //           Event Listeners
+    ///////////////////////////////////////////
+    public void OnStartGameClicked()
+    {
+        if (panel_selectMode.gameObject.activeInHierarchy) 
+        {
+            // HideMenus();
+            panel_selectMode.HideWithAnimation();
+        } 
+        else 
+        {
+            HideMenus();
+            panel_selectMode.Show();
+        }
+    }
+
+    public void OnOptionsClicked()
+    {
+        if (panel_options.gameObject.activeInHierarchy)
+        {
+            panel_options.HideWithAnimation();
+        }
+        else
+        {
+            HideMenus();
+            panel_options.Show();
+        }
+    }
+
+    public void OnLevelSelected(Level level)
+    {
+        curLevel = level;
+        PromptDifficulty();
+    }
+
+    public void OnQuitGameClicked()
+    {
+        QuitGame();
     }
 }

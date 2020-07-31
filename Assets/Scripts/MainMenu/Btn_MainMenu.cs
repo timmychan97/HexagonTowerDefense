@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class Btn_MainMenu : MonoBehaviour
 {
     public Text text;
+    Image img;
     
     protected void Start()
     {
         text = GetComponentInChildren<Text>();
+        img = GetComponent<Image>();
 
         if (text == null) 
         {
@@ -20,9 +22,12 @@ public class Btn_MainMenu : MonoBehaviour
 
     public void SetOpacity(float a)
     {
-        Image img = GetComponent<Image>();
         img.color = new Color(1f, 1f, 1f, a);
         text.color = new Color(1f, 1f, 1f, a);
+    }
+
+    public float GetOpacity() {
+        return img.color.a;
     }
 
     public void SetText(string s)
