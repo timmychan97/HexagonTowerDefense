@@ -7,7 +7,7 @@ public class Btn_MainMenu : MonoBehaviour
 {
     public Text text;
     
-    void Start()
+    protected void Start()
     {
         text = GetComponentInChildren<Text>();
 

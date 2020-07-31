@@ -8,7 +8,7 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    public static GlobalSettings.Difficulty difficulty;
+    public static Level level;
     public static GameController INSTANCE;
     public enum GameState {Playing, Paused, Lost, Won};
     public GameState gameState;
@@ -34,17 +34,17 @@ public class GameController : MonoBehaviour
         INSTANCE = this;
 
         // parse txt file containing info about waves
-        if (difficulty == GlobalSettings.Difficulty.Easy) 
+        if (level.difficulty == GlobalSettings.Difficulty.Easy) 
         {
-            wavesFilename += "_easy.txt";
+            wavesFilename = level.GetWavesFile() + "_easy.txt";
         }
-        else if (difficulty == GlobalSettings.Difficulty.Normal)
+        else if (level.difficulty == GlobalSettings.Difficulty.Normal)
         {
-            wavesFilename += "_normal.txt";
+            wavesFilename = level.GetWavesFile() + "_normal.txt";
         }
         else
         {
-            wavesFilename += "_hard.txt";
+            wavesFilename = level.GetWavesFile() + "_hard.txt";
         }
         pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
         Debug.Log($"Start parsing file: {pathFileWaves}");
@@ -151,6 +151,7 @@ public class GameController : MonoBehaviour
     {
         gameState = GameState.Won;
         panel_gameWon.SetActive(true);
+        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
     }
 
     public void HandleGameOver() 

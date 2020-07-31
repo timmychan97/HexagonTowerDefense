@@ -19,9 +19,9 @@ public class SceneLoader : MonoBehaviour
         
     }
 
-    public void LoadScene(string scenePath, GlobalSettings.Difficulty difficulty) 
+    public void LoadLevel(Level level)
     {
-        GameController.difficulty = difficulty;
-        SceneManager.LoadScene(scenePath);
+        GameController.level = level;
+        SceneManager.LoadScene(level.GetScenePath());
     }
 }

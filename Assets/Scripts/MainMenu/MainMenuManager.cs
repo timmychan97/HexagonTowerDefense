@@ -14,7 +14,7 @@ public class MainMenuManager : MonoBehaviour
     public GameObject panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
     private string path_levelScenes = "Scenes/Levels/";
-    string curScenePath;
+    Level curLevel;
     GlobalSettings.Difficulty curDifficulty;
 
     // Start is called before the first frame update
@@ -22,6 +22,7 @@ public class MainMenuManager : MonoBehaviour
     {
         INSTANCE = this;
         // GenLevelBtns();
+
         HideMenus();
         Time.timeScale = 1.0f;
     }
@@ -43,16 +44,11 @@ public class MainMenuManager : MonoBehaviour
 
     public void GenLevelBtns()
     {
-        var dirInfo = new DirectoryInfo("Assets/" + path_levelScenes);
-        var allFileInfos = dirInfo.GetFiles("*.unity", SearchOption.AllDirectories);
-        int n = 1;
-        foreach (var fileInfo in allFileInfos)
+        List<Level> levels = LevelManager.INSTANCE.GetLevels();
+        foreach (Level level in levels)
         {
             Btn_LoadLevel btn = Instantiate(pf_btnLoadLevel, panel_selectLevel.transform);
-            btn.scenePath = path_levelScenes + fileInfo.Name.Substring(0, fileInfo.Name.Length - 6);
-            btn.SetText(n.ToString());
-            ++n;
-            Debug.Log(fileInfo.Name);
+            btn.SetLevel(level);
         }
     }
 
@@ -74,20 +70,22 @@ public class MainMenuManager : MonoBehaviour
         panel_options.SetActive(true);
     }
 
-    public void OnLevelSelected(Btn_LoadLevel btn)
+    public void OnLevelSelected(Level level)
     {
-        curScenePath = btn.scenePath;
+        curLevel = level;
         PromptDifficulty();
     }
 
     public void PromptDifficulty()
     {
+        Debug.Log("PromptDiff");
         panel_selectDifficulty.Show();
     }
 
     public void OnDifficultySelected(GlobalSettings.Difficulty d)
     {
-        SceneLoader.INSTANCE.LoadScene(curScenePath, d);
+        curLevel.difficulty = d;
+        SceneLoader.INSTANCE.LoadLevel(curLevel);
     }
 
     public void QuitGame()

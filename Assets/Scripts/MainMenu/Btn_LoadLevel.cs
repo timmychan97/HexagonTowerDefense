@@ -6,32 +6,39 @@ using UnityEngine.SceneManagement;
 
 public class Btn_LoadLevel : Btn_MainMenu
 {
-    // Text text;
     Button btn;
-    public string scenePath;
+    public Level level;
+    public GameObject lockedFilter;
+    public bool unlocked;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        // text = GetComponentInChildren<Text>();
+        base.Start();
         btn = GetComponent<Button>();
-
-        // if (text == null) 
-        // {
-        //     Debug.LogWarning("No Text component in children of Btn_LoadLevel");
-        // }
-
         btn.onClick.AddListener(OnClick);
+
+        text.text = level.levelName;
+        HandleLock();
     }
 
     public void OnClick()
     {
-        // SceneManager.LoadScene(scenePath);
-        MainMenuManager.INSTANCE.OnLevelSelected(this);
+        if (unlocked) 
+        {
+            MainMenuManager.INSTANCE.OnLevelSelected(level);
+        }
     }
 
-    // public void SetText(string s)
-    // {
-    //     this.text.text = s;
-    // }
+    void HandleLock()
+    {
+        int maxLevelCompleted = PlayerPrefs.GetInt("MaxLevelCompleted", 0); // level ID starts from 1
+        unlocked = maxLevelCompleted+1 >= level.levelId;
+        lockedFilter.SetActive(!unlocked);
+    }
+
+    public void SetLevel(Level level) 
+    {
+        text.text = level.levelName;
+    }
 }
