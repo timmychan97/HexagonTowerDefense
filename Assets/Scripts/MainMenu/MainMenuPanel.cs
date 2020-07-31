@@ -5,13 +5,25 @@ using UnityEngine;
 public class MainMenuPanel : MonoBehaviour
 {
     protected RectTransform rectTransform;
-    List<Btn_MainMenu> btnList = new List<Btn_MainMenu>();
+    protected List<Btn_MainMenu> btnList = new List<Btn_MainMenu>();
     public float animDuration = 0.5f;
+
     // Start is called before the first frame update
+
     protected void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        SetMemberVars();
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    void SetMemberVars()
+    {
+        rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null)
         {
             Debug.LogWarning("No RectTransform component found on MainMenuPanel");
@@ -23,16 +35,11 @@ public class MainMenuPanel : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Show()
     {
-        Debug.Log("Show", this);
         gameObject.SetActive(true);
+        SetMemberVars();
+        rectTransform = GetComponent<RectTransform>();
         StartCoroutine(ShowSelf(animDuration));
     }
 
@@ -48,17 +55,20 @@ public class MainMenuPanel : MonoBehaviour
 
     protected IEnumerator ShowSelf(float duration)
     {
-        Debug.Log("Show");
         RectTransform rectTransform = GetComponent<RectTransform>();
-        if (rectTransform == null) yield return null;
+        if (rectTransform == null) 
+        {
+            Debug.LogWarning("No RectTransform!");
+        }
 
-        float startWidth = 0;
+        float startWidth = 20;
+        float startOpacity = 0.3f;
         float h = rectTransform.sizeDelta.y;
+
         float endWidth = rectTransform.sizeDelta.x;
-        float startOpacity = 0f;
         float endOpacity = 1f;
 
-        float time = 0.0f;
+        float time = 0;
         while (time < duration)
         {
             float t = time / duration;

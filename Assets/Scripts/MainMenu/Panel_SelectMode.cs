@@ -9,7 +9,7 @@ public class Panel_SelectMode : MainMenuPanel
     new void Start()
     {
         base.Start();
-        // panel_selectLevel.Hide();
+        panel_selectLevel.Hide();
     }
 
     public void OnClickedCampaign()

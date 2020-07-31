@@ -60,10 +60,10 @@ public class GameController : MonoBehaviour
         wave = 0;
         waveCountdown = waveCd;
         
-        Debug.Log($"numWaves = {numWaves}");
-        Debug.Log($"gold = {gold}");
-        Debug.Log($"hp = {hp}");
-        Debug.Log($"waveCd = {waveCd}");
+        // Debug.Log($"numWaves = {numWaves}");
+        // Debug.Log($"gold = {gold}");
+        // Debug.Log($"hp = {hp}");
+        // Debug.Log($"waveCd = {waveCd}");
 
         // init UI elements
         panel_gameLost.SetActive(false);
@@ -218,6 +218,7 @@ public class GameController : MonoBehaviour
     }
     public void BackToMainMenu() 
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Main Menu");
     }
 

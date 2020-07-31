@@ -27,7 +27,7 @@ public class Btn_LoadLevel : Btn_MainMenu
     public void OnClick()
     {
         // SceneManager.LoadScene(scenePath);
-        MainMenuManager.INSTANCE.OnSelectLevel(this);
+        MainMenuManager.INSTANCE.OnLevelSelected(this);
     }
 
     // public void SetText(string s)

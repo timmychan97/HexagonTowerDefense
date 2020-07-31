@@ -23,6 +23,7 @@ public class MainMenuManager : MonoBehaviour
         INSTANCE = this;
         // GenLevelBtns();
         HideMenus();
+        Time.timeScale = 1.0f;
     }
 
     // Update is called once per frame
@@ -55,7 +56,7 @@ public class MainMenuManager : MonoBehaviour
         }
     }
 
-    public void OnClickedStartGame()
+    public void OnStartGameClicked()
     {
         if (panel_selectMode.gameObject.activeInHierarchy)
         {
@@ -73,7 +74,7 @@ public class MainMenuManager : MonoBehaviour
         panel_options.SetActive(true);
     }
 
-    public void OnSelectLevel(Btn_LoadLevel btn)
+    public void OnLevelSelected(Btn_LoadLevel btn)
     {
         curScenePath = btn.scenePath;
         PromptDifficulty();
@@ -84,7 +85,7 @@ public class MainMenuManager : MonoBehaviour
         panel_selectDifficulty.Show();
     }
 
-    public void OnSelectDifficulty(GlobalSettings.Difficulty d)
+    public void OnDifficultySelected(GlobalSettings.Difficulty d)
     {
         SceneLoader.INSTANCE.LoadScene(curScenePath, d);
     }

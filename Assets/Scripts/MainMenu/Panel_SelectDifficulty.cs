@@ -37,14 +37,14 @@ public class Panel_SelectDifficulty : MonoBehaviour
 
     public void OnClickEasy()
     {
-        MainMenuManager.INSTANCE.OnSelectDifficulty(GlobalSettings.Difficulty.Easy);
+        MainMenuManager.INSTANCE.OnDifficultySelected(GlobalSettings.Difficulty.Easy);
     }
     public void OnClickNormal()
     {
-        MainMenuManager.INSTANCE.OnSelectDifficulty(GlobalSettings.Difficulty.Normal);
+        MainMenuManager.INSTANCE.OnDifficultySelected(GlobalSettings.Difficulty.Normal);
     }
     public void OnClickHard()
     {
-        MainMenuManager.INSTANCE.OnSelectDifficulty(GlobalSettings.Difficulty.Hard);
+        MainMenuManager.INSTANCE.OnDifficultySelected(GlobalSettings.Difficulty.Hard);
     }
 }
