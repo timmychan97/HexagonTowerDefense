@@ -12,14 +12,14 @@ wave 2
 	brute2 1
 end
 wave 3
-	brute2 2
+	brute2 1
 end
 wave 4
-	tanker 2
+	tanker 1
 end
 wave 5
 	brute2 2
-	tanker 2
+	tanker 1
 end
 wave 6
 	tanker 4
