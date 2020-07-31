@@ -133,7 +133,7 @@ public class WaveParser : MonoBehaviour
             }
             head++;
         }
-        Debug.Log(waves);
+        // Debug.Log(waves);
         return waves;
     }
     Wave ParseWave(string[] words, ref int head) 
