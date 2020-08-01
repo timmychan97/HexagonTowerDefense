@@ -7,7 +7,11 @@ using UnityEngine.SceneManagement;
 public class Btn_LoadLevel : Btn_MainMenu
 {
     Button btn;
-    public Level level;
+    public int levelId;
+    public string levelName;
+    public string levelDescription;
+    public Sprite levelSprite;
+
     public GameObject lockedFilter;
     public bool unlocked;
 
@@ -18,7 +22,7 @@ public class Btn_LoadLevel : Btn_MainMenu
         btn = GetComponent<Button>();
         btn.onClick.AddListener(OnClick);
 
-        text.text = level.levelName;
+        text.text = levelName;
         HandleLock();
     }
 
@@ -26,6 +30,7 @@ public class Btn_LoadLevel : Btn_MainMenu
     {
         if (unlocked) 
         {
+            Level level = new Level(levelName, levelDescription, levelId);
             MainMenuManager.INSTANCE.OnLevelSelected(level);
         }
     }
@@ -33,7 +38,7 @@ public class Btn_LoadLevel : Btn_MainMenu
     void HandleLock()
     {
         int maxLevelCompleted = PlayerPrefs.GetInt("MaxLevelCompleted", 0); // level ID starts from 1
-        unlocked = maxLevelCompleted+1 >= level.levelId;
+        unlocked = maxLevelCompleted + 1 >= levelId;
         lockedFilter.SetActive(!unlocked);
     }
 

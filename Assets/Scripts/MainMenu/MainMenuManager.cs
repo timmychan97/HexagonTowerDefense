@@ -19,9 +19,11 @@ public class MainMenuManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (GlobalSettings.oneTime) {
+            ClearData();
+            GlobalSettings.oneTime = false;
+        }
         INSTANCE = this;
-        ClearData();    // TURN THIS OFF WHEN BUILDING PROJECT!!!
-
         HideMenus();
         Time.timeScale = 1.0f;
     }
@@ -37,6 +39,7 @@ public class MainMenuManager : MonoBehaviour
     public void ClearData()
     {
         PlayerPrefs.DeleteAll();
+        Debug.Log("Clear PlayerPrefs");
     }
 
     // hide all menus except main menu
@@ -49,14 +52,7 @@ public class MainMenuManager : MonoBehaviour
 
     public void PromptDifficulty()
     {
-        Debug.Log("PromptDiff");
         panel_selectDifficulty.Show();
-    }
-
-    public void OnDifficultySelected(GlobalSettings.Difficulty d)
-    {
-        curLevel.difficulty = d;
-        SceneLoader.INSTANCE.LoadLevel(curLevel);
     }
 
     public void QuitGame()
@@ -102,6 +98,12 @@ public class MainMenuManager : MonoBehaviour
     {
         curLevel = level;
         PromptDifficulty();
+    }
+    
+    public void OnDifficultySelected(GlobalSettings.Difficulty d)
+    {
+        curLevel.difficulty = d;
+        SceneLoader.INSTANCE.LoadLevel(curLevel);
     }
 
     public void OnQuitGameClicked()

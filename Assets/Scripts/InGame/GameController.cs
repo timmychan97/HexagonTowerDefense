@@ -39,15 +39,17 @@ public class GameController : MonoBehaviour
             level = Level.DEFAULT;
         }
         Init();
-        ParseFileWaves(level);
-        InitUI();
         gameState = GameState.Playing;
     }
 
     void Init()
     {
+        level = GlobalSettings.level;
         enemySpawner.ClearAll();
         Time.timeScale = 1.0f;
+        gameState = GameState.Playing;
+        ParseFileWaves(level);
+        InitUI();
     }
 
     void InitUI()
@@ -79,6 +81,10 @@ public class GameController : MonoBehaviour
             {
                 wavesFilename = level.GetWavesFile() + "_hard.txt";
             }
+        }
+        else 
+        {
+            Debug.LogWarning("Level is null");
         }
         pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
         Debug.Log($"Start parsing file: {pathFileWaves}");
@@ -135,6 +141,7 @@ public class GameController : MonoBehaviour
     // start next wave
     public void NextWave()
     {
+        if (!IsGamePlaying()) return;
         if (wave < waves.Count)
         {
             enemySpawner.StartWave(waves[wave]);
@@ -205,11 +212,11 @@ public class GameController : MonoBehaviour
     {
         gameState = GameState.Won;
         panel_gameWon.SetActive(true);
-        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
     }
 
     public void HandleGameOver() 
     {
+        if (!IsGamePlaying()) return;
         if (IsGameLost())
         {
             OnGameLost();
@@ -269,7 +276,6 @@ public class GameController : MonoBehaviour
         Init();
         ParseFileWaves(level);
         InitUI();
-        ResumeGame();
     }
 
     //////////////////////////////////////////

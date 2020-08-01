@@ -7,11 +7,17 @@ public class Btn_MainMenu : MonoBehaviour
 {
     public Text text;
     Image img;
-    
-    protected void Start()
+
+    void Awake()
     {
         text = GetComponentInChildren<Text>();
         img = GetComponent<Image>();
+    }
+    
+    protected void Start()
+    {
+        // text = GetComponentInChildren<Text>();
+        // img = GetComponent<Image>();
 
         if (text == null) 
         {

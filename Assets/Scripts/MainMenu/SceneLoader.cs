@@ -21,6 +21,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadLevel(Level level)
     {
+        GlobalSettings.level = level;
         GameController.level = level;
         SceneManager.LoadScene(level.GetScenePath());
     }
