@@ -8,35 +8,35 @@ using UnityEditor;
 
 public class UI_InGame : MonoBehaviour
 {
-    public UI_Tool_Tower toolPf;
+    public UI_Tool_Unit toolPf;
 
-    private static string PATH_TOWER_MESH = "TowerMeshes";
+    private static string PATH_TOWER_MESH = "UnitMeshes";
 
     void Start()
     {
-        Tower[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Tower>(PATH_TOWER_MESH);
-        Array.ForEach(towerMeshPf, x => CreateBtnTower(x));
+        Unit[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Unit>(PATH_TOWER_MESH);
+        Array.ForEach(towerMeshPf, x => CreateBtnUnit(x));
     }
 
-    void CreateBtnTower(Tower tower)
+    void CreateBtnUnit(Unit unit)
     {
-        UI_Tool_Tower toolTower = Instantiate(toolPf, transform);
-        if (tower.iconSmall != null)
+        UI_Tool_Unit toolUnit = Instantiate(toolPf, transform);
+        if (unit.iconSmall != null)
         {
-            toolTower.SetButtonSprite(tower.iconSmall);
-            toolTower.SetButtonText("");
+            toolUnit.SetButtonSprite(unit.iconSmall);
+            toolUnit.SetButtonText("");
         }
         else
         {
-            toolTower.SetButtonText(tower.name);
+            toolUnit.SetButtonText(unit.name);
         }
-        toolTower.tower = tower;
-        toolTower.SetAction(() =>
+        toolUnit.unit = unit;
+        toolUnit.SetAction(() =>
         {
             if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            if (Tile.active.CanPlaceTower() && GameController.INSTANCE.BuyTower(tower))
+            if (Tile.active.CanPlaceUnit() && GameController.INSTANCE.BuyUnit(unit))
             {
-                TileManager.INSTANCE.SetTileContent(tower.gameObject);
+                TileManager.INSTANCE.SetTileContent(unit.gameObject);
             }
         });
     }

@@ -8,7 +8,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
     int unitsLayerMask;
     public Canvas canvas;
     public UI_PanelUnitInfo_Enemy pf_enemyPanel;
-    public UI_PanelUnitInfo_Tower pf_towerPanel;
+    public UI_PanelUnitInfo_Unit pf_towerPanel;
     UI_PanelUnitInfo panelUnitInfo;
     public IPropertiesDisplayable displaying;
     public static UI_PanelUnitInfoManager INSTANCE;
@@ -60,7 +60,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         {
             Destroy(panelUnitInfo.gameObject);
         }
-        TowerRangeMarker.ShowTowerRangeMarkerOnTower(null);
+        UnitRangeMarker.ShowTowerRangeMarkerOnTower(null);
     }
 
     public void OnClick(GameObject unit)
@@ -80,7 +80,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
 
         // Show tower range marker, if the selected unit is a Tower
         // TODO: Move to elsewhere, as it does not really fit in here
-        TowerRangeMarker.ShowTowerRangeMarkerOnTower(unit.GetComponent<Tower>());
+        UnitRangeMarker.ShowTowerRangeMarkerOnTower(unit.GetComponent<Unit>());
     }
 
 

@@ -10,12 +10,12 @@ public class UI_Tool_Sell : UI_Tool
         SetAction(() => {
             Debug.Log("Trigger Sell action");
             if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            Tower tower = Tile.active.GetTower();
+            Unit tower = Tile.active.GetUnit();
             Debug.Log($"Tile.active: {Tile.active}");
             Debug.Log($"tower: {tower}");
             if (tower != null)
             {
-                GameController.INSTANCE.OnSellTower(tower);
+                GameController.INSTANCE.OnSellUnit(tower);
                 Destroy(tower.gameObject);
             }
         });

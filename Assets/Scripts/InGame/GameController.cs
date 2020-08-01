@@ -140,7 +140,7 @@ public class GameController : MonoBehaviour
     }
 
     // returns false when fails to buy tower (no money)
-    public bool BuyTower(Tower unit) 
+    public bool BuyUnit(Unit unit) 
     {
         if (gold < unit.cost) 
         {
@@ -251,7 +251,7 @@ public class GameController : MonoBehaviour
         UpdateUiStats();
     }
 
-    public void OnSellTower(Tower t)
+    public void OnSellUnit(Unit t)
     {
         gold += t.sellWorth;
         UpdateUiStats();

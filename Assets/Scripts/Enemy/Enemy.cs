@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     public void Die()
     {
-        Debug.Log("Enemy " + id.ToString() + " dies");
+        // Debug.Log("Enemy " + id.ToString() + " dies");
         GameController.INSTANCE.GainReward(worth);
         Destroy(gameObject);
     }
