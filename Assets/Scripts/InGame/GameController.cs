@@ -32,19 +32,41 @@ public class GameController : MonoBehaviour
     void Start()
     {
         INSTANCE = this;
+        if (level == null) 
+        {
+            level = Level.DEFAULT;
+        }
+        ParseFileWaves(level);
 
-        // parse txt file containing info about waves
-        if (level.difficulty == GlobalSettings.Difficulty.Easy) 
+        // init UI elements
+        panel_gameLost.SetActive(false);
+        panel_gameWon.SetActive(false);
+        panel_pause.SetActive(false);
+        gameState = GameState.Playing;
+        UpdateUiStats();
+    }
+
+
+    // Parse the txt file containing info about waves
+    // Then set values of variables
+    // The path of the txt file is given in level as its member variable
+    void ParseFileWaves(Level level)
+    {
+        wavesFilename = "level1_easy.txt"; // Default txt file name
+        if (level != null) 
         {
-            wavesFilename = level.GetWavesFile() + "_easy.txt";
-        }
-        else if (level.difficulty == GlobalSettings.Difficulty.Normal)
-        {
-            wavesFilename = level.GetWavesFile() + "_normal.txt";
-        }
-        else
-        {
-            wavesFilename = level.GetWavesFile() + "_hard.txt";
+            if (level.difficulty == GlobalSettings.Difficulty.Easy) 
+            {
+                wavesFilename = level.GetWavesFile() + "_easy.txt";
+            }
+            else if (level.difficulty == GlobalSettings.Difficulty.Normal)
+            {
+                wavesFilename = level.GetWavesFile() + "_normal.txt";
+            }
+            else
+            {
+                wavesFilename = level.GetWavesFile() + "_hard.txt";
+            }
         }
         pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
         Debug.Log($"Start parsing file: {pathFileWaves}");
@@ -64,13 +86,6 @@ public class GameController : MonoBehaviour
         // Debug.Log($"gold = {gold}");
         // Debug.Log($"hp = {hp}");
         // Debug.Log($"waveCd = {waveCd}");
-
-        // init UI elements
-        panel_gameLost.SetActive(false);
-        panel_gameWon.SetActive(false);
-        panel_pause.SetActive(false);
-        gameState = GameState.Playing;
-        UpdateUiStats();
     }
 
     // Update is called once per frame

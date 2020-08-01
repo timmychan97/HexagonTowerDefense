@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class Panel_Options : MainMenuPanel
 {
-    
 }

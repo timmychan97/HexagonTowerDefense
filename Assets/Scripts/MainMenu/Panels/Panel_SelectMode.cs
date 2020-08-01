@@ -26,7 +26,6 @@ public class Panel_SelectMode : MainMenuPanel
 
     new public void Hide()
     {
-        Debug.Log("select mode hide");
         panel_selectLevel.Hide();
         base.Hide();
     }
