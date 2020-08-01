@@ -28,6 +28,8 @@ public class GameController : MonoBehaviour
     string pathFileWaves;
     public float waveCd;
     float waveCountdown;
+    public HashSet<Unit> units = new HashSet<Unit>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,16 +38,26 @@ public class GameController : MonoBehaviour
         {
             level = Level.DEFAULT;
         }
+        Init();
         ParseFileWaves(level);
+        InitUI();
+        gameState = GameState.Playing;
+    }
 
+    void Init()
+    {
+        enemySpawner.ClearAll();
+        Time.timeScale = 1.0f;
+    }
+
+    void InitUI()
+    {
         // init UI elements
         panel_gameLost.SetActive(false);
         panel_gameWon.SetActive(false);
         panel_pause.SetActive(false);
-        gameState = GameState.Playing;
         UpdateUiStats();
     }
-
 
     // Parse the txt file containing info about waves
     // Then set values of variables
@@ -140,21 +152,48 @@ public class GameController : MonoBehaviour
     }
 
     // returns false when fails to buy tower (no money)
-    public bool BuyUnit(Unit unit) 
+    public bool CanBuyUnit(Unit unit) 
     {
-        if (gold < unit.cost) 
+        if (!IsGamePlaying())
+        {
+            return false;
+        }
+        if (gold < unit.cost) // not enough gold
         {
             topBar.OnNotEnoughGold();
             return false;
         }
-
+        return true;
+    }
+    
+    public void OnBuyUnit(Unit unit)
+    {
         gold -= unit.cost;
         topBar.onSpendGold();
         UpdateUiStats();
-        return true;
+        units.Add(unit);
+        // units.Add(Tile.active.GetUnit());
+        // Debug.Log(units.Count);
     }
 
-    // returns false if fails to damage castle
+    public void OnSellUnit(Unit t)
+    {
+        gold += t.sellWorth;
+        UpdateUiStats();
+    }
+
+    public void GainReward(int _gold) 
+    {
+        gold += _gold;
+        UpdateUiStats();
+        topBar.OnGainGold();
+    }
+
+    public void OnWaveStart()
+    {
+        ++wave;
+        UpdateUiStats();
+    }
 
     public void OnGameLost()
     {
@@ -181,6 +220,10 @@ public class GameController : MonoBehaviour
         }
     }
 
+    ///////////////////////////////////////////////////
+    //              Pause Game
+    ///////////////////////////////////////////////////
+
     public void TogglePause()
     {
         if (gameState == GameState.Paused) 
@@ -205,7 +248,33 @@ public class GameController : MonoBehaviour
         Time.timeScale = 1;
         gameState = GameState.Playing;
         panel_pause.SetActive(false);
+    }    
+    
+    public void BackToMainMenu() 
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene("Main Menu");
     }
+
+    public void RestartGame()
+    {
+        foreach (Unit u in units) {
+            if (u != null) 
+            {
+                Debug.Log(u.transform.position);
+                Destroy(u.gameObject);
+            }
+        }
+        units.Clear();
+        Init();
+        ParseFileWaves(level);
+        InitUI();
+        ResumeGame();
+    }
+
+    //////////////////////////////////////////
+    //         Game State Checks
+    //////////////////////////////////////////
 
     public bool IsGamePlaying()
     {
@@ -232,28 +301,8 @@ public class GameController : MonoBehaviour
         }
         return false;
     }
-    public void BackToMainMenu() 
-    {
-        Time.timeScale = 1.0f;
-        SceneManager.LoadScene("Main Menu");
-    }
 
-    public void GainReward(int _gold) 
-    {
-        gold += _gold;
-        UpdateUiStats();
-        topBar.OnGainGold();
-    }
-
-    public void OnWaveStart()
-    {
-        ++wave;
-        UpdateUiStats();
-    }
-
-    public void OnSellUnit(Unit t)
-    {
-        gold += t.sellWorth;
-        UpdateUiStats();
-    }
+    /////////////////////////////////////////////
+    //       End Game State Checks
+    ////////////////////////////////////////////
 }

@@ -8,22 +8,16 @@ public class UI_Tool_Sell : UI_Tool
     void Start()
     {
         SetAction(() => {
-            Debug.Log("Trigger Sell action");
+            // Debug.Log("Trigger Sell action");
             if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            Unit tower = Tile.active.GetUnit();
+            Unit unit = Tile.active.GetUnit();
             Debug.Log($"Tile.active: {Tile.active}");
-            Debug.Log($"tower: {tower}");
-            if (tower != null)
+            Debug.Log($"tower: {unit}");
+            if (unit != null)
             {
-                GameController.INSTANCE.OnSellUnit(tower);
-                Destroy(tower.gameObject);
+                GameController.INSTANCE.OnSellUnit(unit);
+                Destroy(unit.gameObject);
             }
         });
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

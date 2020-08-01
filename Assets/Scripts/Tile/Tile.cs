@@ -54,11 +54,13 @@ public class Tile : MonoBehaviour, ISelectable {
 		return tileContentContainer.GetComponentInChildren<Unit>();
 	}
 
+	// returns the instantiated GameObject
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)
 			Destroy(c.gameObject);
-		Instantiate (obj, tileContentContainer);
+		obj.transform.SetParent(tileContentContainer);
+		obj.transform.localPosition = Vector3.zero;
 	}
 
 	public void OnClick()

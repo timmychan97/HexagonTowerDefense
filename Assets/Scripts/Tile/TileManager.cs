@@ -8,6 +8,8 @@ public class TileManager : MonoBehaviour {
 
 	void Start () => INSTANCE = this;
 
+	// returns the instantiated Game Object,
+	// null if no Game objects are instantiated
 	public void SetTileContent(GameObject obj)
 	{
 		if (GameController.INSTANCE)
@@ -16,7 +18,7 @@ public class TileManager : MonoBehaviour {
 		}
 		if (Tile.active != null)
 		{
-			Tile.active.SetTileContent (obj);
+			Tile.active.SetTileContent(obj);
 		}
 	}
 

@@ -34,9 +34,11 @@ public class UI_InGame : MonoBehaviour
         toolUnit.SetAction(() =>
         {
             if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            if (Tile.active.CanPlaceUnit() && GameController.INSTANCE.BuyUnit(unit))
+            if (Tile.active.CanPlaceUnit() && GameController.INSTANCE.CanBuyUnit(unit))
             {
-                TileManager.INSTANCE.SetTileContent(unit.gameObject);
+                Unit inst = Instantiate(unit);
+                TileManager.INSTANCE.SetTileContent(inst.gameObject);
+                GameController.INSTANCE.OnBuyUnit(inst);
             }
         });
     }
