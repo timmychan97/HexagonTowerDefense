@@ -56,6 +56,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     public void HandleAtk()
     {
+        if (!GameController.INSTANCE.IsGamePlaying()) return;
         if (target == null) return;
 
         float dist2 = (goal.position - transform.position).sqrMagnitude;
@@ -88,7 +89,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     public void Atk(IDamagable b)
     {
-        Debug.Log("Enemy " + id.ToString() +  " attacks base");
+        // Debug.Log("Enemy " + id.ToString() +  " attacks base");
         b.TakeDmg(atk);
     }
 

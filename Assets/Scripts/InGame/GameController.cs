@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     public int numWaves;
     public int gold;
     public int wave;
-    public int hp;
+    int hp;
     public WaveParser waveParser;
     public EnemySpawner enemySpawner;
     private List<Wave> waves;
@@ -41,15 +41,31 @@ public class GameController : MonoBehaviour
         Init();
         gameState = GameState.Playing;
     }
+    
+    // Update is called once per frame
+    void Update()
+    {
+        HandleWave();
+        HandleGameOver();
+    }
+
+    // void LateUpdate()
+    // {
+    //     HandleGameOver();
+    // }
 
     void Init()
     {
-        level = GlobalSettings.level;
+        // NOTE: Remove the follwing line after finishing developing
+        // It is only for dealing with clearing PlayerPrefs during development
+        GlobalSettings.oneTime = false;
+
         enemySpawner.ClearAll();
-        Time.timeScale = 1.0f;
-        gameState = GameState.Playing;
+        level = Level.DEFAULT;
         ParseFileWaves(level);
+        gameState = GameState.Playing;
         InitUI();
+        Time.timeScale = 1.0f;
     }
 
     void InitUI()
@@ -58,6 +74,7 @@ public class GameController : MonoBehaviour
         panel_gameLost.SetActive(false);
         panel_gameWon.SetActive(false);
         panel_pause.SetActive(false);
+
         UpdateUiStats();
     }
 
@@ -94,28 +111,18 @@ public class GameController : MonoBehaviour
         // set initial game data
         gold = waveParser.GetGold();
         hp = waveParser.GetHp();
-        numWaves = waveParser.GetNumWaves();
         waveCd = waveParser.GetWaveCd();
         waves = waveParser.GetWaves();
+        numWaves = waves.Count;
         wave = 0;
         waveCountdown = waveCd;
+
+        myBase.SetHp(hp);
         
         // Debug.Log($"numWaves = {numWaves}");
         // Debug.Log($"gold = {gold}");
         // Debug.Log($"hp = {hp}");
         // Debug.Log($"waveCd = {waveCd}");
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        HandleWave();
-    }
-
-    void LateUpdate()
-    {
-        // UpdateUiStats();
-        HandleGameOver();
     }
 
     void HandleWave()
@@ -133,7 +140,7 @@ public class GameController : MonoBehaviour
     public void UpdateUiStats()
     {
         topBar.SetTextGold(gold);
-        topBar.SetTextHp(myBase.getHp());
+        topBar.SetTextHp(myBase.GetHp());
         topBar.SetTextWave(wave);
         topBar.SetTextCountdown(waveCountdown);
     }
@@ -179,8 +186,6 @@ public class GameController : MonoBehaviour
         topBar.onSpendGold();
         UpdateUiStats();
         units.Add(unit);
-        // units.Add(Tile.active.GetUnit());
-        // Debug.Log(units.Count);
     }
 
     public void OnSellUnit(Unit t)
@@ -212,6 +217,7 @@ public class GameController : MonoBehaviour
     {
         gameState = GameState.Won;
         panel_gameWon.SetActive(true);
+        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
     }
 
     public void HandleGameOver() 
@@ -265,17 +271,15 @@ public class GameController : MonoBehaviour
 
     public void RestartGame()
     {
+        hp = 100;
         foreach (Unit u in units) {
             if (u != null) 
             {
-                Debug.Log(u.transform.position);
                 Destroy(u.gameObject);
             }
         }
         units.Clear();
         Init();
-        ParseFileWaves(level);
-        InitUI();
     }
 
     //////////////////////////////////////////
@@ -294,7 +298,14 @@ public class GameController : MonoBehaviour
 
     public bool IsGameLost()
     {
-        if (myBase.getHp() <= 0) return true;
+        if (gameState == GameState.Lost) 
+        {
+            return true;
+        }
+        if (myBase.GetHp() <= 0)
+        {
+            return true;
+        }
         return false;
     }
 

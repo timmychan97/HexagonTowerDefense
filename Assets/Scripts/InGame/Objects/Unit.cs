@@ -74,6 +74,7 @@ public class Unit : TileContent, IDamagable, IPropertiesDisplayable
 
     public void HandleAtk()
     {
+        if (!GameController.INSTANCE.IsGamePlaying()) return;
         float timeSinceAtk = Time.time - lastAtkTime;
         if (timeSinceAtk > atkPeriod) 
         {
