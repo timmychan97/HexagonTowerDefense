@@ -28,7 +28,7 @@ public class Projectile_FixedTarget : Projectile
         UpdatePos();
     }
 
-    public override void Init(Tower _emitter, GameObject _target)
+    public override void Init(Unit _emitter, GameObject _target)
     {
         // NOTE: this assumes that _target is idle
         orig = transform.position;
@@ -51,7 +51,7 @@ public class Projectile_FixedTarget : Projectile
         vy = (deltaY - 0.5f * downAccel * deltaT * deltaT) / deltaT;
     }
 
-    public override void Init(Tower _emitter, Enemy enemy)
+    public override void Init(Unit _emitter, Enemy enemy)
     {
         dmg = _emitter.atk;
         orig = transform.position;
