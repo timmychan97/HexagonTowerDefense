@@ -13,7 +13,7 @@ using UnityEngine;
  */
 public class TileHighlightManager : MonoBehaviour
 {
-    int MAP_LAYER_MASK = 1 << 8;
+    int MAP_LAYER_MASK = 1 << 9;
 
     // Use a list to support multiple highlights
     List<ISelectable> highlightedSelectables = new List<ISelectable>();
@@ -80,7 +80,7 @@ public class TileHighlightManager : MonoBehaviour
         Tile tile = (Tile)selectable;
         if (tile)
         {
-            if (tile.HasTower())
+            if (tile.HasUnit())
                 return false;
             var invalidTileTypes = selectedTool.GetInvalidTileTypes();
             if (invalidTileTypes.IndexOf(tile.tileType) == -1)

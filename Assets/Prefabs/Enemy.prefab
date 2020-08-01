@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a1f2e55984e312d4c95692bdc24877aa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -135,8 +135,11 @@ MonoBehaviour:
   goal: {fileID: 0}
   atkRange: 0
   atk: 0
+  moveSpeed: 0
+  atkSpeed: 0
   maxHp: 1000
   worth: 0
+  prevPos: {x: 0, y: 0, z: 0}
 --- !u!1 &5117298838121965706
 GameObject:
   m_ObjectHideFlags: 0

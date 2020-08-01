@@ -3,18 +3,16 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public float enemySpawnInterval;
-    public float spawnCountdown;
     public Transform spawnLocation;
     public Transform goal;
     public EnemySpawner es;
     private int numEnemies;
-    private int numRounds;
-    HashSet<Round> ongoingRounds;
+    private int numWaves;
+    HashSet<Wave> ongoingWaves;
     HashSet<Enemy> enemies;
     void Start()
     {
-        ongoingRounds = new HashSet<Round>();
+        ongoingWaves = new HashSet<Wave>();
         enemies = new HashSet<Enemy>();
     }
     void Update()
@@ -24,13 +22,13 @@ public class EnemySpawner : MonoBehaviour
 
     void HandleSpawning()
     {
-        List<Round> toRemove = new List<Round>(); // remove rounds that have no more spawn actions waiting
-        foreach (Round round in ongoingRounds) 
+        List<Wave> toRemove = new List<Wave>(); // remove waves that have no more spawn actions waiting
+        foreach (Wave wave in ongoingWaves) 
         {
-            SpawnAction nextAction = round.NextSpawnAction();
+            SpawnAction nextAction = wave.NextSpawnAction();
             if (nextAction == null) 
             {
-                toRemove.Add(round);
+                toRemove.Add(wave);
                 break;
             } 
             else 
@@ -38,9 +36,9 @@ public class EnemySpawner : MonoBehaviour
                 DoSpawnAction(nextAction);
             }
         }
-        foreach (Round round in toRemove) 
+        foreach (Wave wave in toRemove) 
         {
-            ongoingRounds.Remove(round);
+            ongoingWaves.Remove(wave);
         }
     }
 
@@ -64,15 +62,22 @@ public class EnemySpawner : MonoBehaviour
         enemies.Add(e);
     }
 
-    public void StartRound(Round round) 
+    public void StartWave(Wave wave) 
     {
-        ongoingRounds.Add(round);
+        ongoingWaves.Add(wave);
+        HandleSpawning();
     }
 
     public HashSet<Enemy> GetEnemies() { 
         UpdateEnemySet();
         return enemies; 
     }
+
+    public HashSet<Wave> GetOngoingWaves()
+    {
+        return ongoingWaves;
+    }
+
     public void UpdateEnemySet() {
         // remove dead enemies from the Set
         List<Enemy> toRemove = new List<Enemy>();
@@ -86,5 +91,18 @@ public class EnemySpawner : MonoBehaviour
         {
             enemies.Remove(enemy);
         }
+    }
+
+    public void ClearAll()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy != null) 
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+        enemies.Clear();
+        ongoingWaves.Clear();
     }
 }

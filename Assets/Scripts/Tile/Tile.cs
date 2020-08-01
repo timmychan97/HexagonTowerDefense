@@ -32,9 +32,9 @@ public class Tile : MonoBehaviour, ISelectable {
 		this.name = "Tile - " + tileMesh.name;
 	}
 
-	public bool CanPlaceTower() 
+	public bool CanPlaceUnit() 
 	{
-		if (HasTower()) return false;
+		if (HasUnit()) return false;
 		if (tileType == TileType.Basic || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;
@@ -42,18 +42,25 @@ public class Tile : MonoBehaviour, ISelectable {
 		return false;
 	}
 
-	public bool HasTower() 
+	public bool HasUnit() 
 	{
-		TileContent t = tileContentContainer.GetComponentInChildren<Tower>();
+		TileContent t = tileContentContainer.GetComponentInChildren<Unit>();
 		if (t == null) return false;
 		return true;
 	}
 
+	public Unit GetUnit()
+	{
+		return tileContentContainer.GetComponentInChildren<Unit>();
+	}
+
+	// returns the instantiated GameObject
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)
 			Destroy(c.gameObject);
-		Instantiate (obj, tileContentContainer);
+		obj.transform.SetParent(tileContentContainer);
+		obj.transform.localPosition = Vector3.zero;
 	}
 
 	public void OnClick()
@@ -86,7 +93,6 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public void Highlight(Color? color)
 	{
-		Debug.Log("nice");
 		var _propBlock = new MaterialPropertyBlock();
 		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
 		_renderer.GetPropertyBlock(_propBlock);
@@ -135,4 +141,9 @@ public class Tile : MonoBehaviour, ISelectable {
     {
         throw new System.NotImplementedException();
     }
+
+	public float GetY()
+	{
+		return transform.position.y;
+	}
 }

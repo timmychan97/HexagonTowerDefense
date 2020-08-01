@@ -6,19 +6,26 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
+    public static MainMenuManager INSTANCE;
     public GameObject panel_mainMenu;
-    public GameObject panel_selectMode;
-    public GameObject panel_selectLevel;
-    public GameObject panel_options;
+    public Panel_SelectMode panel_selectMode;
+    public Panel_SelectDifficulty panel_selectDifficulty;
+    public Panel_Options panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
     private string path_levelScenes = "Scenes/Levels/";
-    private string scene_lvl0 = "Scenes/TestScenes/DonnyScene"; 
+    Level curLevel;
+    GlobalSettings.Difficulty curDifficulty;
 
     // Start is called before the first frame update
     void Start()
     {
-        GenLevelBtns();
+        if (GlobalSettings.oneTime) {
+            ClearData();
+            GlobalSettings.oneTime = false;
+        }
+        INSTANCE = this;
         HideMenus();
+        Time.timeScale = 1.0f;
     }
 
     // Update is called once per frame
@@ -27,75 +34,80 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
+    // Clear all player data, when developing, this is to make sure completed levels
+    // are not registered as completed.
+    public void ClearData()
+    {
+        PlayerPrefs.DeleteAll();
+        Debug.Log("Clear PlayerPrefs");
+    }
+
     // hide all menus except main menu
     void HideMenus()
     {
-        panel_options.SetActive(false);
-        panel_selectLevel.SetActive(false);
-        panel_selectMode.SetActive(false);
+        panel_options.Hide();
+        panel_selectMode.Hide();
+        panel_selectDifficulty.Hide();
     }
 
-    public void GenLevelBtns()
+    public void PromptDifficulty()
     {
-        var dirInfo = new DirectoryInfo("Assets/" + path_levelScenes);
-        var allFileInfos = dirInfo.GetFiles("*.unity", SearchOption.AllDirectories);
-        int n = 1;
-        foreach (var fileInfo in allFileInfos)
-        {
-            Btn_LoadLevel btn = Instantiate(pf_btnLoadLevel, panel_selectLevel.transform);
-            btn.scenePath = path_levelScenes + fileInfo.Name.Substring(0, fileInfo.Name.Length - 6);
-            btn.SetText(n.ToString());
-            ++n;
-            Debug.Log(fileInfo.Name);
-        }
-    }
-
-    public void OnClickedCampaign()
-    {
-        if (panel_selectLevel.activeInHierarchy)
-        {
-            panel_selectLevel.SetActive(false);
-        }
-        else
-        {
-            panel_selectLevel.SetActive(true);
-        }
-    }
-
-    public void OnClickedStartGame()
-    {
-        if (panel_selectMode.activeInHierarchy)
-        {
-            HideMenus();
-        }
-        else
-        {
-            HideMenus();
-            panel_selectMode.SetActive(true);
-        }
-    }
-
-    public void OnClickedOptions()
-    {
-        if (panel_options.activeInHierarchy)
-        {
-            HideMenus();
-        }
-        else
-        {
-            HideMenus();
-            panel_options.SetActive(true);
-        }
-    }
-
-    public void StartGame() 
-    {
-        Debug.Log("Go to scene: 'Level 0 Test'");
-        SceneManager.LoadScene(scene_lvl0);
+        panel_selectDifficulty.Show();
     }
 
     public void QuitGame()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
         Application.Quit();
+#endif
+    }
+
+    ///////////////////////////////////////////
+    //           Event Listeners
+    ///////////////////////////////////////////
+    public void OnStartGameClicked()
+    {
+        if (panel_selectMode.gameObject.activeInHierarchy) 
+        {
+            // HideMenus();
+            panel_selectMode.HideWithAnimation();
+        } 
+        else 
+        {
+            HideMenus();
+            panel_selectMode.Show();
+        }
+    }
+
+    public void OnOptionsClicked()
+    {
+        if (panel_options.gameObject.activeInHierarchy)
+        {
+            panel_options.HideWithAnimation();
+        }
+        else
+        {
+            HideMenus();
+            panel_options.Show();
+        }
+    }
+
+    public void OnLevelSelected(Level level)
+    {
+        curLevel = level;
+        PromptDifficulty();
+    }
+    
+    public void OnDifficultySelected(GlobalSettings.Difficulty d)
+    {
+        curLevel.difficulty = d;
+        SceneLoader.INSTANCE.LoadLevel(curLevel);
+    }
+
+    public void OnQuitGameClicked()
+    {
+        QuitGame();
     }
 }

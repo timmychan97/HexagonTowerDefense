@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7777644382576016884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9000480570020631028}
+  - component: {fileID: 4118337498618171146}
+  m_Layer: 0
+  m_Name: Level 1 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9000480570020631028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777644382576016884}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 316.64734, y: 367.36346, z: -35.025513}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4118337498618171146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7777644382576016884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24eef2e6e17d25d48b3e8068a1e8ef9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelName: 'Level 1: The S Road'
+  description: An S-shaped road that is well-suited for defense. The beautiful scenery
+    is a great view to enjoy when you finish killing all your enemies.
+  sprite: {fileID: 0}
+  difficulty: 0
+  wavesFile: level1
+  scenePath: Scenes/Levels/Level1
+  levelId: 1
+  unlocked: 1
+  numTimesPlayed: 0
+  bestScore: 0
+  bestTime: 0

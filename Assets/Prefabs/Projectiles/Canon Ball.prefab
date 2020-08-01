@@ -110,6 +110,8 @@ MonoBehaviour:
   speed: 10
   effect: {fileID: 0}
   dmg: 10
+  particleEffect: {fileID: 3204028965632435439, guid: 3a138329048f4eb4dbaad783cf24bf51,
+    type: 3}
   hitRegionPf: {fileID: 6693992145538670459, guid: 33b94c31b228a5d4a856e6fc9ccac211,
     type: 3}
   downAccel: -30
