@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_PanelUnitInfoManager : MonoBehaviour
+public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
 {
     int unitsLayerMask;
     public Canvas canvas;
@@ -12,47 +12,16 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
     UI_PanelUnitInfo panelUnitInfo;
     public IPropertiesDisplayable displaying;
     public static UI_PanelUnitInfoManager INSTANCE;
-    Camera cam;
-    KeyCode primaryMouseButton = KeyCode.Mouse0; // left mouseButton
 
     void Start()
     {
         INSTANCE = this;
 
         // panelUnitInfo.gameObject.SetActive(false);
-        cam = Camera.main;
         unitsLayerMask = LayerMask.NameToLayer("Units");
+        SelectionManager.INSTANCE.AddListener(SelectionManager.ObserverType.Unit, this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if(Input.GetKey(primaryMouseButton)) {
-            // Do nothing if clicked on the UI elements in front
-            bool hasCanvasUI = UnityEngine.EventSystems.EventSystem.current != null;
-            if (hasCanvasUI && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
-            {
-                return;
-            }
-
-            // Do nothing if a tool is selected
-            if (UI_SelectionManager.INSTANCE.selectedTool) return;
-
-            // Raycast a unit and invoke click event
-            int mask = (1 << unitsLayerMask);
-            RaycastHit hit;
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 600, mask))
-            {
-                Transform unitHit = hit.transform;
-                OnClick(unitHit.gameObject);
-            }
-            else
-            {
-                CloseInfo();
-            }
-        }
-    }
 
     public void CloseInfo()
     {
@@ -60,7 +29,6 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         {
             Destroy(panelUnitInfo.gameObject);
         }
-        TowerRangeMarker.ShowTowerRangeMarkerOnTower(null);
     }
 
     public void OnClick(GameObject unit)
@@ -77,10 +45,6 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         {
             ShowInfo(displayable);
         }
-
-        // Show tower range marker, if the selected unit is a Tower
-        // TODO: Move to elsewhere, as it does not really fit in here
-        TowerRangeMarker.ShowTowerRangeMarkerOnTower(unit.GetComponent<Tower>());
     }
 
 
@@ -97,4 +61,24 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         // update info of selected unit
         panelUnitInfo.UpdateInfo();
     }
+
+    void ISelectionObserver.OnSelect(Object obj) {
+        OnClick((GameObject)obj);
+        TowerRangeMarker.Show();
+        TowerRangeMarker.MoveToTower(((GameObject)obj).GetComponent<Tower>());
+    }
+
+    void ISelectionObserver.OnDeselect(Object obj)
+    {
+        CloseInfo();
+        TowerRangeMarker.Hide();
+    }
+
+    void ISelectionObserver.OnMouseDown(Object obj) { }
+
+    void ISelectionObserver.OnMouseUp(Object obj) { }
+
+    void ISelectionObserver.OnMouseEnter(Object obj) { }
+
+    void ISelectionObserver.OnMouseExit(Object obj) { }
 }

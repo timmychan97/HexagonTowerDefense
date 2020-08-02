@@ -79,7 +79,7 @@ public class WaveParser : MonoBehaviour
             } 
             else if (words[head] == "waveCd")
             {
-                waveCd = float.Parse(words[++head]);
+                waveCd = float.Parse(words[++head], System.Globalization.CultureInfo.InvariantCulture);
             }
             else 
             {

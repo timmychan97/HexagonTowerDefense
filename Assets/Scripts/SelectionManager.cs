@@ -44,12 +44,12 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
+        // If pointer is over UI elements, then do not change any state
+        if(UI_Utils.IsPointerOverUIElement()) return;
+
         // Compute states
         tileCurState = GetTileCurState();
         unitCurState = GetUnitCurState();
-
-        if (unitCurState.selected)
-            print(((GameObject)unitCurState.selected).name);
 
         // Propagate events to observers, based on the computed states
         UpdateUnitSelection();
@@ -78,11 +78,7 @@ public class SelectionManager : MonoBehaviour
 
         result.mouseOver = GetUnitAtMousePos();
         result.mouseDown = Input.GetKey(primaryMouseButton) ? result.mouseOver : null;
-
-        // If the user released the mouse button while hovering over a unit,
-        // it makes the unit stay selected
-        if (result.mouseOver && result.mouseDown != unitPrevState.mouseDown && result.mouseDown == null)
-            result.selected = unitPrevState.mouseDown;
+        result.selected = Input.GetKeyDown(primaryMouseButton) ? result.mouseOver : unitPrevState.selected;
         return result;
     }
 

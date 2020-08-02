@@ -36,26 +36,27 @@ public class DummyTowerManager : MonoBehaviour
             dummyTower.transform.position = pos;
             UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyTower.gameObject);
             dummyTowerCoords = tile.coords;
+            TowerRangeMarker.MoveToTower(dummyTower);
         }
     }
 
     public void OnToolSelected(UI_Tool tool)
     {
-        if (dummyTower != null)
-        {
-            Destroy(dummyTower.gameObject);
-        }
+        if (dummyTower != null) Destroy(dummyTower.gameObject);
+
         // check if selected tool is a UI_Tool_Tower
         // Note: add support for different types when more types of UI_Tool are added
         UI_Tool_Tower towerTool = tool as UI_Tool_Tower;
         if (towerTool == null) return;
         dummyTower = CreateDummyTower(towerTool.tower, dummyTowerCoords);
+        TowerRangeMarker.Show();
     }
 
     public void OnToolDeselected(UI_Tool tool)
     {
         if (dummyTower != null) Destroy(dummyTower.gameObject);
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
+        TowerRangeMarker.Hide();
     }
 
     Tower CreateDummyTower(Tower tower, Vector3 pos)

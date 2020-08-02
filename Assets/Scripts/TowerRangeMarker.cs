@@ -29,9 +29,9 @@ public class TowerRangeMarker : MonoBehaviour
     }
 
 
-    public static void ShowTowerRangeMarkerOnTower(Tower tower)
+    public static void MoveToTower(Tower tower)
     {
-        if (TowerRangeMarker.INSTANCE)
+        if (INSTANCE)
         {
             if (tower != null)
             {
@@ -39,21 +39,39 @@ public class TowerRangeMarker : MonoBehaviour
             }
             else
             {
-                INSTANCE.gameObject.SetActive(false);
+                Hide();
             }
         }
-        else
+        else 
         {
-            Debug.LogWarning("There are no TowerRangeMarker on scene. Make sure to add one.");
+            LogNotFound();
+        }
+    }
+
+    public static void Hide() {
+        if(INSTANCE) {
+            INSTANCE.gameObject.SetActive(false);
+        } else {
+            LogNotFound();
+        }
+    }
+
+    public static void Show() {
+        if(INSTANCE) {
+            INSTANCE.gameObject.SetActive(true);
+        } else {
+            LogNotFound();
         }
     }
 
     private static void _ShowTowerRangeMarker(Tower tower)
     {
         var trm = INSTANCE;
-        trm.gameObject.SetActive(false);
         trm.SetRadius(tower.GetRange());
         trm.transform.position = tower.transform.position;
-        trm.gameObject.SetActive(true);
+    }
+
+    private static void LogNotFound() {
+        Debug.LogWarning("There are no TowerRangeMarker on scene. Make sure to add one.");
     }
 }
