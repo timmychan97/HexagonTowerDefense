@@ -157,25 +157,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 21300000, guid: ce199867742b74b41ad184daa2f33641, type: 3}
   _name: Archer
   description: Apprentice Archer born in the Rain of Diamonds.
   maxHp: 100
   cost: 80
-  iconSmall: {fileID: 21300000, guid: ce199867742b74b41ad184daa2f33641, type: 3}
+  sellWorth: 40
   level: 1
   atk: 20
   effect: {fileID: 1969129739505833100, guid: 961babe47e39f4043804badf7654087d, type: 3}
   atkSpeed: 1
   lastAtkTime: 0
-  sellWorth: 40
   range: 6
   projectile: {fileID: 279519581720795074, guid: efebab299689aae469ad5b0c8d4590d7,
     type: 3}
   platform: {fileID: 215764606067705237}
-  unitContent: {fileID: 0}
+  unitContent: {fileID: 8260472239800050090}
   emitter: {fileID: 7411698439418154507}
-  pf_unitRange: {fileID: 6108344365463137814, guid: 973a47fc178937445a6266a3acce55c5,
-    type: 3}
 --- !u!65 &7925472284903144649
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -138,24 +138,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 21300000, guid: 60a23cd7ab44f1343a62ab2602fb0498, type: 3}
   _name: Canon
   description: Powerful canon invented during the Great Era of Inventions.
   maxHp: 100
   cost: 240
-  iconSmall: {fileID: 21300000, guid: 60a23cd7ab44f1343a62ab2602fb0498, type: 3}
+  sellWorth: 80
   level: 1
   atk: 12
   effect: {fileID: 0}
   atkSpeed: 0.33
   lastAtkTime: 0
-  sellWorth: 80
   range: 6
   projectile: {fileID: 7537679607396884572, guid: 3951d4f4791fd684cb0d900cb8e351c8,
     type: 3}
   platform: {fileID: 2207969212048017596}
-  unitContent: {fileID: 0}
+  unitContent: {fileID: 2683441770631267434}
   emitter: {fileID: 115985843837597952}
-  pf_unitRange: {fileID: 0}
 --- !u!65 &1054776048456731744
 BoxCollider:
   m_ObjectHideFlags: 0
