@@ -10,11 +10,11 @@ public class UI_PanelLeftViewUnits : MonoBehaviour
 {
     public UI_Tool_GameUnit toolPf;
 
-    private static string PATH_TOWER_MESH = "UnitMeshes";
+    public string pathUnits = "UnitMeshes";
 
     void Start()
     {
-        Unit[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Unit>(PATH_TOWER_MESH);
+        Unit[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Unit>(pathUnits);
         Array.ForEach(towerMeshPf, x => CreateBtnUnit(x));
     }
 
