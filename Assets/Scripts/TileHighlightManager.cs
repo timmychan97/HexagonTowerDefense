@@ -29,7 +29,7 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
     {
         if (tile)
         {
-            if (tile.HasTower())
+            if (tile.HasUnit())
                 return false;
             var invalidTileTypes = selectedTool.GetInvalidTileTypes();
             if (invalidTileTypes.IndexOf(tile.tileType) == -1)

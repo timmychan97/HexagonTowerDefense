@@ -24,7 +24,7 @@ public class Projectile_FollowTarget : Projectile
         }
     }
 
-    public override void Init(Tower _emitter, GameObject _target)
+    public override void Init(Unit _emitter, GameObject _target)
     {
         target = _target;
         dmg = _emitter.atk;
@@ -32,7 +32,7 @@ public class Projectile_FollowTarget : Projectile
         transform.LookAt(_target.transform, Vector3.up);
     }
 
-    public override void Init(Tower _emitter, Enemy enemy)
+    public override void Init(Unit _emitter, Enemy enemy)
     {
         Init(_emitter, enemy.gameObject);
     }

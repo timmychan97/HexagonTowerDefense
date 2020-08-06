@@ -53,7 +53,7 @@ public class UI_SelectionManager : MonoBehaviour
 
     public void DeselectTool()
     {
-        DummyTowerManager.INSTANCE.OnToolDeselected(selectedTool);
+        DummyUnitManager.INSTANCE.OnToolDeselected(selectedTool);
         selectedTool.Deselect();
         selectedTool = null;
     }
@@ -63,6 +63,6 @@ public class UI_SelectionManager : MonoBehaviour
         selectedTool = tool;
         Debug.Log("Changed tool");
         selectedTool.Select();
-        DummyTowerManager.INSTANCE.OnToolSelected(selectedTool);
+        DummyUnitManager.INSTANCE.OnToolSelected(selectedTool);
     }
 }

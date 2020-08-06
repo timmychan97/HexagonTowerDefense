@@ -4,33 +4,46 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class Btn_LoadLevel : MonoBehaviour
+public class Btn_LoadLevel : Btn_MainMenu
 {
-    public Text text;
     Button btn;
-    public string scenePath;
+    public int levelId;
+    public string levelName;
+    public string levelDescription;
+    public Sprite levelSprite;
+
+    public GameObject lockedFilter;
+    public bool unlocked;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
-        text = GetComponentInChildren<Text>();
+        base.Start();
         btn = GetComponent<Button>();
-
         btn.onClick.AddListener(OnClick);
+
+        text.text = levelName;
+        HandleLock();
     }
 
     public void OnClick()
     {
-        SceneManager.LoadScene(scenePath);
+        if (unlocked) 
+        {
+            Level level = new Level(levelName, levelDescription, levelId);
+            MainMenuManager.INSTANCE.OnLevelSelected(level);
+        }
     }
 
-    public void SetText(string s)
+    void HandleLock()
     {
-        text = GetComponentInChildren<Text>();
-        if (text == null) 
-        {
-            Debug.LogWarning("No Text component in children of Btn_LoadLevel");
-        }
-        text.text = s;
+        int maxLevelCompleted = PlayerPrefs.GetInt("MaxLevelCompleted", 0); // level ID starts from 1
+        unlocked = maxLevelCompleted + 1 >= levelId;
+        lockedFilter.SetActive(!unlocked);
+    }
+
+    public void SetLevel(Level level) 
+    {
+        text.text = level.levelName;
     }
 }

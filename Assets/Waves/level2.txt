@@ -1,78 +1,41 @@
 init
 	gold 1000
-	hp 1
-	waveCd 3
+	hp 10
+	waveCd 20
 end
 
-waves 20
+waves
 wave 1
 	sprinter 2
 end
 wave 2
-	brute 100
-end
-wave 3
-	brute 100
-	sprinter 100
-end
-wave 4
-	sprinter 1000
-end
-wave 5
-	sprinter 3
-end
-wave 6
-	sprinter 5
-end
-wave 7
-	sprinter 8
-end
-wave 8 
-	brute 4
-	sprinter 4
-end
-wave 9
-	brute 10
-	sprinter 10
-end
-wave 10
-	brute 12
-	sprinter 20
-end
-wave 11
-	brute 12
-	sprinter 50
-end
-wave 12
-	sprinter 100
-end
-wave 13
-	brute 1
-end
-wave 14
 	brute 3
 end
-wave 15
-	brute 5
+wave 3
+	brute2 4
 end
-wave 16
-	brute 12
-	sprinter 500
+wave 4
+	tanker 2
 end
-wave 17
-	brute 12
-	sprinter 500
+wave 5
+	brute2 4
+	tanker 2
 end
-wave 18
-	brute 12
-	sprinter 500
+wave 6
+	tanker 5
 end
-wave 19
-	brute 12
-	sprinter 500
+wave 7
+	tanker 10
 end
-wave 20
-	brute 1000
-	sprinter 1000
+wave 8 
+	tanker 10
+end
+wave 9
+	sprinter 20
+end
+wave 10
+	tanker 10
+	brute2 10
+	sprinter 20
 end
 end

@@ -32,9 +32,9 @@ public class Tile : MonoBehaviour {
 		this.name = "Tile - " + tileMesh.name;
 	}
 
-	public bool CanPlaceTower() 
+	public bool CanPlaceUnit() 
 	{
-		if (HasTower()) return false;
+		if (HasUnit()) return false;
 		if (tileType == TileType.Basic || tileType == TileType.Grass || tileType == TileType.Stone)
 		{
 			return true;
@@ -42,23 +42,24 @@ public class Tile : MonoBehaviour {
 		return false;
 	}
 
-	public bool HasTower() 
+	public bool HasUnit() 
 	{
-		TileContent t = tileContentContainer.GetComponentInChildren<Tower>();
+		IPlacable t = tileContentContainer.GetComponentInChildren<IPlacable>();
 		if (t == null) return false;
 		return true;
 	}
 
-	public Tower GetTower()
+	public GameUnit GetGameUnit()
 	{
-		return tileContentContainer.GetComponentInChildren<Tower>();
+		return tileContentContainer.GetComponentInChildren<GameUnit>();
 	}
 
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)
 			Destroy(c.gameObject);
-		Instantiate (obj, tileContentContainer);
+		obj.transform.SetParent(tileContentContainer);
+		obj.transform.localPosition = Vector3.zero;
 	}
 
 	public void OnClick()

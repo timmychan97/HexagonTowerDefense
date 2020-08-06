@@ -25,14 +25,16 @@ public class Base : MonoBehaviour, IDamagable
 
     public void TakeDmg(float dmg)
     {
-        Debug.Log("Base took damage: " + dmg.ToString());
+        // Debug.Log("Base took damage: " + dmg.ToString());
         hp -= Mathf.RoundToInt(dmg);
         if (hp <= 0)
         {
+            hp = 0;
             Die();
         }
         GameController.INSTANCE.UpdateUiStats();
     }
 
-    public int getHp() { return hp; }
+    public int GetHp() { return hp; }
+    public void SetHp(int a) { hp = a; }
 }

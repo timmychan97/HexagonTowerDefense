@@ -3,8 +3,6 @@ using System.Collections.Generic;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public float enemySpawnInterval;
-    public float spawnCountdown;
     public Transform spawnLocation;
     public Transform goal;
     public EnemySpawner es;
@@ -93,5 +91,18 @@ public class EnemySpawner : MonoBehaviour
         {
             enemies.Remove(enemy);
         }
+    }
+
+    public void ClearAll()
+    {
+        foreach (Enemy enemy in enemies)
+        {
+            if (enemy != null) 
+            {
+                Destroy(enemy.gameObject);
+            }
+        }
+        enemies.Clear();
+        ongoingWaves.Clear();
     }
 }

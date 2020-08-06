@@ -1,0 +1,42 @@
+init
+	gold 100
+	hp 10
+	waveCd 20
+end
+
+waves
+wave 1
+	brute 2
+end
+wave 2
+	brute2 1
+end
+wave 3
+	brute2 1
+end
+wave 4
+	tanker 1
+end
+wave 5
+	brute2 2
+	tanker 1
+end
+wave 6
+	tanker 4
+end
+wave 7
+	tanker 5
+	brute2 5
+end
+wave 8 
+	tanker 10
+end
+wave 9
+	sprinter 30
+end
+wave 10
+	tanker 20
+	brute2 20
+	sprinter 30
+end
+end
