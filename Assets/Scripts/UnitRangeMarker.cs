@@ -29,13 +29,13 @@ public class UnitRangeMarker : MonoBehaviour
     }
 
 
-    public static void ShowTowerRangeMarkerOnTower(Unit tower)
+    public static void ShowUnitRangeMarkerOnUnit(Unit unit)
     {
         if (UnitRangeMarker.INSTANCE)
         {
-            if (tower != null)
+            if (unit != null)
             {
-                _ShowTowerRangeMarker(tower);
+                _ShowUnitRangeMarker(unit);
             }
             else
             {
@@ -44,16 +44,16 @@ public class UnitRangeMarker : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("There are no TowerRangeMarker on scene. Make sure to add one.");
+            Debug.LogWarning("There are no UnitRangeMarker on scene. Make sure to add one.");
         }
     }
 
-    private static void _ShowTowerRangeMarker(Unit tower)
+    private static void _ShowUnitRangeMarker(Unit unit)
     {
         var trm = INSTANCE;
         trm.gameObject.SetActive(false);
-        trm.SetRadius(tower.GetRange());
-        trm.transform.position = tower.transform.position;
+        trm.SetRadius(unit.GetRange());
+        trm.transform.position = unit.transform.position;
         trm.gameObject.SetActive(true);
     }
 }

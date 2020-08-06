@@ -28,7 +28,7 @@ public class GameController : MonoBehaviour
     string pathFileWaves;
     public float waveCd;
     float waveCountdown;
-    public HashSet<Unit> units = new HashSet<Unit>();
+    public HashSet<GameUnit> gameUnits = new HashSet<GameUnit>();
 
     // Start is called before the first frame update
     void Start()
@@ -166,7 +166,7 @@ public class GameController : MonoBehaviour
     }
 
     // returns false when fails to buy tower (no money)
-    public bool CanBuyUnit(Unit unit) 
+    public bool CanBuyGameUnit(GameUnit unit) 
     {
         if (!IsGamePlaying())
         {
@@ -180,12 +180,12 @@ public class GameController : MonoBehaviour
         return true;
     }
     
-    public void OnBuyUnit(Unit unit)
+    public void OnBuyGameUnit(GameUnit unit)
     {
         gold -= unit.cost;
         topBar.onSpendGold();
         UpdateUiStats();
-        units.Add(unit);
+        gameUnits.Add(unit);
     }
 
     public void OnSellUnit(Unit t)
@@ -272,13 +272,13 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         hp = 100;
-        foreach (Unit u in units) {
+        foreach (Unit u in gameUnits) {
             if (u != null) 
             {
                 Destroy(u.gameObject);
             }
         }
-        units.Clear();
+        gameUnits.Clear();
         Init();
     }
 

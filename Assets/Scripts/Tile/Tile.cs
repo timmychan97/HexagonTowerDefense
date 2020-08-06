@@ -44,7 +44,7 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public bool HasUnit() 
 	{
-		TileContent t = tileContentContainer.GetComponentInChildren<Unit>();
+		IPlacable t = tileContentContainer.GetComponentInChildren<Unit>();
 		if (t == null) return false;
 		return true;
 	}
@@ -54,7 +54,6 @@ public class Tile : MonoBehaviour, ISelectable {
 		return tileContentContainer.GetComponentInChildren<Unit>();
 	}
 
-	// returns the instantiated GameObject
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)

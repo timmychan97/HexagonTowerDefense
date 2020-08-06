@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class UI_PanelUnitInfo_Unit : UI_PanelUnitInfo
+
+public class UI_PanelUnitInfo_Building : UI_PanelUnitInfo
 {
-    public Unit unit;
-    public Text unitName;
+    Building building;
+    public Text buildingName;
     public Text level;
     public Text hp;
-    public Text atk;
-    public Text atkSpeed;
     public Text description;
     public Text cost;
     // Start is called before the first frame update
@@ -26,33 +25,29 @@ public class UI_PanelUnitInfo_Unit : UI_PanelUnitInfo
 
     public override void UpdateInfo()
     {
-        // updates info based on unit object
+        // updates info based on building object
         // can be optimized by updating only part of the info
-        SetInfo(unit.GetName(), unit.level, unit.GetHp(), unit.maxHp, unit.atk, unit.atkSpeed, unit.GetDescription(), unit.cost);
+        SetInfo(building.GetName(), building.level, building.GetHp(), building.maxHp, building.description, building.cost);
     }
 
-    public void SetUnit(Unit u) 
+    public void SetUnit(Building b) 
     {
-        unit = u;
+        building = b;
     }
-    void SetInfo(string _name, int _level, int _hp, int _maxHp, int _atk, float _atkSpeed, string _description, int _cost) 
+    void SetInfo(string _name, int _level, int _hp, int _maxHp, string _description, int _cost) 
     {
-        SetUnitName(_name);
+        SetBuildingName(_name);
         SetLevel(_level);
         SetHp(_hp, _maxHp);
-        SetAtk(_atk);
-        SetAtkSpeed(_atkSpeed);
         SetDescription(_description);
         SetCost(_cost);
     }
-    void SetUnitName(string s) => unitName.text = s;
+    void SetBuildingName(string s) => buildingName.text = s;
     void SetLevel(int n) => level.text = n.ToString(); 
     void SetHp(int _hp, int _maxHp)
     {
         hp.text = $"{_hp}/{_maxHp}";
     }
-    void SetAtk(int n) => atk.text = n.ToString();
-    void SetAtkSpeed(float f) => atkSpeed.text = f.ToString("0.00");
     void SetDescription(string s) => description.text = s;
     void SetCost(int n) => cost.text = n.ToString();
 }

@@ -6,7 +6,7 @@ public class DummyUnitManager : MonoBehaviour
 {
     public static DummyUnitManager INSTANCE;
 
-    Unit dummyUnit;
+    GameUnit dummyUnit;
     Vector3 dummyUnitCoords = Vector3.one * int.MaxValue;
 
     void Start()
@@ -45,10 +45,10 @@ public class DummyUnitManager : MonoBehaviour
             Destroy(dummyUnit.gameObject);
         }
         // check if selected tool is a UI_Tool_Tower
-        // Note: add support for different types when more types of UI_Tool are added
-        UI_Tool_Unit towerTool = tool as UI_Tool_Unit;
-        if (towerTool == null) return;
-        dummyUnit = CreateDummyUnit(towerTool.unit, dummyUnitCoords);
+        // TODO: add support for different types when more types of UI_Tool are added
+        UI_Tool_GameUnit gameUnitTool = tool as UI_Tool_GameUnit;
+        if (gameUnitTool == null) return;
+        dummyUnit = CreateDummyUnit(gameUnitTool.gameUnit, dummyUnitCoords);
     }
 
     public void OnToolDeselected(UI_Tool tool)
@@ -57,9 +57,9 @@ public class DummyUnitManager : MonoBehaviour
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
     }
 
-    Unit CreateDummyUnit(Unit unit, Vector3 pos)
+    GameUnit CreateDummyUnit(GameUnit unit, Vector3 pos)
     {
-        Unit t = Instantiate(unit);
+        GameUnit t = Instantiate(unit);
         t.SetIsDummy(true);
         t.transform.position = pos;
         Renderer rend = t.GetComponent<Renderer>();

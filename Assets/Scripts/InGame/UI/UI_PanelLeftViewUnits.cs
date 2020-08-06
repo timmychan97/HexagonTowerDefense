@@ -6,9 +6,9 @@ using System.Linq;
 using System;
 using UnityEditor;
 
-public class UI_InGame : MonoBehaviour
+public class UI_PanelLeftViewUnits : MonoBehaviour
 {
-    public UI_Tool_Unit toolPf;
+    public UI_Tool_GameUnit toolPf;
 
     private static string PATH_TOWER_MESH = "UnitMeshes";
 
@@ -20,7 +20,7 @@ public class UI_InGame : MonoBehaviour
 
     void CreateBtnUnit(Unit unit)
     {
-        UI_Tool_Unit toolUnit = Instantiate(toolPf, transform);
+        UI_Tool_GameUnit toolUnit = Instantiate(toolPf, transform);
         if (unit.iconSmall != null)
         {
             toolUnit.SetButtonSprite(unit.iconSmall);
@@ -30,16 +30,6 @@ public class UI_InGame : MonoBehaviour
         {
             toolUnit.SetButtonText(unit.name);
         }
-        toolUnit.unit = unit;
-        toolUnit.SetAction(() =>
-        {
-            if (GameController.INSTANCE.gameState == GameController.GameState.Paused) return;
-            if (Tile.active.CanPlaceUnit() && GameController.INSTANCE.CanBuyUnit(unit))
-            {
-                Unit inst = Instantiate(unit);
-                TileManager.INSTANCE.SetTileContent(inst.gameObject);
-                GameController.INSTANCE.OnBuyUnit(inst);
-            }
-        });
+        toolUnit.SetGameUnit(unit);
     }
 }

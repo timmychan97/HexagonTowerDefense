@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class UI_PanelUnitInfoManager : MonoBehaviour
 {
     int unitsLayerMask;
+    const int RAY_LIM = 600;
     public Canvas canvas;
     public UI_PanelUnitInfo_Enemy pf_enemyPanel;
-    public UI_PanelUnitInfo_Unit pf_towerPanel;
+    public UI_PanelUnitInfo_Unit pf_unitPanel;
+    public UI_PanelUnitInfo_Building pf_buildingPanel;
     UI_PanelUnitInfo panelUnitInfo;
     public IPropertiesDisplayable displaying;
     public static UI_PanelUnitInfoManager INSTANCE;
@@ -42,7 +44,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
             int mask = (1 << unitsLayerMask);
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 600, mask))
+            if (Physics.Raycast(ray, out hit, RAY_LIM, mask))
             {
                 Transform unitHit = hit.transform;
                 OnClick(unitHit.gameObject);
@@ -60,7 +62,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
         {
             Destroy(panelUnitInfo.gameObject);
         }
-        UnitRangeMarker.ShowTowerRangeMarkerOnTower(null);
+        UnitRangeMarker.ShowUnitRangeMarkerOnUnit(null);
     }
 
     public void OnClick(GameObject unit)
@@ -78,16 +80,17 @@ public class UI_PanelUnitInfoManager : MonoBehaviour
             ShowInfo(displayable);
         }
 
-        // Show tower range marker, if the selected unit is a Tower
+        // Show unit range marker, if the selected unit is a Unit
         // TODO: Move to elsewhere, as it does not really fit in here
-        UnitRangeMarker.ShowTowerRangeMarkerOnTower(unit.GetComponent<Unit>());
+        UnitRangeMarker.ShowUnitRangeMarkerOnUnit(unit.GetComponent<Unit>());
     }
 
 
     public void ShowInfo(IPropertiesDisplayable displayable)
     {
         // display info of selected unit
-        panelUnitInfo = Instantiate(displayable.GetPanelUnitInfo(), canvas.transform);
+        UI_PanelUnitInfo panel = displayable.GetPanelUnitInfo();
+        panelUnitInfo = Instantiate(panel, canvas.transform);
         UpdateInfo();
         displaying = displayable;
     }
