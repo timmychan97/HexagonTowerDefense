@@ -6,7 +6,6 @@ public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 {
     public int level;
     int hp;
-    public int sellWorth;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +18,8 @@ public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     {
         
     }
+
+    public override void OnBuy() {}
 
     public int GetHp() { return hp; }
 

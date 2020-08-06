@@ -17,10 +17,10 @@ public class DummyUnitManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleDummyUnit();
+        HandleDummyGameUnit();
     }
 
-    void HandleDummyUnit()
+    void HandleDummyGameUnit()
     {
         if (dummyUnit == null) return;
 
@@ -48,7 +48,7 @@ public class DummyUnitManager : MonoBehaviour
         // TODO: add support for different types when more types of UI_Tool are added
         UI_Tool_GameUnit gameUnitTool = tool as UI_Tool_GameUnit;
         if (gameUnitTool == null) return;
-        dummyUnit = CreateDummyUnit(gameUnitTool.gameUnit, dummyUnitCoords);
+        dummyUnit = CreateDummyGameUnit(gameUnitTool.gameUnit, dummyUnitCoords);
     }
 
     public void OnToolDeselected(UI_Tool tool)
@@ -57,7 +57,7 @@ public class DummyUnitManager : MonoBehaviour
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
     }
 
-    GameUnit CreateDummyUnit(GameUnit unit, Vector3 pos)
+    GameUnit CreateDummyGameUnit(GameUnit unit, Vector3 pos)
     {
         GameUnit t = Instantiate(unit);
         t.SetIsDummy(true);

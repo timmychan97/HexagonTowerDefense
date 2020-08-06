@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 {
-    public Sprite iconSmall;
     public int level;
     private int id;
     public int atk;
@@ -14,7 +13,6 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     private float atkPeriod; // in s
     public float lastAtkTime;
     private int hp;
-    public int sellWorth;
     public float range;
     GameObject target = null;
     public Projectile projectile;
@@ -23,7 +21,6 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     public GameObject platform;
     public GameObject unitContent;
     public Transform emitter;
-    public UnitRange pf_unitRange;
     UnitRange unitRange;
     // Start is called before the first frame update
     void Start()
@@ -58,13 +55,18 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         // initial member variables
         // we might need them before instantiation (i.e. before Start() is called)
         hp = maxHp;
-        unitRange = Instantiate(pf_unitRange, transform);
+        unitRange = Instantiate(GameController.INSTANCE.pf_unitRange, transform);
         // unitRange = t.GetComponent<UnitRange>();
         if (unitRange == null)
         {
             Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
         }
         unitRange.Init(this);
+    }
+
+    public void OnBuy()
+    {
+        
     }
 
     public void HandleAtk()

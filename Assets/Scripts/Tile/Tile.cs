@@ -44,14 +44,14 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public bool HasUnit() 
 	{
-		IPlacable t = tileContentContainer.GetComponentInChildren<Unit>();
+		IPlacable t = tileContentContainer.GetComponentInChildren<IPlacable>();
 		if (t == null) return false;
 		return true;
 	}
 
-	public Unit GetUnit()
+	public GameUnit GetGameUnit()
 	{
-		return tileContentContainer.GetComponentInChildren<Unit>();
+		return tileContentContainer.GetComponentInChildren<GameUnit>();
 	}
 
 	public void SetTileContent(GameObject obj)

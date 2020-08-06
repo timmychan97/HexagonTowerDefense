@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// A button for a Game Unit
+// Creates the Game Unit upon use
+
 public class UI_Tool_GameUnit : UI_Tool
 {
     public GameUnit gameUnit;

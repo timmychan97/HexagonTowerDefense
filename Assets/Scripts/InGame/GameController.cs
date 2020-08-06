@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
     public float waveCd;
     float waveCountdown;
     public HashSet<GameUnit> gameUnits = new HashSet<GameUnit>();
+    public UnitRange pf_unitRange;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +65,7 @@ public class GameController : MonoBehaviour
         level = Level.DEFAULT;
         ParseFileWaves(level);
         gameState = GameState.Playing;
+
         InitUI();
         Time.timeScale = 1.0f;
     }
@@ -179,45 +181,12 @@ public class GameController : MonoBehaviour
         }
         return true;
     }
-    
-    public void OnBuyGameUnit(GameUnit unit)
-    {
-        gold -= unit.cost;
-        topBar.onSpendGold();
-        UpdateUiStats();
-        gameUnits.Add(unit);
-    }
 
-    public void OnSellUnit(Unit t)
-    {
-        gold += t.sellWorth;
-        UpdateUiStats();
-    }
-
-    public void GainReward(int _gold) 
+    public void GainGold(int _gold) 
     {
         gold += _gold;
         UpdateUiStats();
         topBar.OnGainGold();
-    }
-
-    public void OnWaveStart()
-    {
-        ++wave;
-        UpdateUiStats();
-    }
-
-    public void OnGameLost()
-    {
-        gameState = GameState.Lost;
-        panel_gameLost.SetActive(true);
-    }
-
-    public void OnGameWon()
-    {
-        gameState = GameState.Won;
-        panel_gameWon.SetActive(true);
-        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
     }
 
     public void HandleGameOver() 
@@ -233,9 +202,9 @@ public class GameController : MonoBehaviour
         }
     }
 
-    ///////////////////////////////////////////////////
-    //              Pause Game
-    ///////////////////////////////////////////////////
+    ////////////////////////////////////////////
+    //           Change Game State
+    ////////////////////////////////////////////
 
     public void TogglePause()
     {
@@ -272,15 +241,20 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         hp = 100;
-        foreach (Unit u in gameUnits) {
+        foreach (GameUnit u in gameUnits) {
             if (u != null) 
             {
                 Destroy(u.gameObject);
             }
         }
         gameUnits.Clear();
+        BuildingManager.INSTANCE.Init();
         Init();
     }
+
+    //////////////////////////////////////////
+    //        End Change Game State
+    //////////////////////////////////////////
 
     //////////////////////////////////////////
     //         Game State Checks
@@ -321,5 +295,49 @@ public class GameController : MonoBehaviour
 
     /////////////////////////////////////////////
     //       End Game State Checks
-    ////////////////////////////////////////////
+    /////////////////////////////////////////////
+
+    /////////////////////////////////////////////
+    //         Event Listeners
+    /////////////////////////////////////////////
+
+    public void OnWaveStart()
+    {
+        ++wave;
+        UpdateUiStats();
+    }
+
+    public void OnGameLost()
+    {
+        gameState = GameState.Lost;
+        panel_gameLost.SetActive(true);
+        BuildingManager.INSTANCE.StopProduction();
+    }
+
+    public void OnGameWon()
+    {
+        gameState = GameState.Won;
+        panel_gameWon.SetActive(true);
+        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
+        BuildingManager.INSTANCE.StopProduction();
+    }
+
+    public void OnBuyGameUnit(GameUnit gameUnit)
+    {
+        gameUnit.OnBuy();
+        gold -= gameUnit.cost;
+        topBar.onSpendGold();
+        UpdateUiStats();
+        gameUnits.Add(gameUnit);
+    }
+
+    public void OnSellGameUnit(GameUnit t)
+    {
+        gold += t.sellWorth;
+        UpdateUiStats();
+    }
+    
+    /////////////////////////////////////////////
+    //       End Event Listeners
+    /////////////////////////////////////////////
 }

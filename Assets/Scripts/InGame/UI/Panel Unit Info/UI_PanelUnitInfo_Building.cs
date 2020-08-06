@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UI_PanelUnitInfo_Building : UI_PanelUnitInfo
 {
-    Building building;
+    public Building building;
     public Text buildingName;
     public Text level;
     public Text hp;

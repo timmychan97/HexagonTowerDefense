@@ -14,22 +14,24 @@ public class UI_PanelLeftViewUnits : MonoBehaviour
 
     void Start()
     {
-        Unit[] towerMeshPf = UI_Utils.GetResourcePrefabsComponentsSorted<Unit>(pathUnits);
-        Array.ForEach(towerMeshPf, x => CreateBtnUnit(x));
+        GameUnit[] gameUnits = UI_Utils.GetResourcePrefabsComponentsSorted<GameUnit>(pathUnits);
+        // Debug.Log($"Getting from {pathUnits}");
+        // Debug.Log(gameUnits.Count());
+        Array.ForEach(gameUnits, x => CreateBtnUnit(x));
     }
 
-    void CreateBtnUnit(Unit unit)
+    void CreateBtnUnit(GameUnit gameUnit)
     {
         UI_Tool_GameUnit toolUnit = Instantiate(toolPf, transform);
-        if (unit.iconSmall != null)
+        if (gameUnit.iconSmall != null)
         {
-            toolUnit.SetButtonSprite(unit.iconSmall);
+            toolUnit.SetButtonSprite(gameUnit.iconSmall);
             toolUnit.SetButtonText("");
         }
         else
         {
-            toolUnit.SetButtonText(unit.name);
+            toolUnit.SetButtonText(gameUnit.name);
         }
-        toolUnit.SetGameUnit(unit);
+        toolUnit.SetGameUnit(gameUnit);
     }
 }
