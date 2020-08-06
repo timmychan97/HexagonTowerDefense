@@ -396,24 +396,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9b04ed73323ab34ca19bb96ce054593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 0}
   _name: Slimer
   description: A magical gun that can fire slime to slow down units.
   maxHp: 23
   cost: 120
-  iconSmall: {fileID: 0}
+  sellWorth: 60
   level: 1
   atk: 1
   effect: {fileID: 0}
   atkSpeed: 0.5
   lastAtkTime: 0
-  sellWorth: 60
   range: 6
   projectile: {fileID: 4116944752452527415, guid: 4c2cb4c6414b38d4aa246606421d7b74,
     type: 3}
   platform: {fileID: 7742991344682757469}
-  unitContent: {fileID: 0}
+  unitContent: {fileID: 5753028609386045434}
   emitter: {fileID: 3440779263149411080}
-  pf_unitRange: {fileID: 0}
 --- !u!65 &9157065472683096271
 BoxCollider:
   m_ObjectHideFlags: 0

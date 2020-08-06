@@ -9,7 +9,13 @@ public class DummyUnitManager : MonoBehaviour
     GameUnit dummyUnit;
     Vector3 dummyUnitCoords = Vector3.one * int.MaxValue;
 
-    void Start()
+    // When a dummy unit is being destroyed (ready to be destroyed at the end of frame)
+    // The boolean will be set to true.
+    // We need this to prevent this script adding new dummy units or show a panel after 
+    // running destroy.
+    bool isBeingDestroyed = false;
+
+    void Awake()
     {
         INSTANCE = this;
     }
@@ -23,6 +29,7 @@ public class DummyUnitManager : MonoBehaviour
     void HandleDummyGameUnit()
     {
         if (dummyUnit == null) return;
+        if(isBeingDestroyed) return;
 
         // get tile
         Tile tile = TileUtils.GetTileUnderMouse();
@@ -42,6 +49,7 @@ public class DummyUnitManager : MonoBehaviour
     public void OnToolSelected(UI_Tool tool)
     {
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
+        isBeingDestroyed = false;
 
         // check if selected tool is a UI_Tool_Tower
         // TODO: add support for different types when more types of UI_Tool are added
@@ -53,6 +61,7 @@ public class DummyUnitManager : MonoBehaviour
 
     public void OnToolDeselected(UI_Tool tool)
     {
+        isBeingDestroyed = true;
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
         UnitRangeMarker.Hide();

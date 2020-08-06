@@ -9,7 +9,7 @@ public class UnitRangeMarker : MonoBehaviour
 
     public float rotationsPerMinute = 7f;
 
-    void Start()
+    void Awake()
     {
         INSTANCE = this;
         gameObject.SetActive(false);
@@ -31,51 +31,28 @@ public class UnitRangeMarker : MonoBehaviour
 
     public static void MoveToUnit(GameUnit unit)
     {
-        if (INSTANCE)
+        if(unit != null)
         {
-            if (unit != null)
-            {
-                _ShowUnitRangeMarker(unit);
-            }
-            else
-            {
-                Hide();
-            }
+            _ShowUnitRangeMarker(unit);
         }
-        else 
+        else
         {
-            LogNotFound();
+            Hide();
         }
     }
 
-    public static void Hide() {
-        if(INSTANCE) {
-            INSTANCE.gameObject.SetActive(false);
-        } else {
-            LogNotFound();
-        }
-    }
+    public static void Hide() => INSTANCE.gameObject.SetActive(false);
 
-    public static void Show() {
-        if(INSTANCE) {
-            INSTANCE.gameObject.SetActive(true);
-        } else {
-            LogNotFound();
-        }
-    }
+    public static void Show() => INSTANCE.gameObject.SetActive(true);
 
     private static void _ShowUnitRangeMarker(GameUnit gameUnit)
     {
         var urm = INSTANCE;
         var unit = (Unit)gameUnit;
-        if (unit)
+        if(unit)
         {
             urm.SetRadius(unit.GetRange());
             urm.transform.position = unit.transform.position;
         }
-    }
-
-    private static void LogNotFound() {
-        Debug.LogWarning("There are no UnitRangeMarker on scene. Make sure to add one.");
     }
 }

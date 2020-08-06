@@ -7,7 +7,7 @@ public class UI_SelectionManager : MonoBehaviour
     public static UI_SelectionManager INSTANCE;
     public UI_Tool selectedTool;
 
-    void Start() => INSTANCE = this;
+    void Awake() => INSTANCE = this;
 
     private void Update()
     {
