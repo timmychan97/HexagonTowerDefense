@@ -144,6 +144,7 @@ public class GameController : MonoBehaviour
 
     void HandleWave()
     {
+        if (!IsGamePlaying()) return;
         // Starts next wave automatically when countdown reaches zero
         if (wave == waves.Count) return; // has reached last wave => don't countdown
         waveCountdown -= Time.deltaTime;
@@ -165,7 +166,6 @@ public class GameController : MonoBehaviour
     // start next wave
     public void NextWave()
     {
-        if (!IsGamePlaying()) return;
         if (wave < waves.Count)
         {
             enemySpawner.StartWave(waves[wave]);
@@ -237,6 +237,28 @@ public class GameController : MonoBehaviour
         {
             OnGameWon();
         }
+    }
+
+    public void ToggleSpeedUp()
+    {
+        if (Time.timeScale > 1.0f) 
+        {
+            SpeedDown();
+        }
+        else 
+        {
+            SpeedUp();
+        }
+    }
+
+    public void SpeedUp()
+    {
+        Time.timeScale = 2.0f;
+    }
+
+    public void SpeedDown()
+    {
+        Time.timeScale = 1.0f;
     }
 
     ////////////////////////////////////////////

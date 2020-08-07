@@ -858,8 +858,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ResumeGame
+      - m_Target: {fileID: 2368444402145116411}
+        m_MethodName: OnResumeClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

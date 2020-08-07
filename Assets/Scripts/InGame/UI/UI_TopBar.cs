@@ -80,6 +80,14 @@ public class UI_TopBar : MonoBehaviour
         }
     }
 
+    public void OnSpeedUpClicked()
+    {
+        if (GameController.INSTANCE.IsGamePlaying()) 
+        {
+            GameController.INSTANCE.ToggleSpeedUp();
+        }
+    }
+
     public void OnBtnPauseClicked()
     {
         if (GameController.INSTANCE.IsGamePlaying()) 

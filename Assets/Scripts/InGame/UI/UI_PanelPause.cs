@@ -16,6 +16,11 @@ public class UI_PanelPause : MonoBehaviour
         
     }
 
+    public void OnResumeClicked()
+    {
+        GameController.INSTANCE.ResumeGame();
+    }
+
     public void OnRestartClicked()
     {
         GameController.INSTANCE.RestartGame();
