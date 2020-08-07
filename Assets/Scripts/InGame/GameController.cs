@@ -399,6 +399,15 @@ public class GameController : MonoBehaviour
         GainGold(t.sellWorth);
         UpdateUiStats();
     }
+
+    public void OnEnemyDie(Enemy enemy)
+    {
+        GameController.INSTANCE.GainGold(enemy.worth);
+        if (enemy as IPropertiesDisplayable == UI_PanelUnitInfoManager.INSTANCE.displaying) 
+        {
+            UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
+        }
+    }
     
     /////////////////////////////////////////////
     //       End Event Listeners
