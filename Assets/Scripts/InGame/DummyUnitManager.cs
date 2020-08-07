@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+Created by Donny Chan
+
+Responsible for create a "Dummy Game Unit" that is a Game Unit that does
+nothing but display itself as a tooltip for the player. But a UnitRangeMarker
+should be displayed along with it.
+*/
+
 public class DummyUnitManager : MonoBehaviour
 {
     public static DummyUnitManager INSTANCE;
 
     GameUnit dummyUnit;
     Vector3 dummyUnitCoords = Vector3.one * int.MaxValue;
-
-    // When a dummy unit is being destroyed (ready to be destroyed at the end of frame)
-    // The boolean will be set to true.
-    // We need this to prevent this script adding new dummy units or show a panel after 
-    // running destroy.
-    bool isBeingDestroyed = false;
 
     void Awake()
     {
@@ -29,7 +31,6 @@ public class DummyUnitManager : MonoBehaviour
     void HandleDummyGameUnit()
     {
         if (dummyUnit == null) return;
-        // if(isBeingDestroyed) return;
 
         // get tile
         Tile tile = TileUtils.GetTileUnderMouse();
@@ -40,7 +41,6 @@ public class DummyUnitManager : MonoBehaviour
         { 
             // if mouse pointed to a different tile
             dummyUnit.transform.position = pos;
-            // UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
             dummyUnitCoords = tile.coords;
             UnitRangeMarker.MoveToUnit(dummyUnit);
         }
@@ -56,7 +56,6 @@ public class DummyUnitManager : MonoBehaviour
         //      The selected tool
 
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
-        isBeingDestroyed = false;
 
         // check if selected tool is a UI_Tool_GameUnit
         // TODO: add support for different types when more types of UI_Tool are added
@@ -72,7 +71,6 @@ public class DummyUnitManager : MonoBehaviour
 
     public void OnToolDeselected(UI_Tool tool)
     {
-        isBeingDestroyed = true;
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
         UnitRangeMarker.Hide();
