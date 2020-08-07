@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6644259213492475495}
   - component: {fileID: 6644259213492475494}
   - component: {fileID: 2155770565113583484}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Gold Mine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,10 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f19c0fb7117c1144bc2a1e8199bae8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 0}
   _name: Gold Mine
   description: Produces gold over time
   maxHp: 10
   cost: 100
-  level: 1
   sellWorth: 10
+  level: 1
   goldPerSec: 5

@@ -48,8 +48,8 @@ public class UnitRangeMarker : MonoBehaviour
     private static void _ShowUnitRangeMarker(GameUnit gameUnit)
     {
         var urm = INSTANCE;
-        var unit = (Unit)gameUnit;
-        if(unit)
+        Unit unit = gameUnit as Unit;
+        if (unit != null)
         {
             urm.SetRadius(unit.GetRange());
             urm.transform.position = unit.transform.position;

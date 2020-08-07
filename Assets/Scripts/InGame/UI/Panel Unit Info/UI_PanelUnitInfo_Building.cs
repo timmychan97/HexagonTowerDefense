@@ -48,6 +48,6 @@ public class UI_PanelUnitInfo_Building : UI_PanelUnitInfo
     {
         hp.text = $"{_hp}/{_maxHp}";
     }
-    void SetDescription(string s) => description.text = s;
+    public void SetDescription(string s) => description.text = s;
     void SetCost(int n) => cost.text = n.ToString();
 }

@@ -29,7 +29,7 @@ public class DummyUnitManager : MonoBehaviour
     void HandleDummyGameUnit()
     {
         if (dummyUnit == null) return;
-        if(isBeingDestroyed) return;
+        // if(isBeingDestroyed) return;
 
         // get tile
         Tile tile = TileUtils.GetTileUnderMouse();
@@ -40,7 +40,7 @@ public class DummyUnitManager : MonoBehaviour
         { 
             // if mouse pointed to a different tile
             dummyUnit.transform.position = pos;
-            UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
+            // UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
             dummyUnitCoords = tile.coords;
             UnitRangeMarker.MoveToUnit(dummyUnit);
         }
@@ -48,15 +48,26 @@ public class DummyUnitManager : MonoBehaviour
 
     public void OnToolSelected(UI_Tool tool)
     {
+        // Create a Dummy Unit upon selecting a tool,
+        // and diplay info of the corresponding Unit
+        // using Panel Unit Info.
+
+        // Parameter:
+        //      The selected tool
+
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
         isBeingDestroyed = false;
 
-        // check if selected tool is a UI_Tool_Tower
+        // check if selected tool is a UI_Tool_GameUnit
         // TODO: add support for different types when more types of UI_Tool are added
+        
         UI_Tool_GameUnit gameUnitTool = tool as UI_Tool_GameUnit;
-        if (gameUnitTool == null) return;
-        dummyUnit = CreateDummyGameUnit(gameUnitTool.gameUnit, dummyUnitCoords);
-        UnitRangeMarker.Show();
+        if (gameUnitTool != null) 
+        {
+            dummyUnit = CreateDummyGameUnit(gameUnitTool.gameUnit);
+            UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
+            UnitRangeMarker.Show();
+        }
     }
 
     public void OnToolDeselected(UI_Tool tool)
@@ -67,11 +78,10 @@ public class DummyUnitManager : MonoBehaviour
         UnitRangeMarker.Hide();
     }
 
-    GameUnit CreateDummyGameUnit(GameUnit unit, Vector3 pos)
+    GameUnit CreateDummyGameUnit(GameUnit gameUnit)
     {
-        GameUnit t = Instantiate(unit);
+        GameUnit t = Instantiate(gameUnit);
         t.SetIsDummy(true);
-        t.transform.position = pos;
         Renderer rend = t.GetComponent<Renderer>();
         if (rend != null) {
             foreach (Material mat in rend.materials) {

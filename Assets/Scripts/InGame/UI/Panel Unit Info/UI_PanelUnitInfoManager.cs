@@ -33,22 +33,24 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
         }
     }
 
-    public void OnClick(GameObject unit)
+    public void OnClick(GameObject gameUnit)
     {
-        // executes when user clicks left mouse button
-        // NOTE: only pass Game Objects under layer "Units" as parameter
+        // Summary:
+        //     If gameUnit is an implementation of IDisplayable, display
+        //     its info using a Panel unit Info
+        // 
+        //     NOTE: only pass Game Objects under layer "Units" as parameter
 
-        if (unit == null) return; // if no Game Objects under layer "Units" are clicked
+        if (gameUnit == null) return; // if no Game Objects under layer "Units" are clicked
 
         // Show info of game object in unit info panel if the object's properties are displayable
-        IPropertiesDisplayable displayable = unit.GetComponent<IPropertiesDisplayable>();
+        IPropertiesDisplayable displayable = gameUnit.GetComponent<IPropertiesDisplayable>();
         CloseInfo();
         if (displayable != null)
         {
             ShowInfo(displayable);
         }
     }
-
 
     public void ShowInfo(IPropertiesDisplayable displayable)
     {

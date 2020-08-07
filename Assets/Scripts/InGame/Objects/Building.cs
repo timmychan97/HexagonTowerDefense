@@ -32,6 +32,7 @@ public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     { 
         // get the prefab from Panel Unit Info Manager, 
         // link it with this object, then return
+        Debug.Log("Get panel in Building");
         UI_PanelUnitInfo_Building panel = UI_PanelUnitInfoManager.INSTANCE.pf_buildingPanel;
         panel.SetUnit(this);
         return panel;
