@@ -12,7 +12,7 @@ public class MainMenuManager : MonoBehaviour
     public Panel_SelectDifficulty panel_selectDifficulty;
     public Panel_Options panel_options;
     public Btn_LoadLevel pf_btnLoadLevel;
-    private string path_levelScenes = "Scenes/Levels/";
+    // private string path_levelScenes = "Scenes/Levels/";
     Level curLevel;
     GlobalSettings.Difficulty curDifficulty;
 

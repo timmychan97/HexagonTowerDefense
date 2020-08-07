@@ -64,10 +64,10 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         unitRange.Init(this);
     }
 
-    public void OnBuy()
-    {
+    // public void OnBuy()
+    // {
         
-    }
+    // }
 
     public void HandleAtk()
     {
