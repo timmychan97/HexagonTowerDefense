@@ -157,7 +157,7 @@ public class GameController : MonoBehaviour
     public void UpdateUiStats()
     {
         topBar.SetTextGold(gold);
-        topBar.SetTextHp(myBase.GetHp());
+        topBar.SetTextHp(myBase.GetHp(), maxHp);
         topBar.SetTextWave(wave);
         topBar.SetTextCountdown(waveCountdown);
     }
