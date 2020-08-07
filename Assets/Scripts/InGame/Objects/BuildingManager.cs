@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /*
+Created by Donny Chan
+
 Many buildings have global effects, and to avoid all
 buildings having their own calls for the same effect,
-this script will implement them in one go. 
+this script will implement them in one go.
 */
 
 public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager INSTANCE;
-    public int initialGoldPerSec = 1;
-    int goldPerSec;
+    public int initialGoldPerSec = 0;
+    public int goldPerSec;
 
     HashSet<Building_GoldMine> goldMines = new HashSet<Building_GoldMine>();
     HashSet<Building> buildings = new HashSet<Building>();
@@ -43,6 +45,7 @@ public class BuildingManager : MonoBehaviour
     public void OnBuyGoldMine(Building_GoldMine mine)
     {
         goldPerSec += mine.goldPerSec;
+        GameController.INSTANCE.AddGainGoldMultiplier(mine.goldGainIncrease);
         goldMines.Add(mine);
     }
 

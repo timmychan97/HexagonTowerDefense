@@ -26,17 +26,17 @@ public class UI_TopBar : MonoBehaviour
         StartCoroutine(ShowNotEnoughGold());
     }
 
-    public void OnGainGold()
+    public void OnGainGold(int amount)
     {
-        StartCoroutine(ShowGainGold());
+        StartCoroutine(ShowGainGold(amount));
     }
 
-    public void onSpendGold()
+    public void onSpendGold(int amount)
     {
-        StartCoroutine(ShowSpendGold());
+        StartCoroutine(ShowSpendGold(amount));
     }
 
-    IEnumerator ShowSpendGold()
+    IEnumerator ShowSpendGold(int amount)
     {
         textGold.color = yellow;
         textGold.fontSize = 18;
@@ -58,7 +58,7 @@ public class UI_TopBar : MonoBehaviour
         textGold.fontStyle = FontStyle.Normal;
     }
 
-    IEnumerator ShowGainGold()
+    IEnumerator ShowGainGold(int amount)
     {
         textGold.color = green;
         textGold.fontSize = 18;

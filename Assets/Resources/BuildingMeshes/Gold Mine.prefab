@@ -110,7 +110,8 @@ MonoBehaviour:
   _name: Gold Mine
   description: Produces gold over time
   maxHp: 10
-  cost: 100
+  cost: 500
   sellWorth: 10
   level: 1
-  goldPerSec: 5
+  goldPerSec: 2
+  goldGainIncrease: 0.1

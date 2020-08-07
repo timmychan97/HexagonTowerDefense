@@ -39,11 +39,9 @@ public class WaveParser : MonoBehaviour
     public float GetWaveCd() { return waveCd; }
 
 
-    ///////////////////////////////////////////////////
-    //
-    //         Parse functions
-    //
-    //////////////////////////////////////////////////
+    ///////////////////////////////////////////////
+    //             Parse functions
+    ///////////////////////////////////////////////
     public void ParseFileWaves(string filename) 
     {
         string text = System.IO.File.ReadAllText(filename);
@@ -99,14 +97,6 @@ public class WaveParser : MonoBehaviour
 
     List<Wave> ParseWaves(string[] words, ref int head) 
     {
-        // int numWaves;
-        // head++;
-        // if (!Int32.TryParse(words[head], out numWaves)) 
-        // {
-        //     Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"waves\" specifying the number of waves");
-        // }
-        // List<Wave> waves = new List<Wave>(new Wave[numWaves]);
-        // Debug.Log(waves);
         List<Wave> waves = new List<Wave>();
         head++;
         while (words[head] != "end")
@@ -120,12 +110,7 @@ public class WaveParser : MonoBehaviour
                 {
                     Debug.LogWarning($"Error parsing file (head = {head}): There must be an integer after \"wave\" specifying the index of the wave");
                 }
-                // if (idx < 1 || numWaves < idx) {
-                //     Debug.LogWarning($"Error parsing file (head = {head}): the index of the wave is invalid");
-                // }
-                // waves[idx - 1] = ParseWave(words, ref head);
                 waves.Add(ParseWave(words, ref head));
-                // Debug.Log($"Got wave {idx}");
             } 
             else 
             {
