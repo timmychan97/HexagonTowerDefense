@@ -5,7 +5,6 @@ using UnityEngine;
 public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 {
     public int level;
-    int hp;
 
     // Start is called before the first frame update
     void Start()
@@ -21,18 +20,16 @@ public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 
     public override void OnBuy() {}
 
-    public int GetHp() { return hp; }
-
-    public void TakeDmg(float dmg)
+    public new void Die()
     {
-        hp -= Mathf.RoundToInt(dmg);
+        GameController.INSTANCE.OnBuildingDie(this);
+        Destroy(gameObject);
     }
 
-    public UI_PanelUnitInfo GetPanelUnitInfo() 
+    public new UI_PanelUnitInfo GetPanelUnitInfo() 
     { 
-        // get the prefab from Panel Unit Info Manager, 
-        // link it with this object, then return
-        Debug.Log("Get panel in Building");
+        // get the prefab from UI_PanelUnitInfoManager, 
+        // link it with this object, then return The Panel
         UI_PanelUnitInfo_Building panel = UI_PanelUnitInfoManager.INSTANCE.pf_buildingPanel;
         panel.SetUnit(this);
         return panel;

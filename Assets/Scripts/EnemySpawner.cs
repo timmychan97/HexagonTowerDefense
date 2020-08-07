@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class EnemySpawner : MonoBehaviour
 {
     public Transform spawnLocation;
-    public Transform goal;
+    public GameUnit goal;
     public EnemySpawner es;
     private int numEnemies;
     private int numWaves;
@@ -58,7 +58,6 @@ public class EnemySpawner : MonoBehaviour
         Transform t = Instantiate(unit, spawnLocation);
         Enemy e = t.GetComponent<Enemy>();
         e.goal = goal;
-        e.target = GameController.INSTANCE.myBase;
         enemies.Add(e);
     }
 

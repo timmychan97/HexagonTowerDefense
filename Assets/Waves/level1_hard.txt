@@ -1,12 +1,12 @@
 init
-	gold 100
+	gold 200
 	hp 1
 	waveCd 20
 end
 
 waves
 wave 1
-	brute 2
+	archer 2
 end
 wave 2
 	brute2 2

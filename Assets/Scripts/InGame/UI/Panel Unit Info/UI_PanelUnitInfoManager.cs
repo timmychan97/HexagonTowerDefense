@@ -67,6 +67,22 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
         panelUnitInfo.UpdateInfo();
     }
 
+    public void OnDisplayableTakeDmg(IPropertiesDisplayable displayable)
+    {
+        if (displaying == displayable)
+        {
+            UpdateInfo();
+        }
+    }
+
+    public void OnGameUnitDie(GameUnit gameUnit)
+    {
+        if (gameUnit as IPropertiesDisplayable == displaying)
+        {
+            CloseInfo();
+        }
+    }
+
     void ISelectionObserver.OnSelect(Object obj) {
         OnClick((GameObject)obj);
         UnitRangeMarker.Show();

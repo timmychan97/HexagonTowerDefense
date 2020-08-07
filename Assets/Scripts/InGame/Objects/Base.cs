@@ -1,40 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Base : MonoBehaviour, IDamagable
+﻿public class Base : GameUnit
 {
-    public int maxHp;
-    private int hp;
-    // Start is called before the first frame update
-    void Start()
-    {
-        hp = maxHp;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Die()
+    public new void Die()
     {
         // display die animation
     }
 
-    public void TakeDmg(float dmg)
+    public new void TakeDmg(float dmg)
     {
-        // Debug.Log("Base took damage: " + dmg.ToString());
-        hp -= Mathf.RoundToInt(dmg);
-        if (hp <= 0)
-        {
-            hp = 0;
-            Die();
-        }
-        GameController.INSTANCE.UpdateUiStats();
+        GameController.INSTANCE.OnBaseTakeDmg(this);
+        base.TakeDmg(dmg);
     }
-
-    public int GetHp() { return hp; }
-    public void SetHp(int a) { hp = a; }
 }

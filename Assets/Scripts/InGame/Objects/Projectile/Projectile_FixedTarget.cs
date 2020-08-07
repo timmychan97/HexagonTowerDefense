@@ -28,30 +28,41 @@ public class Projectile_FixedTarget : Projectile
         UpdatePos();
     }
 
-    public override void Init(Unit _emitter, GameObject _target)
+    /////////////////////////////////////////////
+    //           Init functions
+    /////////////////////////////////////////////
+
+    public override void Init(Unit _emitter, GameUnit _target)
     {
-        // NOTE: this assumes that _target is idle
-        orig = transform.position;
-        target = _target.transform.position;
-        dir = (target - orig);
-        dir.y = 0;
-        dir = dir.normalized;
-        dmg = _emitter.atk;
+        if (_target is Enemy enemy) 
+        {
+            Init(_emitter, enemy);
+        }
+        else 
+        {
+            // NOTE: this assumes that _target is idle
+            orig = transform.position;
+            target = _target.transform.position;
+            dir = (target - orig);
+            dir.y = 0;
+            dir = dir.normalized;
+            dmg = _emitter.atk;
 
-        // set hit region
-        hitRegion = Instantiate(hitRegionPf, target, transform.rotation);
+            // set hit region
+            hitRegion = Instantiate(hitRegionPf, target, transform.rotation);
 
-        // compute initial velocity in y axis
-        t0 = Time.time;
-        y0 = transform.position.y;
-        Vector3 toTarget = target - transform.position;
-        toTarget.y = 0;
-        deltaT = toTarget.magnitude / speed;
-        float deltaY = target.y - transform.position.y;
-        vy = (deltaY - 0.5f * downAccel * deltaT * deltaT) / deltaT;
+            // compute initial velocity in y axis
+            t0 = Time.time;
+            y0 = transform.position.y;
+            Vector3 toTarget = target - transform.position;
+            toTarget.y = 0;
+            deltaT = toTarget.magnitude / speed;
+            float deltaY = target.y - transform.position.y;
+            vy = (deltaY - 0.5f * downAccel * deltaT * deltaT) / deltaT;
+        }
     }
 
-    public override void Init(Unit _emitter, Enemy enemy)
+    public void Init(Unit _emitter, Enemy enemy)
     {
         dmg = _emitter.atk;
         orig = transform.position;

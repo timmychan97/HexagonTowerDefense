@@ -22,8 +22,7 @@ public class Projectile : MonoBehaviour
 
     }
 
-    public virtual void Init(Unit _emitter, GameObject _target) {}
-    public virtual void Init(Unit _emitter, Enemy enemy) {}
-
+    public virtual void Init(Unit _emitter, GameUnit _target) {}
+    public virtual void Init(Enemy enemy, GameUnit _target) {}
     public virtual void OnHit() {}
 }

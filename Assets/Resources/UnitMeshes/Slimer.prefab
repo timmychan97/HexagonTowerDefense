@@ -407,7 +407,7 @@ MonoBehaviour:
   effect: {fileID: 0}
   atkSpeed: 0.5
   lastAtkTime: 0
-  range: 6
+  atkRange: 6
   projectile: {fileID: 4116944752452527415, guid: 4c2cb4c6414b38d4aa246606421d7b74,
     type: 3}
   platform: {fileID: 7742991344682757469}

@@ -3,35 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IPropertiesDisplayable
+public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectable, IPropertiesDisplayable
 {
     public HealthBarPivot healthBarPivot;
-    public Transform goal;
-    public IDamagable target;
-    public string enemyName;
+    public GameUnit goal;
+    public GameUnit target = null;
+
+    /* stats */
+    protected int id;
     public int level;
-    private int id;
     public float atkRange;
-    private float atkRangeSqr;
     public int atk;
     public float moveSpeed;
     public float atkSpeed; // in Hz
-    private float atkPeriod;
-    private float lastAtkTime;
-    float atkCountdown;
-    public int maxHp;
-    private int hp;
     public int worth;
+    float atkRangeSqr;
+    float atkPeriod;
+    float atkCountdown;
+    float lastAtkTime;
+
     public static int totalNumEnemies = 0;
     private NavMeshAgent navMeshAgent;
     public HashSet<Effect> effects;
+    EnemyRange range;
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = moveSpeed;
         if (navMeshAgent)
-            navMeshAgent.destination = goal.position;
+            navMeshAgent.destination = goal.transform.position;
         hp = maxHp;
         id = totalNumEnemies;
         totalNumEnemies++;
@@ -46,31 +47,60 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
         healthBarPivot.AddUIHealthBar();
         healthBarPivot.SetMaxHealth(maxHp);
         healthBarPivot.SetHealth(maxHp);
+
+        Init();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!GameController.INSTANCE.IsGamePlaying()) return;
         HandleAtk();
+    }
+
+    public void Init()
+    {
+        // Initialize member variables
+        // We might need them before instantiation (i.e. before Start() is called)
+        hp = maxHp;
+        range = Instantiate(GameController.INSTANCE.pf_enemyRange, transform);
+        // unitRange = t.GetComponent<UnitRange>();
+        if (range == null)
+        {
+            Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
+        }
+        range.Init(this);
     }
 
     public void HandleAtk()
     {
-        if (!GameController.INSTANCE.IsGamePlaying()) return;
-        if (target == null) return;
-
-        float dist2 = (goal.position - transform.position).sqrMagnitude;
-        if (atkRangeSqr > dist2) // can attack goal
+        if (IsGoalInRange())
         {
+            Debug.Log("Goal is in range");
+            // attack goal (base)
             atkCountdown -= Time.deltaTime;
             if (atkCountdown < 0){
-                if (target is Base)
-                {
-                    Atk(target);
-                }
+                Atk(goal);
                 atkCountdown = atkPeriod;
             }
         }
+        else if (target != null)
+        {
+            // check if this enemy can attack units
+            atkCountdown -= Time.deltaTime;
+            if (atkCountdown < 0) 
+            {
+                Atk(target);
+                atkCountdown = atkPeriod;
+            }
+        }
+    }
+
+    bool IsGoalInRange()
+    {
+        if (goal == null) return false;
+        float dist2 = (goal.transform.position - transform.position).sqrMagnitude;
+        return atkRangeSqr > dist2;
     }
 
     public void Destroy()
@@ -78,7 +108,7 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     }
 
-    public void Die()
+    public override void Die()
     {
         GameController.INSTANCE.OnEnemyDie(this);
         Destroy(gameObject);
@@ -86,29 +116,19 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
 
     public int GetId() => id;
 
-    public void Atk(IDamagable b)
+    public virtual void Atk(GameUnit gu)
     {
-        // Debug.Log("Enemy " + id.ToString() +  " attacks base");
-        b.TakeDmg(atk);
+        // By default, just deal damage
+        gu.TakeDmg(atk);
     }
 
-    public void TakeDmg(float dmg)
+    public override void TakeDmg(float dmg)
     {
-        hp -= Mathf.RoundToInt(dmg);
+        base.TakeDmg(dmg);
         healthBarPivot.SetHealth(hp);
-        if (hp <= 0)
-        {
-            Die();
-        }
-        // if panel unit info is displaying this unit's info, update it
-        Enemy displaying  = UI_PanelUnitInfoManager.INSTANCE.displaying as Enemy;
-        if (displaying == this) 
-        {
-            UI_PanelUnitInfoManager.INSTANCE.UpdateInfo();
-        }
     }
 
-    public void TakeEffect(Effect effect)
+    public override void TakeEffect(Effect effect)
     {
         if (effect.stacked) 
         {
@@ -166,23 +186,49 @@ public class Enemy : MonoBehaviour, IDamagable, IDestroyable, IAffectable, IProp
         navMeshAgent.speed = moveSpeed;
     }
 
-    public int GetHp()
-    {
-        return hp;
-    }
-
     public Vector3 GetVelocity()
     {
         if (navMeshAgent == null) return Vector3.zero;
         return navMeshAgent.velocity;
     }
 
-    public UI_PanelUnitInfo GetPanelUnitInfo() 
+    public new UI_PanelUnitInfo GetPanelUnitInfo() 
     {
-        // get the prefab from Panel Unit Info Manager, 
-        // link it with this object, then return 
+        // get the prefab for Enemy class from UI_PanelUnitInfoManager, 
+        // link it with this object, then return the panel
         UI_PanelUnitInfo_Enemy panel = UI_PanelUnitInfoManager.INSTANCE.pf_enemyPanel;
         panel.SetEnemy(this);
         return panel; 
+    }
+
+    public GameUnit GetTarget() 
+    { 
+        return target; 
+    }
+
+    public void SetTarget(GameUnit gameUnit) 
+    {
+        target = gameUnit; 
+    }
+
+
+    public int GetAtk() 
+    {
+        return atk;
+    }
+
+    public void SetAtk(int a)
+    {
+        atk = a;
+    }
+
+    public float GetAtkRange()
+    {
+        return atkRange;
+    }
+
+    public void SetAtkRange(float a)
+    {
+        atkRange = a;
     }
 }

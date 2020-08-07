@@ -11,6 +11,7 @@ public class WaveParser : MonoBehaviour
     public Transform pfTanker;
     public Transform pfSprinter;
     public Transform pfSprinter2;
+    public Transform pfArcher;
     private int hp;
     private int gold;
     private int numWaves;
@@ -156,6 +157,11 @@ public class WaveParser : MonoBehaviour
         {
             int cnt = int.Parse(words[++head]);
             sa.SetSpawnUnit(pfTanker, cnt);
+        }
+        else if (words[head] == "archer" || words[head] == "archer1") 
+        {
+            int cnt = int.Parse(words[++head]);
+            sa.SetSpawnUnit(pfArcher, cnt);
         }
         else 
         {

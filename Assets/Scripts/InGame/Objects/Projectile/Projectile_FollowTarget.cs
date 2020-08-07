@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Projectile_FollowTarget : Projectile
 {
-    GameObject target;
+    GameUnit target;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,17 +24,22 @@ public class Projectile_FollowTarget : Projectile
         }
     }
 
-    public override void Init(Unit _emitter, GameObject _target)
+    public void Init(int _dmg, GameUnit _target)
     {
+        dmg = _dmg;
         target = _target;
-        dmg = _emitter.atk;
-        effect = _emitter.effect;
         transform.LookAt(_target.transform, Vector3.up);
     }
 
-    public override void Init(Unit _emitter, Enemy enemy)
+    public override void Init(Unit _emitter, GameUnit _target)
     {
-        Init(_emitter, enemy.gameObject);
+        effect = _emitter.effect;
+        Init(_emitter.atk, _target);
+    }
+
+    public override void Init(Enemy enemy, GameUnit unit)
+    {
+        Init(enemy.atk, unit);
     }
 
     void UpdatePos() 
@@ -54,9 +59,10 @@ public class Projectile_FollowTarget : Projectile
     
     public override void OnHit()
     {
-        Enemy enemy = target.GetComponent<Enemy>();
-        enemy.TakeDmg(dmg);
+        target.TakeDmg(dmg);
         if (effect != null)
-            enemy.TakeEffect(effect);
+        {
+            target.TakeEffect(effect);
+        }
     }
 }

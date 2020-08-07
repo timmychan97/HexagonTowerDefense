@@ -5,16 +5,17 @@ using UnityEngine.UI;
 
 public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 {
+    /* stats */
     public int level;
-    private int id;
     public int atk;
     public Effect effect;
     public float atkSpeed; // in Hz
     private float atkPeriod; // in s
     public float lastAtkTime;
-    private int hp;
-    public float range;
-    GameObject target = null;
+    public float atkRange;
+
+    /* other members */
+    GameUnit target = null;
     public Projectile projectile;
     HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
     SphereCollider sphereCollider;
@@ -35,25 +36,15 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     // Update is called once per frame
     void Update()
     {
+        if (!GameController.INSTANCE.IsGamePlaying()) return;
         if (isDummy) return;
-        if (target == null) ChooseNewTarget();
-
-        if (target)
-        {
-            // rotate unit content to look at target
-            if (unitContent != null)
-            {
-                Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-                unitContent.transform.LookAt(lookAtPos);
-            }
-            HandleAtk();
-        }
+        HandleAtk();
     }
 
     public void Init()
     {
-        // initial member variables
-        // we might need them before instantiation (i.e. before Start() is called)
+        // Initialize member variables
+        // We might need them before instantiation (i.e. before Start() is called)
         hp = maxHp;
         unitRange = Instantiate(GameController.INSTANCE.pf_unitRange, transform);
         // unitRange = t.GetComponent<UnitRange>();
@@ -71,35 +62,44 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 
     public void HandleAtk()
     {
-        if (!GameController.INSTANCE.IsGamePlaying()) return;
-        float timeSinceAtk = Time.time - lastAtkTime;
-        if (timeSinceAtk > atkPeriod)
+        if (target != null) 
         {
-            Atk(target);
-            lastAtkTime = Time.time;
+            // Rotate unit content to look at target
+            // if this Unit has unit content (model that aims)
+            if (unitContent != null)
+            {
+                Vector3 lookAtPos = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                unitContent.transform.LookAt(lookAtPos);
+            }
+
+            float timeSinceAtk = Time.time - lastAtkTime;
+            if (timeSinceAtk > atkPeriod)
+            {
+                Atk(target);
+                lastAtkTime = Time.time;
+            }
         }
     }
 
-    void Atk(GameObject target)
+    void Atk(GameUnit target)
     {
         Projectile p = Instantiate(projectile, emitter.position, transform.rotation);
-        Enemy enemy = target.GetComponent<Enemy>();
-        if (enemy != null)
-        {
-            p.Init(this, enemy);
-        }
-        else
-        {
-            p.Init(this, target);
-        }
+        p.Init(this, target);
     }
 
-    public void SetTarget(GameObject _target) { target = _target; }
-    public GameObject GetTarget() { return target; }
+    public void SetTarget(GameUnit _target) 
+    { 
+        target = _target; 
+    }
+    public GameUnit GetTarget() 
+    { 
+        return target; 
+    }
 
-    public void TakeDmg(float dmg)
+    public override void Die()
     {
-        hp -= Mathf.RoundToInt(dmg);
+        GameController.INSTANCE.OnUnitDie(this);
+        Destroy(gameObject);
     }
 
     void ChooseNewTarget()
@@ -107,7 +107,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         target = unitRange.GetNewTarget();
     }
 
-    public UI_PanelUnitInfo GetPanelUnitInfo()
+    public new UI_PanelUnitInfo GetPanelUnitInfo()
     {
         // get the prefab from Panel Unit Info Manager, 
         // link it with this object, then return
@@ -116,19 +116,34 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         return panel;
     }
 
-    public int GetHp()
-    {
-        return hp;
-    }
-
     public float GetRange()
     {
-        return range;
+        return atkRange;
     }
 
     public Tile GetTile()
     {
         if (transform.parent == null) return null;
         return transform.parent.GetComponentInParent<Tile>();
+    }
+
+    public int GetAtk() 
+    {
+        return atk;
+    }
+
+    public void SetAtk(int a)
+    {
+        atk = a;
+    }
+
+    public float GetAtkRange()
+    {
+        return atkRange;
+    }
+
+    public void SetAtkRange(float a)
+    {
+        atkRange = a;
     }
 }

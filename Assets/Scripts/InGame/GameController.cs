@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
     private List<Wave> waves;
     public HashSet<GameUnit> gameUnits = new HashSet<GameUnit>();
     public UnitRange pf_unitRange;
+    public EnemyRange pf_enemyRange;
 
     // Start is called before the first frame update
     void Start()
@@ -214,7 +215,6 @@ public class GameController : MonoBehaviour
         int gainInt = Mathf.RoundToInt(gainAmount);
         gold += gainInt;
         if (gainInt != 0) {
-            Debug.Log($"Gains {gainAmount} gold");
             UpdateUiStats();
             topBar.OnGainGold(gainInt);
         }
@@ -394,19 +394,31 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void OnSellGameUnit(GameUnit t)
+    public void OnSellGameUnit(GameUnit gameUnit)
     {
-        GainGold(t.sellWorth);
+        GainGold(gameUnit.sellWorth);
         UpdateUiStats();
     }
 
     public void OnEnemyDie(Enemy enemy)
     {
-        GameController.INSTANCE.GainGold(enemy.worth);
-        if (enemy as IPropertiesDisplayable == UI_PanelUnitInfoManager.INSTANCE.displaying) 
-        {
-            UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
-        }
+        GainGold(enemy.worth);
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(enemy);
+    }
+
+    public void OnUnitDie(Unit unit)
+    {
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(unit);
+    }
+
+    public void OnBuildingDie(Building building)
+    {
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(building);
+    }
+
+    public void OnBaseTakeDmg(Base b)
+    {
+        UpdateUiStats();
     }
     
     /////////////////////////////////////////////

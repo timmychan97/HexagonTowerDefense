@@ -79,15 +79,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c9e0c71c7e38c4a8b23277422fb65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 0}
+  _name: 
+  description: 
+  maxHp: 100
+  cost: 0
+  sellWorth: 0
   healthBarPivot: {fileID: 5175063115101555778}
   goal: {fileID: 0}
-  enemyName: Brute
+  target: {fileID: 0}
   level: 1
   atkRange: 1
   atk: 8
   moveSpeed: 3
   atkSpeed: 1
-  maxHp: 100
   worth: 70
 --- !u!195 &6703593170849819156
 NavMeshAgent:

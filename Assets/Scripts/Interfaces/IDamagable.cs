@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    void TakeDmg(float health);
+    void TakeEffect(Effect effect);
+    void TakeDmg(float dmg);
+    void Die();
 }
