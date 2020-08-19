@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Effect : MonoBehaviour
 {
@@ -16,29 +14,27 @@ public class Effect : MonoBehaviour
     public float countdown;
     public bool stacked;
 
-    // copy contructor for deep copy
+    // Copy contructor for deep copy
     public Effect(Effect other)
     {
-        this.effectName = other.effectName;
-        this.duration = other.duration;
-        this.persistence = other.persistence;
-        this.dmgOverTime = other.dmgOverTime;
-        this.speedScale = other.speedScale;
-        this.shieldAmount = other.shieldAmount;
-        this.affected = other.affected;
-        this.stacked = other.stacked;
+        effectName = other.effectName;
+        duration = other.duration;
+        persistence = other.persistence;
+        dmgOverTime = other.dmgOverTime;
+        speedScale = other.speedScale;
+        shieldAmount = other.shieldAmount;
+        affected = other.affected;
+        stacked = other.stacked;
 
-        this.countdown = duration; // start counting down
+        countdown = duration; // Start counting down
         Debug.Log("countdown: " + countdown.ToString());
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         countdown = duration;
     }
 
-    // Update is called once per frame
     void Update()
     {
         countdown -= Time.deltaTime;
@@ -49,22 +45,14 @@ public class Effect : MonoBehaviour
         }
     }
 
-    public void SetAffected(IAffectable affectable)
-    {
-        affected = affectable;
-    }
+    public void SetAffected(IAffectable affectable) => affected = affectable;
 
     public void StopEffect()
     {
         if (affected == null) 
-        {
             Debug.LogWarning("No units are affects by " + effectName);
-        }
         affected.RemoveEffect(this);
     }
 
-    public void ResetCountdown()
-    {
-        countdown = duration;
-    }
+    public void ResetCountdown() => countdown = duration;
 }

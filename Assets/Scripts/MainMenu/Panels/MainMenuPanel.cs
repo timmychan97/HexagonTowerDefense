@@ -12,27 +12,17 @@ public class MainMenuPanel : MonoBehaviour
     float endOpacity;
     float endWidth;
 
-    // Start is called before the first frame update
-
     protected void Start()
     {
         SetMemberVars();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void SetMemberVars()
     {
         rectTransform = GetComponent<RectTransform>();
         if (rectTransform == null)
-        {
             Debug.LogWarning("No RectTransform component found on MainMenuPanel");
-        }
-
+        
         foreach (Btn_MainMenu b in GetComponentsInChildren<Btn_MainMenu>()) 
         {
             btnList.Add(b);
@@ -46,80 +36,62 @@ public class MainMenuPanel : MonoBehaviour
     {
         gameObject.SetActive(true);
         rectTransform = GetComponent<RectTransform>();
-        StartCoroutine(AnimatedShow());
+        AnimatedShow();
     }
 
-    public virtual void Hide()
+    public virtual void Hide() => gameObject.SetActive(false);
+    public virtual void HideWithAnimation() => AnimatedHide();
+
+    /// <summary>
+    /// Animation when showing this menu. Expand from left to right, incrementing opactiy in the meantime
+    /// </summary>
+    protected void AnimatedShow()
     {
-        gameObject.SetActive(false);
+        StartCoroutine(AnimatedShow(false));
     }
 
-    public virtual void HideWithAnimation()
+    /// <summary>
+    /// Animation when hiding this menu. Shrink from right to left, decrementing opactiy in the meantime
+    /// </summary>
+    protected void AnimatedHide()
     {
-        StartCoroutine(AnimatedHide());
+        StartCoroutine(AnimatedShow(true));
     }
 
-    protected float Lerp(float a, float b, float t)
+    /// <summary>
+    /// General animation for showing and hiding panels
+    /// </summary>
+    /// <param name="inverse">Run hide animation instead</param>
+    protected IEnumerator AnimatedShow(bool inverse)
     {
-        return a + (b - a) * t;
-    }
-
-    protected IEnumerator AnimatedShow()
-    {
-        // animation when showing this menu
-        // expand from left to right, incrementing opactiy in the meantime
-
         float endWidth = rectTransform.sizeDelta.x;
         float h = rectTransform.sizeDelta.y;
-
         float time = 0;
         float duration = animDuration;
+
+        if (inverse)
+            if (btnList.Count > 0) endOpacity = btnList[0].GetOpacity();
+
         while (time < duration)
         {
             float t = time / duration;
-            SetOpacity(Lerp(startOpacity, endOpacity, t));
-            rectTransform.sizeDelta = new Vector2(Lerp(startWidth, endWidth, t), h); 
+
+            // If is running hide animation, reverse the lerp
+            if (inverse) t = 1 - t;
+
+            SetOpacity(Mathf.Lerp(startOpacity, endOpacity, t));
+            rectTransform.sizeDelta = new Vector2(Mathf.Lerp(startWidth, endWidth, t), h);
 
             yield return null;
             time += Time.deltaTime;
         }
+
+        if (inverse)
+            gameObject.SetActive(false);
+
         rectTransform.sizeDelta = new Vector2(endWidth, h);
         SetOpacity(endOpacity);
     }
 
-    protected IEnumerator AnimatedHide()
-    {
-        // animation when hiding this menu
-        // Shrink from right to left, decrementing opactiy in the meantime
-
-        float endWidth = rectTransform.sizeDelta.x;
-        // float endOpacity = 1f;
-        if (btnList.Count > 0) endOpacity = btnList[0].GetOpacity();
-
-        float h = rectTransform.sizeDelta.y;
-
-        // The only difference from AnimatedShow() is here: Lerp from end to start
-        float time = 0;
-        float duration = animDuration;
-        while (time < duration)
-        {
-            float t = time / duration;
-            SetOpacity(Lerp(endOpacity, startOpacity, t));
-            rectTransform.sizeDelta = new Vector2(Lerp(endWidth, startWidth, t), h); 
-
-            yield return null;
-            time += Time.deltaTime;
-        }
-        gameObject.SetActive(false);
-        rectTransform.sizeDelta = new Vector2(endWidth, h);
-        SetOpacity(endOpacity);
-    }
-
-    protected void SetOpacity(float a)
-    {
-        foreach (var b in btnList)
-        {
-            b.SetOpacity(a);
-        }
-    }
+    protected void SetOpacity(float a) => btnList.ForEach(b => b.SetOpacity(a));
 }

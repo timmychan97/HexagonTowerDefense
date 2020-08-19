@@ -9,11 +9,9 @@ public class UnitRangeMarker : MonoBehaviour
 
     public float rotationsPerMinute = 7f;
 
-    void Awake()
-    {
-        INSTANCE = this;
-        gameObject.SetActive(false);
-    }
+    void Awake() => INSTANCE = this;
+
+    void Start() => gameObject.SetActive(false);
 
     void Update()
     {
@@ -31,14 +29,10 @@ public class UnitRangeMarker : MonoBehaviour
 
     public static void MoveToUnit(GameUnit unit)
     {
-        if(unit != null)
-        {
+        if(unit)
             _ShowUnitRangeMarker(unit);
-        }
         else
-        {
             Hide();
-        }
     }
 
     public static void Hide() => INSTANCE.gameObject.SetActive(false);

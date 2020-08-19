@@ -7,56 +7,22 @@ using UnityEngine.UI;
 public class UI_Tool : MonoBehaviour
 {
     public Button button;
-
     private Action action;
 
-    public void SetButtonText(string text)
-    {
-        button.GetComponentInChildren<Text>().text = text;
-    }
+    public void SetButtonText(string text) => button.GetComponentInChildren<Text>().text = text;
+    public void SetButtonSprite(Sprite sprite) => button.GetComponent<Image>().sprite = sprite;
+    public void SetAction(Action action) => this.action = action;
 
-    public void SetButtonSprite(Sprite sprite)
-    {
-        button.GetComponent<Image>().sprite = sprite;
-    }
-
-    public void SetAction(Action action)
-    {
-        this.action = action;
-    }
-
-    public void Action()
-    {
-        // Called by the UI_SelectionManager, when a tile is clicked.
-        // This delegate function should be set by the parent of this tool.
-        action();
-    }
-
-    public void OnClick()
-    {
-        UI_SelectionManager.INSTANCE.SetSelection(this);
-    }
-
-    public void Select()
-    {
-        SetButtonSelected();
-    }
-
-    public void Deselect()
-    {
-        SetButtonDeselected();
-    }
-
-    public void SetButtonSelected()
-    {
-        ToggleButtonColors();
-    }
-
-    public void SetButtonDeselected()
-    {
-        ToggleButtonColors();
-    }
-
+    /// <summary>
+    /// Called by the UI_SelectionManager, when a tile is clicked.
+    /// This delegate function should be set by the parent of this tool.
+    /// </summary>
+    public void Action() => action();
+    public void OnClick() => UI_SelectionManager.INSTANCE.SetSelection(this);
+    public void Select() => SetButtonSelected();
+    public void Deselect() => SetButtonDeselected();
+    public void SetButtonSelected() => ToggleButtonColors();
+    public void SetButtonDeselected() => ToggleButtonColors();
 
     public void ToggleButtonColors()
     {

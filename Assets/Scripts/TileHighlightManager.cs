@@ -11,10 +11,7 @@ using UnityEngine;
  */
 public class TileHighlightManager : MonoBehaviour, ISelectionObserver
 {
-    void Start()
-    {
-        SelectionManager.INSTANCE.AddListener(SelectionManager.ObserverType.Tile, this);
-    }
+    void Start() => SelectionManager.INSTANCE.AddListener(SelectionManager.ObserverType.Tile, this);
 
     /* TODO: This function adds the support for towers that covers more than one tile.
      * It should get properties from the selected UI_Tool and get a size or formation defintion of the tool.
@@ -38,14 +35,9 @@ public class TileHighlightManager : MonoBehaviour, ISelectionObserver
         return false;
     }
 
-
-
     void ISelectionObserver.OnSelect(Object obj) { }
-
     void ISelectionObserver.OnDeselect(Object obj) { }
-
     void ISelectionObserver.OnMouseDown(Object obj) { }
-
     void ISelectionObserver.OnMouseUp(Object obj) { }
 
     void ISelectionObserver.OnMouseEnter(Object obj)

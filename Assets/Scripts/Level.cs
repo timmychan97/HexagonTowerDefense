@@ -43,7 +43,7 @@ public class Level
         wavesFile = "level" + levelId.ToString();
         scenePath = "Scenes/Levels/Level" + levelId.ToString();
     }
-    
-    public string GetWavesFile() { return wavesFile; }
-    public string GetScenePath() { return scenePath; }
+
+    public string GetWavesFile() => wavesFile;
+    public string GetScenePath() => scenePath;
 }

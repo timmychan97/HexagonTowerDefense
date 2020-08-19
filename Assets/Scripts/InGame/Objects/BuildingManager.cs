@@ -18,17 +18,12 @@ public class BuildingManager : MonoBehaviour
 
     HashSet<Building_GoldMine> goldMines = new HashSet<Building_GoldMine>();
     HashSet<Building> buildings = new HashSet<Building>();
-    // Start is called before the first frame update
+
+    void Awake() => INSTANCE = this;
+
     void Start()
     {
-        INSTANCE = this;
         Init();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Init()

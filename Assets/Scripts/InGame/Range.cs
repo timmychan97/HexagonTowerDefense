@@ -125,21 +125,20 @@ public class Range : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Chooses a new target by the a set of policies.
+    /// </summary>
+    /// <returns>The Enemy satisfying the set of policies. Null when none was found.</returns>
     public GameUnit GetNewTarget()
     {
         /*
-        Summary:
-            Chooses a new target by following policy:
-            - the firstmost GameUnit that entered this Range
-              and is still in range.
-        
-        Return: 
-            The Enemy satisfying above policy.
-            Null when none was found.
+        Chooses a new target by following policy:
+        - The firstmost GameUnit that entered this Range
+          and is still in range.
         */
 
         GameUnit target = null;
-        // store nulls in the list of Game Units
+        // Store nulls in the list of Game Units
         // (a result of Game Units dying while in range)
         var toRemove = new List<GameUnit>();
         foreach (GameUnit e in gameUnitsInRange)
@@ -154,7 +153,7 @@ public class Range : MonoBehaviour
             }
         }
 
-        // remove the null's in gameUnitsInRange
+        // Remove the null's in gameUnitsInRange
         foreach (var e in toRemove)
         {
             gameUnitsInRange.Remove(e);

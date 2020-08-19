@@ -15,7 +15,6 @@ public class Btn_LoadLevel : Btn_MainMenu
     public GameObject lockedFilter;
     public bool unlocked;
 
-    // Start is called before the first frame update
     new void Start()
     {
         base.Start();
@@ -42,8 +41,5 @@ public class Btn_LoadLevel : Btn_MainMenu
         lockedFilter.SetActive(!unlocked);
     }
 
-    public void SetLevel(Level level) 
-    {
-        text.text = level.levelName;
-    }
+    public void SetLevel(Level level) => text.text = level.levelName;
 }

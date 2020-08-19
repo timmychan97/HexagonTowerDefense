@@ -6,8 +6,8 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager INSTANCE;
     HashSet<Unit> units = new HashSet<Unit>();
-    // Start is called before the first frame update
-    void Start()
+
+    void Awake()
     {
         INSTANCE = this;
     }
@@ -18,20 +18,12 @@ public class UnitManager : MonoBehaviour
         GameController.INSTANCE.OnBuyGameUnit(unit);
     }
 
-    public int GetUnitCount()
-    {
-        return units.Count;
-    }
+    public int GetUnitCount() => units.Count;
 
     public void ClearAllUnits()
     {
         foreach (Unit u in units) 
-        {
-            if (u != null)
-            {
-                units.Remove(u);
-            }
-        }
+            if (u != null) units.Remove(u);
         units.Clear();
     }
 }

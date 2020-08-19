@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public interface ISelectable
 {
@@ -8,9 +6,6 @@ public interface ISelectable
     void Highlight();
     void Highlight(Color? color);
     void DeHighlight();
-
     void Select();
     void DeSelect();
-
-
 }

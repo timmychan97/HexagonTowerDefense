@@ -46,10 +46,13 @@ public class GameController : MonoBehaviour
     public UnitRange pf_unitRange;
     public EnemyRange pf_enemyRange;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         INSTANCE = this;
+    }
+
+    void Start()
+    {
         if (level == null) 
         {
             level = Level.DEFAULT;
@@ -58,7 +61,6 @@ public class GameController : MonoBehaviour
         gameState = GameState.Playing;
     }
     
-    // Update is called once per frame
     void Update()
     {
         HandleWave();
@@ -389,7 +391,7 @@ public class GameController : MonoBehaviour
         if (spendAmount != 0)
         {
             gold -= gameUnit.cost;
-            topBar.onSpendGold(spendAmount);
+            topBar.OnSpendGold(spendAmount);
             UpdateUiStats();
         }
     }

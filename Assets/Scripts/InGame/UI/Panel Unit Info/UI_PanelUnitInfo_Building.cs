@@ -11,29 +11,15 @@ public class UI_PanelUnitInfo_Building : UI_PanelUnitInfo
     public Text hp;
     public Text description;
     public Text cost;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public override void UpdateInfo()
     {
-        // updates info based on building object
-        // can be optimized by updating only part of the info
+        // Updates info based on building object
+        // Can be optimized by updating only part of the info
         SetInfo(building.GetName(), building.level, building.GetHp(), building.maxHp, building.description, building.cost);
     }
 
-    public void SetUnit(Building b) 
-    {
-        building = b;
-    }
+    public void SetUnit(Building b) => building = b;
     void SetInfo(string _name, int _level, int _hp, int _maxHp, string _description, int _cost) 
     {
         SetBuildingName(_name);

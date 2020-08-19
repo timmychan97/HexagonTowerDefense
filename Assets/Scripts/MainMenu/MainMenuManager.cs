@@ -16,22 +16,16 @@ public class MainMenuManager : MonoBehaviour
     Level curLevel;
     GlobalSettings.Difficulty curDifficulty;
 
-    // Start is called before the first frame update
+    void Awake() => INSTANCE = this;
+
     void Start()
     {
         if (GlobalSettings.oneTime) {
             ClearData();
             GlobalSettings.oneTime = false;
         }
-        INSTANCE = this;
         HideMenus();
         Time.timeScale = 1.0f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     // Clear all player data, when developing, this is to make sure completed levels
@@ -42,7 +36,9 @@ public class MainMenuManager : MonoBehaviour
         Debug.Log("Clear PlayerPrefs");
     }
 
-    // hide all menus except main menu
+    /// <summary>
+    /// Hides all menus except main menu
+    /// </summary>
     void HideMenus()
     {
         panel_options.Hide();
@@ -50,10 +46,7 @@ public class MainMenuManager : MonoBehaviour
         panel_selectDifficulty.Hide();
     }
 
-    public void PromptDifficulty()
-    {
-        panel_selectDifficulty.Show();
-    }
+    public void PromptDifficulty() => panel_selectDifficulty.Show();
 
     public void QuitGame()
     {
@@ -106,8 +99,5 @@ public class MainMenuManager : MonoBehaviour
         SceneLoader.INSTANCE.LoadLevel(curLevel);
     }
 
-    public void OnQuitGameClicked()
-    {
-        QuitGame();
-    }
+    public void OnQuitGameClicked() => QuitGame();
 }

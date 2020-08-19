@@ -12,17 +12,6 @@ public class UI_PanelUnitInfo_Unit : UI_PanelUnitInfo
     public Text atkSpeed;
     public Text description;
     public Text cost;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public override void UpdateInfo()
     {
@@ -31,10 +20,7 @@ public class UI_PanelUnitInfo_Unit : UI_PanelUnitInfo
         SetInfo(unit.GetName(), unit.level, unit.GetHp(), unit.maxHp, unit.atk, unit.atkSpeed, unit.GetDescription(), unit.cost);
     }
 
-    public void SetUnit(Unit u) 
-    {
-        unit = u;
-    }
+    public void SetUnit(Unit u) => unit = u;
     void SetInfo(string _name, int _level, int _hp, int _maxHp, int _atk, float _atkSpeed, string _description, int _cost) 
     {
         SetUnitName(_name);

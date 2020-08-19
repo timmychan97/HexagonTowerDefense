@@ -18,13 +18,12 @@ public class UnitRange : Range
         unit = u;
     }
 
+    /// <returns>
+    /// Whether the given GameUnit is a potential target for
+    /// the GameUnit that this Range belongs to.
+    /// </returns>
     public override bool IsPotentialTarget(GameUnit gu)
     {
-        /*
-        Return:
-            Whether the given GameUnit is a potential target for
-            the GameUnit that this Range belongs to.
-        */
         if (!base.IsPotentialTarget(gu))
         {
             return false;
@@ -32,15 +31,10 @@ public class UnitRange : Range
         return (gu is Enemy);
     }
 
-    public override GameUnit GetCurrentTarget()
-    {
-        /*
-        Return:
-            The current target of the GameUnit that this Range
-            belongs to.
-        */
-        return target;
-    }
+    /// <summary>
+    /// Gets the current target of the GameUnit that this Range belongs to
+    /// </summary>
+    public override GameUnit GetCurrentTarget() => target;
 
     public override void SetTarget(GameUnit gu)
     {

@@ -16,13 +16,7 @@ public class Projectile_FixedTarget : Projectile
     private float deltaT;
     private float y0;
     private float vy; // initial y velocity
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
         UpdatePos();

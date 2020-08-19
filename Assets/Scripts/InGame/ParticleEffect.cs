@@ -11,6 +11,7 @@ public class ParticleEffect : MonoBehaviour
 {
     public ParticleSystem particleSystemPf;
     public float delayStartSeconds = 0;
+
     IEnumerator Start()
     {
         yield return new WaitForSeconds(delayStartSeconds);

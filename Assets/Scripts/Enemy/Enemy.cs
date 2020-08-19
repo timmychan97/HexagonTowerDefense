@@ -25,7 +25,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
 
     public static int totalNumEnemies = 0;
     private NavMeshAgent navMeshAgent;
-    public HashSet<Effect> effects;
+    public HashSet<Effect> effects = new HashSet<Effect>();
     EnemyRange range;
     // Start is called before the first frame update
     protected void Start()
@@ -43,10 +43,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         lastAtkTime = Time.time;
         atkCountdown = 0;
 
-        effects = new HashSet<Effect>();
-
-        // Initialize the healthBar
-        healthBarPivot.AddUIHealthBar(maxHp);
+        if (healthBarPivot) healthBarPivot.AddUIHealthBar(maxHp);
 
         Init();
     }
@@ -73,9 +70,14 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         range.Init(this);
     }
 
-    // This methods outputs warnings to the developers providing info about what is not properly set up in inspector for this enemy
+    /// <summary>
+    /// This methods outputs warnings to the developers providing info 
+    /// about what is not properly set up in inspector for this enemy
+    /// </summary>
     private void ValidateAttachedObjects()
     {
+        if (!healthBarPivot) Debug.LogWarning($"No HealthBarPivot is attached to \"{gameObject.name}\" " +
+            $"Enemy in inspector. No health will be shown for this enemy");
         if (!animator) Debug.LogWarning($"No Animator is attached to \"{gameObject.name}\" " +
             $"Enemy in inspector. Animations will not work properly without it");
     }
@@ -105,10 +107,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         }
     }
 
-    public void StopMoving()
-    {
-        navMeshAgent.isStopped = true;
-    }
+    public void StopMoving() => navMeshAgent.isStopped = true;
 
     bool IsGoalInRange()
     {
@@ -219,34 +218,15 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         return panel; 
     }
 
-    public GameUnit GetTarget() 
-    { 
-        return target; 
-    }
+    public GameUnit GetTarget() => target;
 
-    public void SetTarget(GameUnit gameUnit) 
-    {
-        target = gameUnit; 
-    }
+    public void SetTarget(GameUnit gameUnit) => target = gameUnit;
 
+    public int GetAtk() => atk;
 
-    public int GetAtk() 
-    {
-        return atk;
-    }
+    public void SetAtk(int a) => atk = a;
 
-    public void SetAtk(int a)
-    {
-        atk = a;
-    }
+    public float GetAtkRange() => atkRange;
 
-    public float GetAtkRange()
-    {
-        return atkRange;
-    }
-
-    public void SetAtkRange(float a)
-    {
-        atkRange = a;
-    }
+    public void SetAtkRange(float a) => atkRange = a;
 }

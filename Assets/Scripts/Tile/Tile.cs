@@ -67,30 +67,9 @@ public class Tile : MonoBehaviour {
 		TileManager.INSTANCE.OnClick(this);
     }
 
+    public void Highlight() => Highlight(null);
 
-	#region highlighter
-	public void Activate()
-	{
-		SetHighlight (transform, true);
-	}
-	public void Deactivate()
-	{
-		SetHighlight (transform, false);
-	}
-
-	void SetHighlight(Transform t, bool isEnabled)
-	{
-		// for each children, if it can be outlined, outline it.
-		return;
-	}
-	#endregion
-
-    public void Highlight()
-    {
-		Highlight(null);
-	}
-
-	public void Highlight(Color? color)
+    public void Highlight(Color? color)
 	{
 		var _propBlock = new MaterialPropertyBlock();
 		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
@@ -131,8 +110,5 @@ public class Tile : MonoBehaviour {
 
 	}
 
-	public float GetY()
-	{
-		return transform.position.y;
-	}
+    public float GetY() => transform.position.y;
 }

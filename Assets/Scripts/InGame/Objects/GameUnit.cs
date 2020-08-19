@@ -79,7 +79,7 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
     }
 
 
-    public int getCost()
+    public int GetCost()
     {
         return cost;
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HealthBarPivot : MonoBehaviour
 {
+    [SerializeField]
     private UI_HealthBar healthBar;
 
     /// <summary>
@@ -17,8 +18,10 @@ public class HealthBarPivot : MonoBehaviour
     public void AddUIHealthBar(float health)
     {
         AddUIHealthBar();
-        SetHealth(health);
+
+        // Must set max health first
         SetMaxHealth(health);
+        SetHealth(health);
     }
 
     public void RemoveUIHealthBar() => healthBar.Remove();

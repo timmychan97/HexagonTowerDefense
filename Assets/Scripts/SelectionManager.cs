@@ -10,11 +10,9 @@ public class SelectionManager : MonoBehaviour
     private Dictionary<ObserverType, List<ISelectionObserver>> observers = new Dictionary<ObserverType, List<ISelectionObserver>>();
 
 
-
     // Configurations
     int unitsLayerMask = 1 << 8;
     int tilesLayerMask = 1 << 9;
-
 
 
     private struct State
@@ -53,8 +51,8 @@ public class SelectionManager : MonoBehaviour
 
         // Propagate events to observers, based on the computed states
         UpdateUnitSelection();
-
         UpdateTileSelection();
+
         // Update tile after Tile selection.
         // Tile selection could place a tower on the tile
         UpdateTileHover();
@@ -65,8 +63,8 @@ public class SelectionManager : MonoBehaviour
         unitPrevState = unitCurState;
     }
 
-    Tile GetTileAtMousePos() => GetCompenentAtMousePos<Tile>(tilesLayerMask);
-    GameObject GetUnitAtMousePos() => GetGameObjectAtMousePos(unitsLayerMask);
+    Tile GetTileAtMousePos() => Utils.GetCompenentAtMousePos<Tile>(tilesLayerMask);
+    GameObject GetUnitAtMousePos() => Utils.GetGameObjectAtMousePos(unitsLayerMask);
 
 
     private State GetUnitCurState()
@@ -157,30 +155,7 @@ public class SelectionManager : MonoBehaviour
 
     }
 
+    public void AddListener(ObserverType type, ISelectionObserver observer) => observers[type].Add(observer);
 
-    GameObject GetGameObjectAtMousePos(LayerMask layerMask)
-    {
-        int cameraDistance = 600;
-        RaycastHit rh;
-        Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(r, out rh, cameraDistance, layerMask))
-            return rh.transform.gameObject;
-        return default;
-    }
-
-    T GetCompenentAtMousePos<T>(LayerMask layerMask)
-    {
-        var go = GetGameObjectAtMousePos(layerMask);
-        return go ? go.GetComponentInParent<T>() : default;
-    }
-
-    public void AddListener(ObserverType type, ISelectionObserver observer)
-    {
-        observers[type].Add(observer);
-    }
-
-    public void RemoveListener(ObserverType type, ISelectionObserver observer)
-    {
-        observers[type].Add(observer);
-    }
+    public void RemoveListener(ObserverType type, ISelectionObserver observer) => observers[type].Remove(observer);
 }

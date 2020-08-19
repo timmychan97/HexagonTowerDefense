@@ -61,11 +61,10 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
         displaying = displayable;
     }
 
-    public void UpdateInfo()
-    {
-        // update info of selected unit
-        panelUnitInfo.UpdateInfo();
-    }
+    /// <summary>
+    /// Update info of selected unit
+    /// </summary>
+    public void UpdateInfo() => panelUnitInfo.UpdateInfo();
 
     public void OnDisplayableTakeDmg(IPropertiesDisplayable displayable)
     {

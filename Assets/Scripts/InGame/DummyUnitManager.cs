@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 /*
 Created by Donny Chan
@@ -17,10 +15,7 @@ public class DummyUnitManager : MonoBehaviour
     GameUnit dummyUnit;
     Vector3 dummyUnitCoords = Vector3.one * int.MaxValue;
 
-    void Awake()
-    {
-        INSTANCE = this;
-    }
+    void Awake() => INSTANCE = this;
 
     // Update is called once per frame
     void Update()
@@ -32,33 +27,32 @@ public class DummyUnitManager : MonoBehaviour
     {
         if (dummyUnit == null) return;
 
-        // get tile
         Tile tile = TileUtils.GetTileUnderMouse();
         if (tile == null) return;
+
         Vector3 pos = TileUtils.RGBCoordsToWorld(tile.coords) + Vector3.up * tile.GetY();
         
         if (tile.coords != dummyUnitCoords) 
         { 
-            // if mouse pointed to a different tile
+            // If mouse pointed to a different tile
             dummyUnit.transform.position = pos;
             dummyUnitCoords = tile.coords;
             UnitRangeMarker.MoveToUnit(dummyUnit);
         }
     }
 
+    /// <summary>
+    /// Create a Dummy Unit upon selecting a tool,
+    /// and display info of the corresponding Unit
+    /// using Panel Unit Info.
+    /// </summary>
+    /// <param name="tool">The selected tool</param>
     public void OnToolSelected(UI_Tool tool)
     {
-        // Create a Dummy Unit upon selecting a tool,
-        // and diplay info of the corresponding Unit
-        // using Panel Unit Info.
-
-        // Parameter:
-        //      The selected tool
-
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
 
-        // check if selected tool is a UI_Tool_GameUnit
-        // TODO: add support for different types when more types of UI_Tool are added
+        // Check if selected tool is a UI_Tool_GameUnit
+        // TODO: Add support for different types when more types of UI_Tool are added
         
         UI_Tool_GameUnit gameUnitTool = tool as UI_Tool_GameUnit;
         if (gameUnitTool != null) 

@@ -15,29 +15,17 @@ public class UI_TopBar : MonoBehaviour
 
     public void SetTextGold(int n) => textGold.text = n.ToString();
 
-    public void SetTextHp(int hp, int maxHp) 
-    {
-        textHp.text = $"{hp}/{maxHp}";
-    }
+    public void SetTextHp(int hp, int maxHp) => textHp.text = $"{hp}/{maxHp}";
 
     public void SetTextWave(int n) => textWave.text = n.ToString();
 
     public void SetTextCountdown(float f) => textCountdown.text = Mathf.Ceil(f).ToString();
 
-    public void OnNotEnoughGold()
-    {
-        StartCoroutine(ShowNotEnoughGold());
-    }
+    public void OnNotEnoughGold() => StartCoroutine(ShowNotEnoughGold());
 
-    public void OnGainGold(int amount)
-    {
-        StartCoroutine(ShowGainGold(amount));
-    }
+    public void OnGainGold(int amount) => StartCoroutine(ShowGainGold(amount));
 
-    public void onSpendGold(int amount)
-    {
-        StartCoroutine(ShowSpendGold(amount));
-    }
+    public void OnSpendGold(int amount) => StartCoroutine(ShowSpendGold(amount));
 
     IEnumerator ShowSpendGold(int amount)
     {
@@ -92,7 +80,6 @@ public class UI_TopBar : MonoBehaviour
     {
         if (GameController.INSTANCE.IsGamePlaying()) 
         {
-            
             GameController.INSTANCE.PauseGame();
         }
         else if (GameController.INSTANCE.IsGamePaused())

@@ -9,8 +9,6 @@ public interface ISelectionObserver
 {
     void OnSelect(Object obj);
     void OnDeselect(Object obj);
-
-
     void OnMouseDown(Object obj);
     void OnMouseUp(Object obj);
     void OnMouseEnter(Object obj);

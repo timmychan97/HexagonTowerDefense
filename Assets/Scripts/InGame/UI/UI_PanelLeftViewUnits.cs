@@ -14,9 +14,7 @@ public class UI_PanelLeftViewUnits : MonoBehaviour
 
     void Start()
     {
-        GameUnit[] gameUnits = UI_Utils.GetResourcePrefabsComponentsSorted<GameUnit>(pathUnits);
-        // Debug.Log($"Getting from {pathUnits}");
-        // Debug.Log(gameUnits.Count());
+        GameUnit[] gameUnits = Utils.GetResourcePrefabsComponentsSorted<GameUnit>(pathUnits);
         Array.ForEach(gameUnits, x => CreateBtnUnit(x));
     }
 

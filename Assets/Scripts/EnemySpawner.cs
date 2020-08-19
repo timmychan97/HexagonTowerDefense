@@ -8,13 +8,9 @@ public class EnemySpawner : MonoBehaviour
     public EnemySpawner es;
     private int numEnemies;
     private int numWaves;
-    HashSet<Wave> ongoingWaves;
-    HashSet<Enemy> enemies;
-    void Start()
-    {
-        ongoingWaves = new HashSet<Wave>();
-        enemies = new HashSet<Enemy>();
-    }
+    HashSet<Wave> ongoingWaves = new HashSet<Wave>();
+    HashSet<Enemy> enemies = new HashSet<Enemy>();
+
     void Update()
     {
         HandleSpawning();
@@ -72,10 +68,7 @@ public class EnemySpawner : MonoBehaviour
         return enemies; 
     }
 
-    public HashSet<Wave> GetOngoingWaves()
-    {
-        return ongoingWaves;
-    }
+    public HashSet<Wave> GetOngoingWaves() => ongoingWaves;
 
     public void UpdateEnemySet() {
         // remove dead enemies from the Set

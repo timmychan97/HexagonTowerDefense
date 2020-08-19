@@ -23,17 +23,16 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     public GameObject unitContent;
     public Transform emitter;
     UnitRange unitRange;
-    // Start is called before the first frame update
+
     void Start()
     {
         Init();
 
-        // following are only applicable after instantiation
+        // Following are only applicable after instantiation
         atkPeriod = 1.0f / atkSpeed;
         lastAtkTime = Time.time;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!GameController.INSTANCE.IsGamePlaying()) return;
@@ -87,14 +86,8 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         p.Init(this, target);
     }
 
-    public void SetTarget(GameUnit _target) 
-    { 
-        target = _target; 
-    }
-    public GameUnit GetTarget() 
-    { 
-        return target; 
-    }
+    public void SetTarget(GameUnit _target) => target = _target;
+    public GameUnit GetTarget() => target;
 
     public override void Die()
     {
@@ -102,10 +95,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         Destroy(gameObject);
     }
 
-    void ChooseNewTarget()
-    {
-        target = unitRange.GetNewTarget();
-    }
+    void ChooseNewTarget() => target = unitRange.GetNewTarget();
 
     public new UI_PanelUnitInfo GetPanelUnitInfo()
     {
@@ -116,10 +106,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         return panel;
     }
 
-    public float GetRange()
-    {
-        return atkRange;
-    }
+    public float GetRange() => atkRange;
 
     public Tile GetTile()
     {
@@ -127,23 +114,11 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         return transform.parent.GetComponentInParent<Tile>();
     }
 
-    public int GetAtk() 
-    {
-        return atk;
-    }
+    public int GetAtk() => atk;
 
-    public void SetAtk(int a)
-    {
-        atk = a;
-    }
+    public void SetAtk(int a) => atk = a;
 
-    public float GetAtkRange()
-    {
-        return atkRange;
-    }
+    public float GetAtkRange() => atkRange;
 
-    public void SetAtkRange(float a)
-    {
-        atkRange = a;
-    }
+    public void SetAtkRange(float a) => atkRange = a;
 }
