@@ -46,9 +46,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         effects = new HashSet<Effect>();
 
         // Initialize the healthBar
-        healthBarPivot.AddUIHealthBar();
-        healthBarPivot.SetMaxHealth(maxHp);
-        healthBarPivot.SetHealth(maxHp);
+        healthBarPivot.AddUIHealthBar(maxHp);
 
         Init();
     }

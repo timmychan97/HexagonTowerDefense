@@ -6,27 +6,26 @@ public class HealthBarPivot : MonoBehaviour
 {
     private UI_HealthBar healthBar;
 
-    public void AddUIHealthBar()
+    /// <summary>
+    /// Add HealthBar on the UI
+    /// </summary>
+    public void AddUIHealthBar() => healthBar = UI_HealthBarManager.INSTANCE.AddHealthBar(this);
+
+    /// <summary>
+    /// Add HealthBar on the UI and set both health and max health to the given value
+    /// </summary>
+    public void AddUIHealthBar(float health)
     {
-        healthBar = UI_HealthBarManager.INSTANCE.AddHealthBar(this);
+        AddUIHealthBar();
+        SetHealth(health);
+        SetMaxHealth(health);
     }
 
+    public void RemoveUIHealthBar() => healthBar.Remove();
 
-    public void RemoveUIHealthBar()
-    {
-        healthBar.Remove();
-    }
+    public void SetHealth(float health) => healthBar.SetHealth(health);
 
-
-    public void SetHealth(float health)
-    {
-        healthBar.SetHealth(health);
-    }
-
-    public void SetMaxHealth(float maxHealth)
-    {
-        healthBar.SetMaxHealth(maxHealth);
-    }
+    public void SetMaxHealth(float maxHealth) => healthBar.SetMaxHealth(maxHealth);
 
 
     // Might be helpful when doing Settings
