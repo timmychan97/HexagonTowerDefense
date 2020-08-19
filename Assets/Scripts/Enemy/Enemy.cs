@@ -103,6 +103,8 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             {
                 Atk(target);
                 atkCountdown = atkPeriod;
+                if (animator)
+                    animator.SetTrigger("Run");
             }
         }
     }
@@ -133,9 +135,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
     {
         // By default, just deal damage
         if (animator)
-        {
             animator.SetTrigger("Attack");
-        }
         gu.TakeDmg(atk);
     }
 

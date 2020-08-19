@@ -53,44 +53,19 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
         return null;
     }
 
-    public string GetName()
-    {
-        return _name;
-    }
+    public string GetName() => _name;
 
-    public string GetDescription()
-    {
-        return description;
-    }
+    public string GetDescription() => description;
 
-    public int GetMaxHp()
-    {
-        return maxHp;
-    }
+    public int GetMaxHp() => maxHp;
 
-    public int GetHp()
-    {
-        return hp;
-    }
+    public int GetHp() => hp;
 
-    public void SetHp(int a) 
-    {
-        hp = a;
-    }
+    public void SetHp(int a) => hp = a;
 
+    public int GetCost() => cost;
 
-    public int GetCost()
-    {
-        return cost;
-    }
+    public bool GetIsDummy() => isDummy;
 
-    public bool GetIsDummy()
-    {
-        return isDummy;
-    }
-
-    public void SetIsDummy(bool b)
-    {
-        isDummy = b;
-    }
+    public void SetIsDummy(bool b) => isDummy = b;
 }
