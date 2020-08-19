@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectable, IPropertiesDisplayable
 {
+    public Animator animator;
     public HealthBarPivot healthBarPivot;
     public GameUnit goal;
     public GameUnit target = null;
@@ -29,6 +30,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
     // Start is called before the first frame update
     protected void Start()
     {
+        ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.speed = moveSpeed;
         if (navMeshAgent)
@@ -39,7 +41,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         atkRangeSqr = atkRange * atkRange;
         atkPeriod = 1f / atkSpeed;
         lastAtkTime = Time.time;
-        atkCountdown = atkPeriod;
+        atkCountdown = 0;
 
         effects = new HashSet<Effect>();
 
@@ -69,7 +71,15 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         {
             Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
         }
+
         range.Init(this);
+    }
+
+    // This methods outputs warnings to the developers providing info about what is not properly set up in inspector for this enemy
+    private void ValidateAttachedObjects()
+    {
+        if (!animator) Debug.LogWarning($"No Animator is attached to \"{gameObject.name}\" " +
+            $"Enemy in inspector. Animations will not work properly without it");
     }
 
     public void HandleAtk()
@@ -77,6 +87,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         if (IsGoalInRange())
         {
             Debug.Log("Goal is in range");
+            StopMoving();
             // attack goal (base)
             atkCountdown -= Time.deltaTime;
             if (atkCountdown < 0){
@@ -94,6 +105,11 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
                 atkCountdown = atkPeriod;
             }
         }
+    }
+
+    public void StopMoving()
+    {
+        navMeshAgent.isStopped = true;
     }
 
     bool IsGoalInRange()
@@ -119,6 +135,10 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
     public virtual void Atk(GameUnit gu)
     {
         // By default, just deal damage
+        if (animator)
+        {
+            animator.SetTrigger("Attack");
+        }
         gu.TakeDmg(atk);
     }
 
