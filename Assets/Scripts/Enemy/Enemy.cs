@@ -5,8 +5,9 @@ using UnityEngine.AI;
 
 public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectable, IPropertiesDisplayable
 {
-    public Animator animator;
-    public HealthBarPivot healthBarPivot;
+    public EnemyCharacter character;
+    [SerializeField] Animator animator;
+    [SerializeField] HealthBarPivot healthBarPivot;
     public GameUnit goal;
     public GameUnit target = null;
 
@@ -32,9 +33,10 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
     {
         ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.speed = moveSpeed;
-        if (navMeshAgent)
+        //navMeshAgent.speed = moveSpeed;
+        if (navMeshAgent && goal)
             navMeshAgent.destination = goal.transform.position;
+
         hp = maxHp;
         id = totalNumEnemies;
         totalNumEnemies++;
@@ -53,6 +55,29 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
     {
         if (!GameController.INSTANCE.IsGamePlaying()) return;
         HandleAtk();
+        if (Input.GetMouseButton(0))
+        {
+            int cameraDistance = 600;
+            RaycastHit rh;
+            Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(r, out rh, cameraDistance))
+            {
+                navMeshAgent.destination = rh.point;
+            }
+        }
+
+        // When doing ragdoll, the system will disable the agent. Make sure we check if it is enabled before moving
+        if (navMeshAgent.enabled)
+        {
+            if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            {
+                character.Move(navMeshAgent.desiredVelocity, false, false);
+            }
+            else
+            {
+                character.Move(Vector3.zero, false, false);
+            }
+        }
     }
 
     public void Init()
@@ -80,6 +105,9 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             $"Enemy in inspector. No health will be shown for this enemy");
         if (!animator) Debug.LogWarning($"No Animator is attached to \"{gameObject.name}\" " +
             $"Enemy in inspector. Animations will not work properly without it");
+
+        if (!goal) Debug.LogWarning($"No goal transform is attached to \"{gameObject.name}\" " +
+            $"Enemy in inspector");
     }
 
     public void HandleAtk()
@@ -97,6 +125,10 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         }
         else if (target != null)
         {
+            // Visualize target
+#if UNITY_EDITOR
+            Debug.DrawLine(transform.position + (Vector3.up * 1f), target.transform.position, Color.red);
+#endif
             // check if this enemy can attack units
             atkCountdown -= Time.deltaTime;
             if (atkCountdown < 0) 
