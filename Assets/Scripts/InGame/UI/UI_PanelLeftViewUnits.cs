@@ -28,7 +28,7 @@ public class UI_PanelLeftViewUnits : MonoBehaviour
         }
         else
         {
-            toolUnit.SetButtonText(gameUnit.name);
+            toolUnit.SetButtonText(gameUnit._name);
         }
         toolUnit.SetGameUnit(gameUnit);
     }

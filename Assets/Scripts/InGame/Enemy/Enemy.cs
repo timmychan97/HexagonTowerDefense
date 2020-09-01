@@ -3,32 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectable, IPropertiesDisplayable
+[SelectionBase]
+public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
 {
     public EnemyCharacter character;
-    [SerializeField] Animator animator;
-    [SerializeField] HealthBarPivot healthBarPivot;
+    public Animator animator;
+    public HealthBarPivot healthBarPivot;
     public GameUnit goal;
     public GameUnit target = null;
 
     /* stats */
-    protected int id;
     public int level;
     public float atkRange;
-    public int atk;
+    public int attackDamage;
     public float moveSpeed;
     public float atkSpeed; // in Hz
     public int worth;
+
     float atkRangeSqr;
     float atkPeriod;
     float atkCountdown;
-    float lastAtkTime;
 
-    public static int totalNumEnemies = 0;
     private NavMeshAgent navMeshAgent;
     public HashSet<Effect> effects = new HashSet<Effect>();
+    public EnemyRange pf_enemyRange;
     EnemyRange range;
-    // Start is called before the first frame update
+
     protected void Start()
     {
         ValidateAttachedObjects();
@@ -38,11 +38,8 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             navMeshAgent.destination = goal.transform.position;
 
         hp = maxHp;
-        id = totalNumEnemies;
-        totalNumEnemies++;
         atkRangeSqr = atkRange * atkRange;
         atkPeriod = 1f / atkSpeed;
-        lastAtkTime = Time.time;
         atkCountdown = 0;
 
         if (healthBarPivot) healthBarPivot.AddUIHealthBar(maxHp);
@@ -50,11 +47,27 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         Init();
     }
 
-    // Update is called once per frame
+    public void Init()
+    {
+        // Initialize member variables
+        // We might need them before instantiation (i.e. before Start() is called)
+        hp = maxHp;
+        range = Instantiate(pf_enemyRange, transform);
+        // unitRange = t.GetComponent<UnitRange>();
+        if (range == null)
+        {
+            Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
+        }
+
+        range.Init(this);
+    }
+
+
     void Update()
     {
-        if (!GameController.INSTANCE.IsGamePlaying()) return;
-        HandleAtk();
+        if (GameController.INSTANCE)
+            if (GameController.INSTANCE.IsGamePlaying()) return;
+        HandleAttack();
         if (Input.GetMouseButton(0))
         {
             int cameraDistance = 600;
@@ -66,6 +79,17 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             }
         }
 
+        UpdateMovement();
+
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    TakeDmg(40, new Vector3(3, -4, 4));
+        //}
+
+    }
+
+    void UpdateMovement()
+    {
         // When doing ragdoll, the system will disable the agent. Make sure we check if it is enabled before moving
         if (navMeshAgent.enabled)
         {
@@ -80,20 +104,6 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         }
     }
 
-    public void Init()
-    {
-        // Initialize member variables
-        // We might need them before instantiation (i.e. before Start() is called)
-        hp = maxHp;
-        range = Instantiate(GameController.INSTANCE.pf_enemyRange, transform);
-        // unitRange = t.GetComponent<UnitRange>();
-        if (range == null)
-        {
-            Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
-        }
-
-        range.Init(this);
-    }
 
     /// <summary>
     /// This methods outputs warnings to the developers providing info 
@@ -110,7 +120,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             $"Enemy in inspector");
     }
 
-    public void HandleAtk()
+    public void HandleAttack()
     {
         if (IsGoalInRange())
         {
@@ -119,7 +129,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             // attack goal (base)
             atkCountdown -= Time.deltaTime;
             if (atkCountdown < 0){
-                Atk(goal);
+                Attack(goal);
                 atkCountdown = atkPeriod;
             }
         }
@@ -133,7 +143,7 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
             atkCountdown -= Time.deltaTime;
             if (atkCountdown < 0) 
             {
-                Atk(target);
+                Attack(target);
                 atkCountdown = atkPeriod;
                 if (animator)
                     animator.SetTrigger("Run");
@@ -150,30 +160,37 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
         return atkRangeSqr > dist2;
     }
 
-    public void Destroy()
+    public override void Die(AttackInfo attackInfo)
     {
+        GameController.INSTANCE?.OnEnemyDie(this);
+        DoRagdoll(attackInfo);
 
+        // Destroy gameObject after seconds
+        Destroy(gameObject, 5f);
+        Destroy(healthBarPivot, 1);
+
+        // Destroy the Collider to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
+        Destroy(GetComponent<Collider>());
+        Destroy(this);
     }
 
-    public override void Die()
+    private void DoRagdoll(AttackInfo attackInfo)
     {
-        GameController.INSTANCE.OnEnemyDie(this);
-        Destroy(gameObject);
+        character.DoRagdoll(attackInfo);
     }
 
-    public int GetId() => id;
-
-    public virtual void Atk(GameUnit gu)
+    public virtual void Attack(GameUnit gu)
     {
         // By default, just deal damage
         if (animator)
             animator.SetTrigger("Attack");
-        gu.TakeDmg(atk);
+        AttackInfo attackInfo = new AttackInfo(gameObject, gu.gameObject, attackDamage);
+        gu.TakeDmg(attackInfo);
     }
 
-    public override void TakeDmg(float dmg)
+    public override void TakeDmg(AttackInfo attackInfo)
     {
-        base.TakeDmg(dmg);
+        base.TakeDmg(attackInfo);
         healthBarPivot.SetHealth(hp);
     }
 
@@ -254,9 +271,9 @@ public class Enemy : GameUnit, IDamagable, IAttackable, IDestroyable, IAffectabl
 
     public void SetTarget(GameUnit gameUnit) => target = gameUnit;
 
-    public int GetAtk() => atk;
+    public int GetAttackDamage() => attackDamage;
 
-    public void SetAtk(int a) => atk = a;
+    public void SetAtk(int a) => attackDamage = a;
 
     public float GetAtkRange() => atkRange;
 

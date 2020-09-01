@@ -18,9 +18,9 @@ public class Projectile_FollowTarget : Projectile
         }
     }
 
-    public void Init(int _dmg, GameUnit _target)
+    public void Init(float _dmg, GameUnit _target)
     {
-        dmg = _dmg;
+        damage = _dmg;
         target = _target;
         transform.LookAt(_target.transform, Vector3.up);
     }
@@ -28,12 +28,12 @@ public class Projectile_FollowTarget : Projectile
     public override void Init(Unit _emitter, GameUnit _target)
     {
         effect = _emitter.effect;
-        Init(_emitter.atk, _target);
+        Init(_emitter.attackDamage, _target);
     }
 
     public override void Init(Enemy enemy, GameUnit unit)
     {
-        Init(enemy.atk, unit);
+        Init(enemy.attackDamage, unit);
     }
 
     void UpdatePos() 
@@ -53,7 +53,8 @@ public class Projectile_FollowTarget : Projectile
     
     public override void OnHit()
     {
-        target.TakeDmg(dmg);
+        AttackInfo attackInfo = new AttackInfo(gameObject, target.gameObject, damage);
+        target.TakeDmg(attackInfo);
         if (effect != null)
         {
             target.TakeEffect(effect);

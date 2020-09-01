@@ -14,7 +14,6 @@ public class EnemyCharacter : MonoBehaviour
 	[Range(0f, 2f)] [SerializeField] float masterTurnSpeed = 1f;
 	[SerializeField] float jumpPower = 12f;
 	[Range(1f, 4f)] [SerializeField] float gravityMultiplier = 2f;
-	[SerializeField] float runCycleLegOffset = 0.2f; //specific to the character in sample assets, will need to be modified to work with others
 	[SerializeField] float moveSpeedMultiplier = 1f;
 	[SerializeField] float animSpeedMultiplier = 1f;
 	[SerializeField] float groundCheckDistance = 0.1f;
@@ -84,11 +83,7 @@ public class EnemyCharacter : MonoBehaviour
     private void Update()
     {
 		CheckGroundStatus();
-		if (Input.GetKeyDown(KeyCode.Space))
-        {
-			DoRagdoll(new Vector3(1,4,6));
-        }
-	}
+    }
 
     public void Move(Vector3 move, bool crouch, bool jump)
 	{
@@ -233,7 +228,7 @@ public class EnemyCharacter : MonoBehaviour
 		}
 	}
 
-	public void DoRagdoll(Vector3 force)
+	public void DoRagdoll(AttackInfo attackInfo)
     {
 		var ragdollEffect = GetComponent<RagdollEffect>();
 		if (ragdollEffect)
@@ -246,7 +241,7 @@ public class EnemyCharacter : MonoBehaviour
 			ragdollEffect.Activate();
 
 			// Send force
-			ragdollEffect.ApplyForce(force);
+			ragdollEffect.ApplyForce(attackInfo);
         }
 		else
         {

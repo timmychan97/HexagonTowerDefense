@@ -42,4 +42,11 @@ public class HealthBarPivot : MonoBehaviour
         healthBar.forceHidden = false;
         healthBar.Show();
     }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position, 0.1f);
+    }
 }

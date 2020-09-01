@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class RagdollEffect : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField] bool isRagdoll = false;
-
     // The object that is the parent of all Character joints. Default: self
     public GameObject targetRagdollRoot;
     public float forceMultiplier = 50f;
 
-    [SerializeField] SkinnedMeshRenderer[] skinnedMeshRenderers;
+    SkinnedMeshRenderer[] skinnedMeshRenderers;
     Collider[] colliders;
     Rigidbody[] rigidbodies;
 
@@ -81,16 +78,15 @@ public class RagdollEffect : MonoBehaviour
             gameObject.GetComponent<Collider>().enabled = !active;
     }
 
-    public void ApplyForce(Vector3 force)
+    public void ApplyForce(AttackInfo attackInfo)
     {
-        Vector3 multipliedForce = force * forceMultiplier;
-        foreach (var comp in targetRagdollRoot.GetComponentsInChildren<Rigidbody>())
+        var pft = (Projectile_FixedTarget)attackInfo.projectile;
+        if (pft && pft.hitRadius > 0f)
         {
-            comp.AddForce(multipliedForce);
+            foreach (var rb in targetRagdollRoot.GetComponentsInChildren<Rigidbody>())
+            {
+                rb.AddExplosionForce(pft.explosionForce, pft.transform.position, pft.hitRadius);
+            }
         }
-        // The hip should move a little more. Making it look more real.
-        GetComponentInChildren<Rigidbody>().AddForce(force * 0.3f);
     }
-
-
 }

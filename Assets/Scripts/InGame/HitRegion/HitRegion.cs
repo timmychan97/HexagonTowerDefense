@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class HitRegion : MonoBehaviour
 {
-    HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
-    Effect effect;
+
+    protected HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
+    protected Effect effect;
 
     void OnTriggerEnter(Collider other)
     {
@@ -25,13 +26,11 @@ public class HitRegion : MonoBehaviour
             if (enemy) enemy.TakeEffect(effect);
     }
 
-    public void InflictDmg(int dmg)
+    public HashSet<Enemy> GetEnemiesInRange()
     {
-        foreach (Enemy enemy in enemiesInRange)
-            if (enemy != null) enemy.TakeDmg(dmg);
+        return enemiesInRange;
     }
 
     public void SetEffect(Effect _effect) => effect = _effect;
-
     public void SetPos(Vector3 pos) => transform.position = pos;
 }

@@ -16,7 +16,7 @@ public class UI_PanelUnitInfo_Enemy : UI_PanelUnitInfo
 
     public override void UpdateInfo()
     {
-        SetInfo(enemy.GetName(), enemy.level, enemy.GetHp(), enemy.maxHp, enemy.atk, 
+        SetInfo(enemy.GetName(), enemy.level, enemy.GetHpInt(), enemy.GetMaxHpInt(), enemy.attackDamage, 
                 enemy.moveSpeed, enemy.atkSpeed, enemy.worth);
     }
 

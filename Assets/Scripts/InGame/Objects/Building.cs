@@ -13,7 +13,7 @@ public class Building : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 
     public override void OnBuy() {}
 
-    public new void Die()
+    public new void Die(AttackInfo attackInfo)
     {
         GameController.INSTANCE.OnBuildingDie(this);
         Destroy(gameObject);

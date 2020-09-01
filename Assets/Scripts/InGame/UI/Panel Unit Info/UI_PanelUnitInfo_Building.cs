@@ -16,7 +16,7 @@ public class UI_PanelUnitInfo_Building : UI_PanelUnitInfo
     {
         // Updates info based on building object
         // Can be optimized by updating only part of the info
-        SetInfo(building.GetName(), building.level, building.GetHp(), building.maxHp, building.description, building.cost);
+        SetInfo(building.GetName(), building.level, building.GetHpInt(), building.GetMaxHpInt(), building.description, building.cost);
     }
 
     public void SetUnit(Building b) => building = b;

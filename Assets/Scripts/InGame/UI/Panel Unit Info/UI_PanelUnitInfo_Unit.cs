@@ -17,7 +17,8 @@ public class UI_PanelUnitInfo_Unit : UI_PanelUnitInfo
     {
         // updates info based on unit object
         // can be optimized by updating only part of the info
-        SetInfo(unit.GetName(), unit.level, unit.GetHp(), unit.maxHp, unit.atk, unit.atkSpeed, unit.GetDescription(), unit.cost);
+        SetInfo(unit.GetName(), unit.level, unit.GetHpInt(), unit.GetMaxHpInt(),
+            unit.GetAttackDamageInt(), unit.attackSpeed, unit.GetDescription(), unit.cost);
     }
 
     public void SetUnit(Unit u) => unit = u;

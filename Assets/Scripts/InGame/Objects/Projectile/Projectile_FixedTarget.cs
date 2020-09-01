@@ -4,76 +4,50 @@ using UnityEngine;
 
 public class Projectile_FixedTarget : Projectile
 {
+    private IAttackable attacker;
+
     public ParticleEffect particleEffect;
 
-    public HitRegion hitRegionPf;
-    private HitRegion hitRegion;
     public float downAccel = -9.8f;
     private Vector3 orig;
-    private Vector3 dir;   // direction on xz plane
+    private Vector3 dir;  // Direction on xz plane
     protected Vector3 target;
     private float t0;
     private float deltaT;
-    private float y0;
-    private float vy; // initial y velocity
+    private float vy;  // Initial y velocity
 
-    void Update()
-    {
-        UpdatePos();
-    }
+    public float hitRadius = 1f;
+    public float explosionForce = 1f;
 
-    /////////////////////////////////////////////
-    //           Init functions
-    /////////////////////////////////////////////
+    void Update() => UpdatePos();
 
     public override void Init(Unit _emitter, GameUnit _target)
     {
+        damage = _emitter.attackDamage; 
+        orig = transform.position;
+
         if (_target is Enemy enemy) 
         {
-            Init(_emitter, enemy);
+            target = GetPredictPos(orig, enemy.transform.position, enemy.GetVelocity());   // shoot in the direction target is moving towards
+            ToGnd(ref target);
         }
-        else 
+        else
         {
             // NOTE: this assumes that _target is idle
-            orig = transform.position;
             target = _target.transform.position;
-            dir = (target - orig);
-            dir.y = 0;
-            dir = dir.normalized;
-            dmg = _emitter.atk;
-
-            // set hit region
-            hitRegion = Instantiate(hitRegionPf, target, transform.rotation);
-
-            // compute initial velocity in y axis
-            t0 = Time.time;
-            y0 = transform.position.y;
-            Vector3 toTarget = target - transform.position;
-            toTarget.y = 0;
-            deltaT = toTarget.magnitude / speed;
-            float deltaY = target.y - transform.position.y;
-            vy = (deltaY - 0.5f * downAccel * deltaT * deltaT) / deltaT;
         }
-    }
 
-    public void Init(Unit _emitter, Enemy enemy)
-    {
-        dmg = _emitter.atk;
-        orig = transform.position;
-        target = GetPredictPos(orig, enemy.transform.position, enemy.GetVelocity());   // shoot in the direction target is moving towards
-        ToGnd(ref target);
-        // set hit region
-        hitRegion = Instantiate(hitRegionPf, target, transform.rotation);
-
-
-        dir = target - orig;
+        dir = (target - orig);
         dir.y = 0;
         dir = dir.normalized;
 
+        ComputeInitialVelocityY();
+    }
 
-        // compute initial velocity in y axis
+    void ComputeInitialVelocityY()
+    {
+        // Compute initial velocity in y axis
         t0 = Time.time;
-        y0 = transform.position.y;
         Vector3 toTarget = target - transform.position;
         toTarget.y = 0;
         deltaT = toTarget.magnitude / speed;
@@ -83,7 +57,7 @@ public class Projectile_FixedTarget : Projectile
 
     Vector3 GetPredictPos(Vector3 projPos, Vector3 targetPos, Vector3 targetVelocity)
     {
-        // remove y component
+        // Remove y component
         float t = ComputeDeltaT(projPos, targetPos, targetVelocity);
         return (targetPos + t * targetVelocity);
     }
@@ -104,7 +78,7 @@ public class Projectile_FixedTarget : Projectile
         float vtLen = Mathf.Sqrt(vt2);    // = |v_t|
 
         // Exceptions: 
-        // if target is idle or faster than projectile, 
+        // If target is idle or faster than projectile, 
         // shoot at target's current position
         if (_vt == Vector3.zero) 
         {
@@ -115,7 +89,7 @@ public class Projectile_FixedTarget : Projectile
             return 0.0f;
         }
 
-        // turn into second order polynomial, d = sqrt(b^2 - 4ac), (discriminant)
+        // Turn into second order polynomial, d = sqrt(b^2 - 4ac), (discriminant)
         float a = speed*speed-vt2;              // a = (speed^2 * |v_t|^2)
         float b = 2 * Vector3.Dot(TP, vt);      // b = 2 (TP · v_t)
         float c = -TP2;                         // c = -|TP|^2
@@ -126,7 +100,7 @@ public class Projectile_FixedTarget : Projectile
 
     Vector3 ToGnd(ref Vector3 pos) 
     {
-        // return 
+        // Return 
         Vector3 above = pos + Vector3.up * 100;
         RaycastHit hit;
         Ray ray = new Ray(above, Vector3.down);
@@ -136,7 +110,7 @@ public class Projectile_FixedTarget : Projectile
 			Tile tile = objectHit.gameObject.GetComponentInParent<Tile>();
             if (tile != null) 
             {
-                pos += Vector3.up * (tile.GetY() - pos.y); // changes it
+                pos += Vector3.up * (tile.GetY() - pos.y); // Changes it
             }
 
         }
@@ -146,16 +120,16 @@ public class Projectile_FixedTarget : Projectile
     protected void UpdatePos()
     {
         float t = Time.time - t0;
-        if (t > deltaT) // reached target
+        if (t > deltaT) // Reached target
         {
             OnHit();
             Destroy(gameObject);
         }
         else 
         {
-            // calculate y coordinate using formula for constant acceleration
-            float y = vy * t + 0.5f * downAccel * t * t; // relative to y0
-            transform.position = orig + dir * speed * t + y * Vector3.up; // move along xz plane
+            // Calculate y coordinate using formula for constant acceleration
+            float y = vy * t + 0.5f * downAccel * t * t; // Relative to y0
+            transform.position = orig + dir * speed * t + y * Vector3.up; // Move along xz plane
         }
     }
 
@@ -168,10 +142,40 @@ public class Projectile_FixedTarget : Projectile
             pfx.transform.position = transform.position;
         }
 
-        hitRegion.InflictDmg(dmg);
-        if (effect != null) {
-            hitRegion.ApplyEffect(effect);
+        var enemiesInRange = GetEnemiesWithinRadius();
+
+        foreach (Enemy enemy in enemiesInRange)
+        {
+            // Calculate the damage to apply upon the enemy by distance. With a linear falloff of damage amount
+            var proximity = (transform.position - enemy.transform.position).magnitude;
+            var damageMultiplier = Mathf.Max(0, 1 - (proximity / hitRadius));
+            var explosionDamage = damage * damageMultiplier;
+
+            // Attack it
+            AttackInfo attackInfo = new AttackInfo(this.gameObject, enemy.gameObject, explosionDamage, this);
+            enemy.TakeDmg(attackInfo);
+
+            // Apply effects
+            if (effect != null)
+            {
+                enemy.TakeEffect(effect);
+            }
         }
-        Destroy(hitRegion.gameObject);
+    }
+
+    /// <summary>
+    /// Return all enemies within hitRadius
+    /// </summary>
+    public HashSet<Enemy> GetEnemiesWithinRadius()
+    {
+        var enemies = new HashSet<Enemy>();
+        Collider[] colliders = Physics.OverlapSphere(transform.position, hitRadius);
+        foreach (Collider col in colliders)
+        {
+            var enemy = col.GetComponent<Enemy>();
+            if (enemy)
+                enemies.Add(enemy);
+        }
+        return enemies;
     }
 }

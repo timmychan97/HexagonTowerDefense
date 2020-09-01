@@ -7,21 +7,21 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 {
     /* stats */
     public int level;
-    public int atk;
+    public float attackDamage;
     public Effect effect;
-    public float atkSpeed; // in Hz
-    private float atkPeriod; // in s
-    public float lastAtkTime;
-    public float atkRange;
+    public float attackSpeed = 1; // in Hz
+    private float attackPeriod; // in s
+    private float lastAtkTime;
+    public float attackRange;
 
     /* other members */
     GameUnit target = null;
     public Projectile projectile;
-    HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
-    SphereCollider sphereCollider;
     public GameObject platform;
     public GameObject unitContent;
     public Transform emitter;
+
+    public UnitRange pf_unitRange;
     UnitRange unitRange;
 
     void Start()
@@ -29,13 +29,14 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         Init();
 
         // Following are only applicable after instantiation
-        atkPeriod = 1.0f / atkSpeed;
+        attackPeriod = 1.0f / attackSpeed;
         lastAtkTime = Time.time;
     }
 
     void Update()
     {
-        if (!GameController.INSTANCE.IsGamePlaying()) return;
+        if (GameController.INSTANCE)
+            if (!GameController.INSTANCE.IsGamePlaying()) return;
         if (isDummy) return;
         HandleAtk();
     }
@@ -45,7 +46,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         // Initialize member variables
         // We might need them before instantiation (i.e. before Start() is called)
         hp = maxHp;
-        unitRange = Instantiate(GameController.INSTANCE.pf_unitRange, transform);
+        unitRange = Instantiate(pf_unitRange, transform);
         // unitRange = t.GetComponent<UnitRange>();
         if (unitRange == null)
         {
@@ -61,7 +62,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
 
     public void HandleAtk()
     {
-        if (target != null) 
+        if (target) 
         {
             // Rotate unit content to look at target
             // if this Unit has unit content (model that aims)
@@ -72,15 +73,15 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
             }
 
             float timeSinceAtk = Time.time - lastAtkTime;
-            if (timeSinceAtk > atkPeriod)
+            if (timeSinceAtk > attackPeriod)
             {
-                Atk(target);
+                Attack(target);
                 lastAtkTime = Time.time;
             }
         }
     }
 
-    void Atk(GameUnit target)
+    void Attack(GameUnit target)
     {
         Projectile p = Instantiate(projectile, emitter.position, transform.rotation);
         p.Init(this, target);
@@ -89,7 +90,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
     public void SetTarget(GameUnit _target) => target = _target;
     public GameUnit GetTarget() => target;
 
-    public override void Die()
+    public override void Die(AttackInfo attackInfo)
     {
         GameController.INSTANCE.OnUnitDie(this);
         Destroy(gameObject);
@@ -106,7 +107,7 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         return panel;
     }
 
-    public float GetRange() => atkRange;
+    public float GetRange() => attackRange;
 
     public Tile GetTile()
     {
@@ -114,11 +115,9 @@ public class Unit : GameUnit, IPlacable, IDamagable, IPropertiesDisplayable
         return transform.parent.GetComponentInParent<Tile>();
     }
 
-    public int GetAtk() => atk;
-
-    public void SetAtk(int a) => atk = a;
-
-    public float GetAtkRange() => atkRange;
-
-    public void SetAtkRange(float a) => atkRange = a;
+    public float GetAttackDamage() => attackDamage;
+    public int GetAttackDamageInt() => (int)Mathf.Round(attackDamage);
+    public void SetAttackDamage(float value) => attackDamage = value;
+    public float GetAttackRange() => attackRange;
+    public void SetAttackRange(float a) => attackRange = a;
 }

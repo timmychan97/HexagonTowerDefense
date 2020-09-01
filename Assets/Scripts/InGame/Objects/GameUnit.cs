@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Represents all Units in game. The following objects are all Game Units
+///  - Enemy
+///  - Tower
+///  - Base
+/// </summary>
 public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
 {
     public Sprite iconSmall;
     public string _name;
     public string description;
+
     /* public stats */
-    public int maxHp;
+    public float maxHp;
     public int cost;
     public int sellWorth;
+
     /* protected stats */
-    protected int hp;
+    protected float hp;
     protected bool isDummy = false;
 
     public virtual void OnBuy()
@@ -20,21 +28,21 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
 
     }
 
-    public virtual void Die()
+    public virtual void Die(AttackInfo attackInfo)
     {
         Debug.Log("Die() was called in GameUnit.cs");
     }
 
-    public virtual void TakeDmg(float dmg)
+    public virtual void TakeDmg(AttackInfo attackInfo)
     {
-        hp -= Mathf.RoundToInt(dmg);
+        hp -= attackInfo.damage;
         if (hp <= 0) 
         {
-            Die();
+            Die(attackInfo);
         }
         
         // if panel unit info is displaying this unit's info, update it
-        UI_PanelUnitInfoManager.INSTANCE.OnDisplayableTakeDmg(this);
+        UI_PanelUnitInfoManager.INSTANCE?.OnDisplayableTakeDmg(this);
     }
 
     public virtual void TakeEffect(Effect effect)
@@ -52,20 +60,15 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
         // To be overridden by children
         return null;
     }
-
+    
     public string GetName() => _name;
-
     public string GetDescription() => description;
-
-    public int GetMaxHp() => maxHp;
-
-    public int GetHp() => hp;
-
-    public void SetHp(int a) => hp = a;
-
+    public float GetMaxHp() => maxHp;
+    public int GetMaxHpInt() => (int)System.Math.Ceiling(maxHp);
+    public float GetHp() => hp;
+    public int GetHpInt() => (int)System.Math.Ceiling(hp);  // If hp = 0, then the unit is dead. Therefore we use ceiling
+    public void SetHp(float value) => hp = value;
     public int GetCost() => cost;
-
     public bool GetIsDummy() => isDummy;
-
     public void SetIsDummy(bool b) => isDummy = b;
 }

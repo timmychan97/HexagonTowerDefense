@@ -14,7 +14,7 @@ public class UnitRange : Range
         Called by Unit as the end of its Init()
         */
 
-        Init(u, u.GetAtkRange());
+        Init(u, u.GetAttackRange());
         unit = u;
     }
 
@@ -24,11 +24,7 @@ public class UnitRange : Range
     /// </returns>
     public override bool IsPotentialTarget(GameUnit gu)
     {
-        if (!base.IsPotentialTarget(gu))
-        {
-            return false;
-        }
-        return (gu is Enemy);
+        return base.IsPotentialTarget(gu) && (gu is Enemy);
     }
 
     /// <summary>

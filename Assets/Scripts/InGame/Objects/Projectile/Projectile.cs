@@ -7,7 +7,7 @@ public class Projectile : MonoBehaviour
     public bool follow; 
     public float speed; // move distance per second
     public Effect effect;
-    public int dmg;
+    public float damage;
 
     public virtual void Init(Unit _emitter, GameUnit _target) {}
     public virtual void Init(Enemy enemy, GameUnit _target) {}

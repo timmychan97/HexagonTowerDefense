@@ -84,15 +84,8 @@ public class Range : MonoBehaviour
     public virtual void SetTarget(GameUnit gu)
     {
         // Note: Should be overridden by children.
-        if (gu) 
-        {
-            target = gu;
-            triggered = true;
-        }
-        else 
-        {
-            triggered = false;
-        }
+        target = gu;
+        triggered = gu;  // bool
     }
 
     void OnTriggerEnter(Collider other)

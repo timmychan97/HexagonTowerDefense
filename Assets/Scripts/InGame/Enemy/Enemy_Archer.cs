@@ -10,7 +10,7 @@ public class Enemy_Archer : Enemy
         base.Start();
     }
 
-    public override void Atk(GameUnit gu)
+    public override void Attack(GameUnit gu)
     {
         Projectile p = Instantiate(projectile, emitter.position, transform.rotation);
         p.Init(this, target);
