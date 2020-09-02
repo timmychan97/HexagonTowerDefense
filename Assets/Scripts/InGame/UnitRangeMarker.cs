@@ -45,7 +45,7 @@ public class UnitRangeMarker : MonoBehaviour
         Unit unit = gameUnit as Unit;
         if (unit != null)
         {
-            urm.SetRadius(unit.GetRange());
+            urm.SetRadius(unit.GetAttackRadius());
             urm.transform.position = unit.transform.position;
         }
     }

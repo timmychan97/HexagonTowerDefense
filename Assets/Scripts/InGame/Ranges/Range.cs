@@ -19,7 +19,7 @@ public class Range : MonoBehaviour
             SetTarget(GetNewTarget());
         }
     }
-    public void Init(GameUnit gu, float radius) 
+    public virtual void Init(GameUnit gu, float radius) 
     {
         sphereCollider = GetComponent<SphereCollider>();
         if (sphereCollider == null) 

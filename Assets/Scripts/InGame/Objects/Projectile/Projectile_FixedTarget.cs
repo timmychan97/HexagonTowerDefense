@@ -23,6 +23,7 @@ public class Projectile_FixedTarget : Projectile
 
     public override void Init(Unit _emitter, GameUnit _target)
     {
+        attacker = _emitter;
         damage = _emitter.attackDamage; 
         orig = transform.position;
 
@@ -152,7 +153,7 @@ public class Projectile_FixedTarget : Projectile
             var explosionDamage = damage * damageMultiplier;
 
             // Attack it
-            AttackInfo attackInfo = new AttackInfo(this.gameObject, enemy.gameObject, explosionDamage, this);
+            AttackInfo attackInfo = new AttackInfo(attacker, enemy, explosionDamage, this);
             enemy.TakeDmg(attackInfo);
 
             // Apply effects

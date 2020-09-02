@@ -5,18 +5,14 @@ using UnityEngine;
 public class UnitRange : Range
 {
     Unit unit;
-    // SphereCollider sphereCollider;
-    // HashSet<Enemy> enemiesInRange = new HashSet<Enemy>();
 
-    public void Init(Unit u) 
+    public override void Init(GameUnit gu, float radius)
     {
-        /*
-        Called by Unit as the end of its Init()
-        */
-
-        Init(u, u.GetAttackRange());
-        unit = u;
+        base.Init(gu, radius);
+        Init((Unit)gu);
     }
+
+    public void Init(Unit u) => unit = u;
 
     /// <returns>
     /// Whether the given GameUnit is a potential target for
@@ -35,6 +31,6 @@ public class UnitRange : Range
     public override void SetTarget(GameUnit gu)
     {
         base.SetTarget(gu);
-        unit.SetTarget(gu);
+        unit.SetAttackTarget(gu);
     }
 }

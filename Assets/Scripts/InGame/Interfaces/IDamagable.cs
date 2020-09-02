@@ -1,4 +1,6 @@
-﻿public interface IDamagable
+﻿using UnityEngine;
+
+public interface IDamagable : IGameObject
 {
     void TakeEffect(Effect effect);
     void TakeDmg(AttackInfo attackInfo);

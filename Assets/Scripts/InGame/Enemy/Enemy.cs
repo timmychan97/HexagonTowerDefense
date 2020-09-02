@@ -4,33 +4,24 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [SelectionBase]
-public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
+public class Enemy : AttackableGameUnit, IAffectable
 {
     public EnemyCharacter character;
     public Animator animator;
     public HealthBarPivot healthBarPivot;
     public GameUnit goal;
-    public GameUnit target = null;
 
     /* stats */
     public int level;
-    public float atkRange;
-    public int attackDamage;
     public float moveSpeed;
-    public float atkSpeed; // in Hz
     public int worth;
-
-    float atkRangeSqr;
-    float atkPeriod;
-    float atkCountdown;
 
     private NavMeshAgent navMeshAgent;
     public HashSet<Effect> effects = new HashSet<Effect>();
-    public EnemyRange pf_enemyRange;
-    EnemyRange range;
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
         //navMeshAgent.speed = moveSpeed;
@@ -38,36 +29,17 @@ public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
             navMeshAgent.destination = goal.transform.position;
 
         hp = maxHp;
-        atkRangeSqr = atkRange * atkRange;
-        atkPeriod = 1f / atkSpeed;
-        atkCountdown = 0;
 
         if (healthBarPivot) healthBarPivot.AddUIHealthBar(maxHp);
-
-        Init();
     }
 
-    public void Init()
-    {
-        // Initialize member variables
-        // We might need them before instantiation (i.e. before Start() is called)
-        hp = maxHp;
-        range = Instantiate(pf_enemyRange, transform);
-        // unitRange = t.GetComponent<UnitRange>();
-        if (range == null)
-        {
-            Debug.LogWarning("Unit Range prefab has no UnitRange script attached to it");
-        }
-
-        range.Init(this);
-    }
-
-
-    void Update()
+    protected override void Update()
     {
         if (GameController.INSTANCE)
             if (GameController.INSTANCE.IsGamePlaying()) return;
-        HandleAttack();
+
+        base.Update();
+
         if (Input.GetMouseButton(0))
         {
             int cameraDistance = 600;
@@ -120,31 +92,26 @@ public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
             $"Enemy in inspector");
     }
 
-    public void HandleAttack()
+    public override void HandleAttack()
     {
         if (IsGoalInRange())
         {
             Debug.Log("Goal is in range");
             StopMoving();
             // attack goal (base)
-            atkCountdown -= Time.deltaTime;
-            if (atkCountdown < 0){
-                Attack(goal);
-                atkCountdown = atkPeriod;
-            }
         }
-        else if (target != null)
+        else if (attackTarget != null)
         {
             // Visualize target
 #if UNITY_EDITOR
-            Debug.DrawLine(transform.position + (Vector3.up * 1f), target.transform.position, Color.red);
+            if (((GameUnit)attackTarget))
+                Debug.DrawLine(transform.position + (Vector3.up * 1f), ((GameUnit)attackTarget).transform.position, Color.red);
 #endif
-            // check if this enemy can attack units
-            atkCountdown -= Time.deltaTime;
-            if (atkCountdown < 0) 
+            // If this enemy can attack units
+            if (isReadyToAttack()) 
             {
-                Attack(target);
-                atkCountdown = atkPeriod;
+                Attack();
+                ResetAttackCountdown();
                 if (animator)
                     animator.SetTrigger("Run");
             }
@@ -157,7 +124,7 @@ public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
     {
         if (goal == null) return false;
         float dist2 = (goal.transform.position - transform.position).sqrMagnitude;
-        return atkRangeSqr > dist2;
+        return attackRangeSqr > dist2;
     }
 
     public override void Die(AttackInfo attackInfo)
@@ -179,13 +146,12 @@ public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
         character.DoRagdoll(attackInfo);
     }
 
-    public virtual void Attack(GameUnit gu)
+    public override void Attack()
     {
-        // By default, just deal damage
         if (animator)
             animator.SetTrigger("Attack");
-        AttackInfo attackInfo = new AttackInfo(gameObject, gu.gameObject, attackDamage);
-        gu.TakeDmg(attackInfo);
+        // TODO: Add delay before actually attacking
+        base.Attack();
     }
 
     public override void TakeDmg(AttackInfo attackInfo)
@@ -266,16 +232,4 @@ public class Enemy : GameUnit, IDamagable, IAffectable, IPropertiesDisplayable
         panel.SetEnemy(this);
         return panel; 
     }
-
-    public GameUnit GetTarget() => target;
-
-    public void SetTarget(GameUnit gameUnit) => target = gameUnit;
-
-    public int GetAttackDamage() => attackDamage;
-
-    public void SetAtk(int a) => attackDamage = a;
-
-    public float GetAtkRange() => atkRange;
-
-    public void SetAtkRange(float a) => atkRange = a;
 }

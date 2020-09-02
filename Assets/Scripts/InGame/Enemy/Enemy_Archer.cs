@@ -2,7 +2,7 @@
 
 public class Enemy_Archer : Enemy
 {
-    public Projectile projectile;
+    public Projectile pf_projectile;
     public Transform emitter;
 
     protected new void Start()
@@ -10,9 +10,9 @@ public class Enemy_Archer : Enemy
         base.Start();
     }
 
-    public override void Attack(GameUnit gu)
+    public override void Attack()
     {
-        Projectile p = Instantiate(projectile, emitter.position, transform.rotation);
-        p.Init(this, target);
+        Projectile p = Instantiate(pf_projectile, emitter.position, transform.rotation);
+        p.Init(this, (GameUnit)attackTarget);
     }
 }

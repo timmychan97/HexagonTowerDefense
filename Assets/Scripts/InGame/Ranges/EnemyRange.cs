@@ -6,11 +6,13 @@ public class EnemyRange : Range
 {
     Enemy enemy;
 
-    public void Init(Enemy e)
+    public override void Init(GameUnit gu, float radius)
     {
-        Init(e, e.GetAtkRange());
-        enemy = e;
+        base.Init(gu, radius);
+        Init((Enemy)gu);
     }
+
+    public void Init(Enemy e) => enemy = e;
 
     /// <returns>
     /// Whether the given GameUnit is a potential target for
@@ -18,17 +20,12 @@ public class EnemyRange : Range
     /// </returns>
     public override bool IsPotentialTarget(GameUnit gu)
     {
-        if (!base.IsPotentialTarget(gu))
+        if (base.IsPotentialTarget(gu))
         {
-            return false;
-        }
-        if (gu is Unit unit)
-        {
-            return true;
-        }
-        else if (gu is Building building)
-        {
-            return true;
+            if (gu is Unit || gu is Building)
+            {
+                return true;
+            }
         }
         return false;
     }
@@ -41,6 +38,6 @@ public class EnemyRange : Range
     public override void SetTarget(GameUnit gu)
     {
         base.SetTarget(gu);
-        enemy.SetTarget(gu);
+        enemy.SetAttackTarget(gu);
     }
 }

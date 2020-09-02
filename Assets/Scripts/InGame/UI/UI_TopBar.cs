@@ -15,7 +15,7 @@ public class UI_TopBar : MonoBehaviour
 
     public void SetTextGold(int n) => textGold.text = n.ToString();
 
-    public void SetTextHp(int hp, int maxHp) => textHp.text = $"{hp}/{maxHp}";
+    public void SetTextHp(float hp, float maxHp) => textHp.text = $"{Utils.ConvertToString(hp)}/{Utils.ConvertToString(maxHp)}";
 
     public void SetTextWave(int n) => textWave.text = n.ToString();
 

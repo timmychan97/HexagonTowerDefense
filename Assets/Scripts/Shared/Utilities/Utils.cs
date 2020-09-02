@@ -50,4 +50,13 @@ public class Utils : MonoBehaviour
         var go = GetGameObjectAtMousePos(layerMask);
         return go ? go.GetComponentInParent<T>() : default;
     }
+
+
+    /// <summary>
+    /// Return integer string
+    /// </summary>
+    public static string ConvertToString(float value)
+    {
+        return value.ToString("F0", System.Globalization.CultureInfo.InvariantCulture);
+    }
 }

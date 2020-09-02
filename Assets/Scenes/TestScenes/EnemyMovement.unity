@@ -587,19 +587,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 1514056654}
   animator: {fileID: 1514056653}
   healthBarPivot: {fileID: 2974854}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &81931816
 Transform:
   m_ObjectHideFlags: 0
@@ -2256,18 +2254,18 @@ MonoBehaviour:
   maxHp: 0
   cost: 0
   sellWorth: 0
-  level: 0
+  attackRadius: 10
   attackDamage: 30
+  attackFrequency: 1
+  pf_range: {fileID: 6108344365463137814, guid: 973a47fc178937445a6266a3acce55c5,
+    type: 3}
+  level: 0
   effect: {fileID: 0}
-  attackSpeed: 1
-  attackRange: 10
   projectile: {fileID: 7537679607396884572, guid: 3951d4f4791fd684cb0d900cb8e351c8,
     type: 3}
   platform: {fileID: 0}
   unitContent: {fileID: 0}
   emitter: {fileID: 1435359476}
-  pf_unitRange: {fileID: 6108344365463137814, guid: 973a47fc178937445a6266a3acce55c5,
-    type: 3}
 --- !u!135 &570546179
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4296,19 +4294,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 2075642156}
   animator: {fileID: 2075642155}
   healthBarPivot: {fileID: 1499873998}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &934221212
 Transform:
   m_ObjectHideFlags: 0
@@ -5115,7 +5111,6 @@ GameObject:
   - component: {fileID: 1219037554}
   - component: {fileID: 1219037553}
   - component: {fileID: 1219037552}
-  - component: {fileID: 1219037557}
   m_Layer: 8
   m_Name: Swordsman (3)
   m_TagString: Enemy
@@ -5193,19 +5188,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 4784994}
   animator: {fileID: 4784993}
   healthBarPivot: {fileID: 698981358}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1219037556
 Transform:
   m_ObjectHideFlags: 0
@@ -5221,27 +5214,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1219037557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1219037551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e5e81601edb19f488f93adb9a81f64c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iconSmall: {fileID: 0}
-  _name: 
-  description: 
-  maxHp: 0
-  cost: 0
-  sellWorth: 0
-  attackRange: 0
-  attackDamage: 0
-  attackFrequency: 0
 --- !u!1 &1242920525
 GameObject:
   m_ObjectHideFlags: 0
@@ -5936,19 +5908,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 737805476}
   animator: {fileID: 737805475}
   healthBarPivot: {fileID: 1682100962}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1292555279
 Transform:
   m_ObjectHideFlags: 0
@@ -6329,19 +6299,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 2057412737}
   animator: {fileID: 2057412736}
   healthBarPivot: {fileID: 1654657370}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1483703170
 Transform:
   m_ObjectHideFlags: 0
@@ -6491,19 +6459,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 239207002}
   animator: {fileID: 239207001}
   healthBarPivot: {fileID: 1025502189}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1504358407
 Transform:
   m_ObjectHideFlags: 0
@@ -7784,19 +7750,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 669492825}
   animator: {fileID: 669492824}
   healthBarPivot: {fileID: 1259019925}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1641592103
 Transform:
   m_ObjectHideFlags: 0
@@ -8039,19 +8003,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 925567400}
   animator: {fileID: 925567399}
   healthBarPivot: {fileID: 1242920526}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1659355920
 Transform:
   m_ObjectHideFlags: 0
@@ -8778,19 +8740,17 @@ MonoBehaviour:
   maxHp: 100
   cost: 0
   sellWorth: 0
+  attackRadius: 0
+  attackDamage: 0
+  attackFrequency: 0
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   character: {fileID: 1006906267}
   animator: {fileID: 1006906266}
   healthBarPivot: {fileID: 247724708}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 2
-  attackDamage: 0
   moveSpeed: 2.6
-  atkSpeed: 1
   worth: 70
-  pf_enemyRange: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
-    type: 3}
 --- !u!4 &1897297187
 Transform:
   m_ObjectHideFlags: 0
@@ -9478,5 +9438,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Swordsman
       objectReference: {fileID: 0}
+    - target: {fileID: 6604795486727084623, guid: 90db361c39adce546a57afa41c4ea2e9,
+        type: 3}
+      propertyPath: pf_range
+      value: 
+      objectReference: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 90db361c39adce546a57afa41c4ea2e9, type: 3}

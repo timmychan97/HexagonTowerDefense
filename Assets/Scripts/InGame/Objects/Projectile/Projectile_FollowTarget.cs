@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile_FollowTarget : Projectile
 {
+    IAttackable attacker;
     GameUnit target;
 
     void Update()
@@ -33,6 +32,7 @@ public class Projectile_FollowTarget : Projectile
 
     public override void Init(Enemy enemy, GameUnit unit)
     {
+        attacker = enemy;
         Init(enemy.attackDamage, unit);
     }
 
@@ -53,7 +53,7 @@ public class Projectile_FollowTarget : Projectile
     
     public override void OnHit()
     {
-        AttackInfo attackInfo = new AttackInfo(gameObject, target.gameObject, damage);
+        AttackInfo attackInfo = new AttackInfo(attacker, target, damage, this);
         target.TakeDmg(attackInfo);
         if (effect != null)
         {

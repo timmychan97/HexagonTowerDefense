@@ -1,10 +1,12 @@
+using UnityEngine;
+
 public interface IAttackable
 {
     float GetAttackDamage();
     void SetAttackDamage(float value);
 
-    float GetAttackRange();
-    void SetAttackRange(float value);
+    float GetAttackRadius();
+    void SetAttackRadius(float value);
 
-    void Attack(IDamagable target);
+    void Attack();
 }

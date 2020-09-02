@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,37 +10,41 @@ public class UI_PanelUnitInfo_Enemy : UI_PanelUnitInfo
     public Text enemyName;
     public Text level;
     public Text hp;
-    public Text atk;
+    public Text attack;
     public Text speed;
-    public Text atkSpeed;
+    public Text attackSpeed;
     public Text worth;
 
     public override void UpdateInfo()
     {
-        SetInfo(enemy.GetName(), enemy.level, enemy.GetHpInt(), enemy.GetMaxHpInt(), enemy.attackDamage, 
-                enemy.moveSpeed, enemy.atkSpeed, enemy.worth);
+        SetInfo(enemy.GetName(), enemy.level, enemy.GetHp(), enemy.GetMaxHp(), enemy.GetAttackDamage(), 
+                enemy.moveSpeed, enemy.attackFrequency, enemy.worth);
     }
 
-    public void SetInfo(string _name, int _level, int _hp, int _maxHp, 
-                        int _atk, float _speed, float _atkSpeed, int _worth) 
+    public void SetInfo(string _name, int _level, float _hp, float _maxHp, 
+                        float _attackDamage, float _speed, float _attackSpeed, int _worth) 
     {
         SetEnemyName(_name);
         SetLevel(_level);
         SetHp(_hp, _maxHp);
-        SetAtk(_atk);
+        SetAttackDamage(_attackDamage);
         SetSpeed(_speed);
-        SetAtkSpeed(_atkSpeed);
+        SetAttackSpeed(_attackSpeed);
         SetWorth(_worth);
     }
     public void SetEnemy(Enemy _e) => enemy = _e;
     void SetEnemyName(string s) => enemyName.text = s;
     void SetLevel(int n) => level.text = n.ToString(); 
-    void SetHp(int _hp, int _maxHp)
+    void SetHp(float _hp, float _maxHp)
     {
-        hp.text = $"{_hp}/{_maxHp}";
+        hp.text = $"{Utils.ConvertToString(_hp)}/{Utils.ConvertToString(_maxHp)}";
     }
-    void SetAtk(int n) => atk.text = n.ToString();
+    void SetAttackDamage(float value)
+    {
+        attack.text = Utils.ConvertToString(value);
+    }
+
     void SetSpeed(float f) => speed.text = f.ToString("0.00");
-    void SetAtkSpeed(float f) => atkSpeed.text = f.ToString("0.00");
+    void SetAttackSpeed(float f) => attackSpeed.text = f.ToString("0.00");
     void SetWorth(int n) => worth.text = n.ToString();
 }

@@ -64,9 +64,7 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
     public string GetName() => _name;
     public string GetDescription() => description;
     public float GetMaxHp() => maxHp;
-    public int GetMaxHpInt() => (int)System.Math.Ceiling(maxHp);
     public float GetHp() => hp;
-    public int GetHpInt() => (int)System.Math.Ceiling(hp);  // If hp = 0, then the unit is dead. Therefore we use ceiling
     public void SetHp(float value) => hp = value;
     public int GetCost() => cost;
     public bool GetIsDummy() => isDummy;

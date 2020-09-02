@@ -4,38 +4,69 @@ using UnityEngine;
 
 public class AttackableGameUnit : GameUnit, IAttackable
 {
-    public float attackRange;
+    public float attackRadius;
     public float attackDamage;
     public float attackFrequency; // in Hz
 
-    float attackRangeSqr;
+    protected float attackRangeSqr;
     float attackPeriod;
-    float attackCountdown;
+    protected float attackCountdown = 0f;
 
-    private IDamagable target;
+    [SerializeField] protected IDamagable attackTarget;
+
+    public Range pf_range;
+    private Range range;
 
     protected virtual void Start()
     {
-        attackRangeSqr = attackRange * attackRange;
+        attackRangeSqr = attackRadius * attackRadius;
         attackPeriod = 1f / attackFrequency;
-        attackCountdown = 0;
+
+        range = Instantiate(pf_range, transform);
+        if (!range) Debug.LogWarning("AttackableGameUnit has no Range script attached to it");
+
+        range.Init(this, attackRadius);
     }
 
-
-    public void SetTarget(IDamagable _target) => target = _target;
-
-    public float GetAttackDamage() => attackDamage;
-
-    public void SetAttackDamage(float value) => attackDamage = value;
-
-    public float GetAttackRange() => attackRange;
-
-    public void SetAttackRange(float value) => attackRange = value;
-
-    public virtual void Attack(IDamagable target)
+    protected virtual void Update()
     {
+        UpdateAttackCountdown();
+        HandleAttack();
+    }
+
+    protected void UpdateAttackCountdown()
+    {
+        if (!isReadyToAttack())
+        {
+            attackCountdown -= Time.deltaTime;
+        }
+    }
+
+    public virtual void HandleAttack()
+    {
+        Debug.LogWarning("Called HandleAttack() in AttackableGameUnit. Make sure you override this method!");
+    }
+
+    public void SetAttackTarget(IDamagable attackTarget) => this.attackTarget = attackTarget;
+    public float GetAttackDamage() => attackDamage;
+    public void SetAttackDamage(float value) => attackDamage = value;
+    public float GetAttackRadius() => attackRadius;
+    public void SetAttackRadius(float value) => attackRadius = value;
+
+    public virtual void Attack()
+    {
+        ResetAttackCountdown();
         // By default, just deal damage
-        //AttackInfo attackInfo = new AttackInfo(this, target, attackDamage);
-        //target.TakeDmg(attackInfo);
+        AttackInfo attackInfo = new AttackInfo(this, attackTarget, attackDamage);
+        attackTarget.TakeDmg(attackInfo);
+    }
+
+    protected void ResetAttackCountdown()
+    {
+        attackCountdown = attackPeriod;
+    }
+    protected bool isReadyToAttack()
+    {
+        return attackCountdown <= 0;
     }
 }
