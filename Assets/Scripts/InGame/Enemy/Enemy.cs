@@ -6,8 +6,6 @@ using UnityEngine.AI;
 [SelectionBase]
 public class Enemy : AttackableGameUnit, IAffectable
 {
-    public EnemyCharacter character;
-    public Animator animator;
     public HealthBarPivot healthBarPivot;
     public GameUnit goal;
 
@@ -16,7 +14,7 @@ public class Enemy : AttackableGameUnit, IAffectable
     public float moveSpeed;
     public int worth;
 
-    private NavMeshAgent navMeshAgent;
+    protected NavMeshAgent navMeshAgent;
     public HashSet<Effect> effects = new HashSet<Effect>();
 
     protected override void Start()
@@ -24,7 +22,7 @@ public class Enemy : AttackableGameUnit, IAffectable
         base.Start();
         ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
-        //navMeshAgent.speed = moveSpeed;
+        navMeshAgent.speed = moveSpeed;
         if (navMeshAgent && goal)
             navMeshAgent.destination = goal.transform.position;
 
@@ -33,12 +31,9 @@ public class Enemy : AttackableGameUnit, IAffectable
         if (healthBarPivot) healthBarPivot.AddUIHealthBar(maxHp);
     }
 
-    protected override void Update()
+    protected override void SubUpdate()
     {
-        if (GameController.INSTANCE)
-            if (GameController.INSTANCE.IsGamePlaying()) return;
-
-        base.Update();
+        base.SubUpdate();
 
         if (Input.GetMouseButton(0))
         {
@@ -52,28 +47,27 @@ public class Enemy : AttackableGameUnit, IAffectable
         }
 
         UpdateMovement();
-
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    TakeDmg(40, new Vector3(3, -4, 4));
-        //}
-
     }
 
-    void UpdateMovement()
+    protected void UpdateMovement()
     {
         // When doing ragdoll, the system will disable the agent. Make sure we check if it is enabled before moving
         if (navMeshAgent.enabled)
         {
             if (navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
             {
-                character.Move(navMeshAgent.desiredVelocity, false, false);
+                Move(navMeshAgent.desiredVelocity);
             }
             else
             {
-                character.Move(Vector3.zero, false, false);
+                Move(Vector3.zero);
             }
         }
+    }
+
+    protected virtual void Move(Vector3 destination) // in local space
+    {
+        // If not explicitely disabled, the navmesh will move on its own, without calling move
     }
 
 
@@ -81,13 +75,10 @@ public class Enemy : AttackableGameUnit, IAffectable
     /// This methods outputs warnings to the developers providing info 
     /// about what is not properly set up in inspector for this enemy
     /// </summary>
-    private void ValidateAttachedObjects()
+    protected virtual void ValidateAttachedObjects()
     {
         if (!healthBarPivot) Debug.LogWarning($"No HealthBarPivot is attached to \"{gameObject.name}\" " +
             $"Enemy in inspector. No health will be shown for this enemy");
-        if (!animator) Debug.LogWarning($"No Animator is attached to \"{gameObject.name}\" " +
-            $"Enemy in inspector. Animations will not work properly without it");
-
         if (!goal) Debug.LogWarning($"No goal transform is attached to \"{gameObject.name}\" " +
             $"Enemy in inspector");
     }
@@ -112,8 +103,6 @@ public class Enemy : AttackableGameUnit, IAffectable
             {
                 Attack();
                 ResetAttackCountdown();
-                if (animator)
-                    animator.SetTrigger("Run");
             }
         }
     }
@@ -130,7 +119,8 @@ public class Enemy : AttackableGameUnit, IAffectable
     public override void Die(AttackInfo attackInfo)
     {
         GameController.INSTANCE?.OnEnemyDie(this);
-        DoRagdoll(attackInfo);
+
+        PlayDieAnimation(attackInfo);
 
         // Destroy gameObject after seconds
         Destroy(gameObject, 5f);
@@ -141,16 +131,13 @@ public class Enemy : AttackableGameUnit, IAffectable
         Destroy(this);
     }
 
-    private void DoRagdoll(AttackInfo attackInfo)
+    protected virtual void PlayDieAnimation(AttackInfo attackInfo)
     {
-        character.DoRagdoll(attackInfo);
+        // OVERRIDE THIS
     }
 
     public override void Attack()
     {
-        if (animator)
-            animator.SetTrigger("Attack");
-        // TODO: Add delay before actually attacking
         base.Attack();
     }
 

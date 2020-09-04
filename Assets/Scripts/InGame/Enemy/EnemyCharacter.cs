@@ -78,12 +78,15 @@ public class EnemyCharacter : MonoBehaviour
 
 		var collider = rb.gameObject.GetComponent<Collider>();
 		collider.isTrigger = false;
+		
+		isGrounded = true;
 	}
 
-    private void Update()
-    {
-		CheckGroundStatus();
-    }
+ //   private void Update()
+ //   {
+	//	//CheckGroundStatus();
+	//	isGrounded = true;
+	//}
 
     public void Move(Vector3 move, bool crouch, bool jump)
 	{
@@ -92,15 +95,15 @@ public class EnemyCharacter : MonoBehaviour
 		// direction.
 		if (move.magnitude > 1f) move.Normalize();
 		move = transform.InverseTransformDirection(move);
-		CheckGroundStatus();
+		// CheckGroundStatus();
 		turnAmount = Mathf.Atan2(move.x, move.z);
 		forwardAmount = move.z;
 
 		ApplyTurnRotation();
 
 		// Control and velocity handling is different when grounded and airborne:
-		if (isGrounded)
-			HandleGroundedMovement(crouch, jump);
+		//if (isGrounded)
+		//	HandleGroundedMovement(crouch, jump);
 		//else
 		//	HandleAirborneMovement();
 
@@ -120,46 +123,48 @@ public class EnemyCharacter : MonoBehaviour
 		else
 			animator.SetBool("IsRunning", false);
 
-		if (!isGrounded)
-		{
-			animator.SetFloat("Jump", rb.velocity.y);
-		}
+		//if (!isGrounded)
+		//{
+		//	animator.SetFloat("Jump", rb.velocity.y);
+		//}
 
 		// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
 		// which affects the movement speed because of the root motion.
-		if (isGrounded && move.magnitude > 0)
-		{
-			animator.speed = animSpeedMultiplier;
-		}
-		else
-		{
-			// don't use that while airborne
-			animator.speed = 1;
-		}
+		//if (isGrounded && move.magnitude > 0)
+		//{
+		//	animator.speed = animSpeedMultiplier;
+		//}
+		//else
+		//{
+		//	// don't use that while airborne
+		//	animator.speed = 1;
+		//}
+
+		animator.speed = animSpeedMultiplier;
 	}
 
-	void HandleAirborneMovement()
-	{
-		// apply extra gravity from multiplier:
-		Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
-		rb.AddForce(extraGravityForce);
+	//void HandleAirborneMovement()
+	//{
+	//	// apply extra gravity from multiplier:
+	//	Vector3 extraGravityForce = (Physics.gravity * gravityMultiplier) - Physics.gravity;
+	//	rb.AddForce(extraGravityForce);
 
-		groundCheckDistance = rb.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
-	}
+	//	groundCheckDistance = rb.velocity.y < 0 ? origGroundCheckDistance : 0.01f;
+	//}
 
 
-	void HandleGroundedMovement(bool crouch, bool jump)
-	{
-		// check whether conditions are right to allow a jump:
-		if (jump && !crouch && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
-		{
-			// jump!
-			rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
-			isGrounded = false;
-			animator.applyRootMotion = false;
-			groundCheckDistance = 0.1f;
-		}
-	}
+	//void HandleGroundedMovement(bool crouch, bool jump)
+	//{
+	//	// check whether conditions are right to allow a jump:
+	//	if (jump && !crouch && animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+	//	{
+	//		// jump!
+	//		rb.velocity = new Vector3(rb.velocity.x, jumpPower, rb.velocity.z);
+	//		isGrounded = false;
+	//		animator.applyRootMotion = false;
+	//		groundCheckDistance = 0.1f;
+	//	}
+	//}
 
 	/// <summary>
 	/// Turns the character, not by root motion.
@@ -203,30 +208,30 @@ public class EnemyCharacter : MonoBehaviour
 	}
 
 
-	void CheckGroundStatus()
-	{
-		RaycastHit hitInfo;
-#if UNITY_EDITOR
+//	void CheckGroundStatus()
+//	{
+//		RaycastHit hitInfo;
+//#if UNITY_EDITOR
 
-		Vector3 raycastStartPoint = transform.position + (Vector3.up * 0.05f);
-		// helper to visualise the ground check ray in the scene view
-		Debug.DrawLine(raycastStartPoint, raycastStartPoint + (Vector3.down * groundCheckDistance));
-#endif
-		// 0.1f is a small offset to start the ray from inside the character
-		// it is also good to note that the transform position in the sample assets is at the base of the character
-		if (Physics.Raycast(raycastStartPoint, Vector3.down, out hitInfo, groundCheckDistance))
-		{
-			groundNormal = hitInfo.normal;
-			isGrounded = true;
-			animator.applyRootMotion = true;
-		}
-		else
-		{
-			isGrounded = false;
-			groundNormal = Vector3.up;
-			animator.applyRootMotion = false;
-		}
-	}
+//		Vector3 raycastStartPoint = transform.position + (Vector3.up * 0.05f);
+//		// helper to visualise the ground check ray in the scene view
+//		Debug.DrawLine(raycastStartPoint, raycastStartPoint + (Vector3.down * groundCheckDistance));
+//#endif
+//		// 0.1f is a small offset to start the ray from inside the character
+//		// it is also good to note that the transform position in the sample assets is at the base of the character
+//		if (Physics.Raycast(raycastStartPoint, Vector3.down, out hitInfo, groundCheckDistance))
+//		{
+//			groundNormal = hitInfo.normal;
+//			isGrounded = true;
+//			animator.applyRootMotion = true;
+//		}
+//		else
+//		{
+//			isGrounded = false;
+//			groundNormal = Vector3.up;
+//			animator.applyRootMotion = false;
+//		}
+//	}
 
 	public void DoRagdoll(AttackInfo attackInfo)
     {

@@ -28,7 +28,7 @@ public class AttackableGameUnit : GameUnit, IAttackable
         range.Init(this, attackRadius);
     }
 
-    protected virtual void Update()
+    protected override void SubUpdate()
     {
         UpdateAttackCountdown();
         HandleAttack();

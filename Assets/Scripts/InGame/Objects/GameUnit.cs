@@ -28,6 +28,16 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
 
     }
 
+    protected void Update()
+    {
+        if (GameController.INSTANCE)
+            if (!GameController.INSTANCE.IsGamePlaying()) return;
+        SubUpdate();
+    }
+    protected virtual void SubUpdate()
+    {
+    }
+
     public virtual void Die(AttackInfo attackInfo)
     {
         Debug.Log("Die() was called in GameUnit.cs");

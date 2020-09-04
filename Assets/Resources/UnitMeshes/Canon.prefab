@@ -144,12 +144,13 @@ MonoBehaviour:
   maxHp: 100
   cost: 240
   sellWorth: 80
+  attackRadius: 6
+  attackDamage: 60
+  attackFrequency: 3
+  pf_range: {fileID: 6108344365463137814, guid: 973a47fc178937445a6266a3acce55c5,
+    type: 3}
   level: 1
-  atk: 12
   effect: {fileID: 0}
-  atkSpeed: 0.33
-  lastAtkTime: 0
-  atkRange: 8
   projectile: {fileID: 7537679607396884572, guid: 3951d4f4791fd684cb0d900cb8e351c8,
     type: 3}
   platform: {fileID: 2207969212048017596}

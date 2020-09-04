@@ -19,6 +19,10 @@ public class RagdollEffect : MonoBehaviour
                 "Please make you you added this script to a GameObject with an Animator component");
 
         skinnedMeshRenderers = targetRagdollRoot.GetComponentsInChildren<SkinnedMeshRenderer>();
+        foreach (var smr in skinnedMeshRenderers)
+        {
+            smr.updateWhenOffscreen = false;
+        }
         colliders = targetRagdollRoot.GetComponentsInChildren<Collider>();
         rigidbodies = targetRagdollRoot.GetComponentsInChildren<Rigidbody>();
 
@@ -67,6 +71,10 @@ public class RagdollEffect : MonoBehaviour
             rb.detectCollisions = active;
             rb.useGravity = active;
             rb.isKinematic = !active;
+        }
+        foreach (var smr in skinnedMeshRenderers)
+        {
+            smr.updateWhenOffscreen = true;
         }
         if (gameObject.GetComponent<Rigidbody>())
         {

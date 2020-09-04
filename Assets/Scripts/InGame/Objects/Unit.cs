@@ -21,14 +21,11 @@ public class Unit : AttackableGameUnit, IPlacable, IDamagable, IPropertiesDispla
         hp = maxHp;
     }
 
-    protected override void Update()
+    protected override void SubUpdate()
     {
-        if (GameController.INSTANCE)
-            if (!GameController.INSTANCE.IsGamePlaying()) return;
-
         if (isDummy) return;
 
-        base.Update(); // Handles attack
+        base.SubUpdate(); // Handles attack
     }
 
     // public void OnBuy()
