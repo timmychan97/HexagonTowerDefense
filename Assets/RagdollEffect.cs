@@ -88,7 +88,7 @@ public class RagdollEffect : MonoBehaviour
 
     public void ApplyForce(AttackInfo attackInfo)
     {
-        var pft = (Projectile_FixedTarget)attackInfo.projectile;
+        var pft = attackInfo.projectile as Projectile_FixedTarget;
         if (pft && pft.hitRadius > 0f)
         {
             foreach (var rb in targetRagdollRoot.GetComponentsInChildren<Rigidbody>())

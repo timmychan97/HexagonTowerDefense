@@ -64,7 +64,7 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
     //      Getters and Setters
     ////////////////////////////////////
 
-    public UI_PanelUnitInfo GetPanelUnitInfo()
+    public virtual UI_PanelUnitInfo GetPanelUnitInfo()
     {
         Debug.LogWarning("Error: GetPanelUnitInfo() was called in GameUnit");
         // To be overridden by children
@@ -79,4 +79,5 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
     public int GetCost() => cost;
     public bool GetIsDummy() => isDummy;
     public void SetIsDummy(bool b) => isDummy = b;
+    public bool IsDead() => hp <= 0;
 }

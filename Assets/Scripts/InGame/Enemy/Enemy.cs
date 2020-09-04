@@ -19,6 +19,7 @@ public class Enemy : AttackableGameUnit, IAffectable
 
     protected override void Start()
     {
+        _name = "Enemy";
         base.Start();
         ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -35,16 +36,16 @@ public class Enemy : AttackableGameUnit, IAffectable
     {
         base.SubUpdate();
 
-        if (Input.GetMouseButton(0))
-        {
-            int cameraDistance = 600;
-            RaycastHit rh;
-            Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(r, out rh, cameraDistance))
-            {
-                navMeshAgent.destination = rh.point;
-            }
-        }
+        //if (Input.GetMouseButton(0))
+        //{
+        //    int cameraDistance = 600;
+        //    RaycastHit rh;
+        //    Ray r = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //    if (Physics.Raycast(r, out rh, cameraDistance))
+        //    {
+        //        navMeshAgent.destination = rh.point;
+        //    }
+        //}
 
         UpdateMovement();
     }
@@ -89,9 +90,14 @@ public class Enemy : AttackableGameUnit, IAffectable
         {
             Debug.Log("Goal is in range");
             StopMoving();
+            if (isReadyToAttack())
+            {
+                SetAttackTarget(goal);
+                Attack();
+            }
             // attack goal (base)
         }
-        else if (attackTarget != null)
+        else if (attackTarget != null && !attackTarget.IsDead())
         {
             // Visualize target
 #if UNITY_EDITOR
@@ -102,7 +108,6 @@ public class Enemy : AttackableGameUnit, IAffectable
             if (isReadyToAttack()) 
             {
                 Attack();
-                ResetAttackCountdown();
             }
         }
     }
@@ -128,7 +133,6 @@ public class Enemy : AttackableGameUnit, IAffectable
 
         // Destroy the Collider to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
         Destroy(GetComponent<Collider>());
-        Destroy(this);
     }
 
     protected virtual void PlayDieAnimation(AttackInfo attackInfo)
@@ -211,7 +215,7 @@ public class Enemy : AttackableGameUnit, IAffectable
         return navMeshAgent.velocity;
     }
 
-    public new UI_PanelUnitInfo GetPanelUnitInfo() 
+    public override UI_PanelUnitInfo GetPanelUnitInfo() 
     {
         // get the prefab for Enemy class from UI_PanelUnitInfoManager, 
         // link it with this object, then return the panel

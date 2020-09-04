@@ -35,13 +35,14 @@ public class Unit : AttackableGameUnit, IPlacable, IDamagable, IPropertiesDispla
 
     public override void HandleAttack()
     {
-        if (attackTarget != null) 
+        if (attackTarget != null && !attackTarget.IsDead()) 
         {
             // Rotate unit content to look at target
             // if this Unit has unit content (model that aims)
             if (unitContent != null)
             {
-                Vector3 lookAtPos = new Vector3(attackTarget.gameObject.transform.position.x, 
+                // Sometimes, gameObject is destroyed, but the script is not
+                Vector3 lookAtPos = new Vector3(attackTarget.gameObject.transform.position.x,
                     transform.position.y, attackTarget.gameObject.transform.position.z);
                 unitContent.transform.LookAt(lookAtPos);
             }

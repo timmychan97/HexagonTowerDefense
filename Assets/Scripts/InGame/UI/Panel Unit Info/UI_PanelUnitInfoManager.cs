@@ -68,7 +68,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
 
     public void OnDisplayableTakeDmg(IPropertiesDisplayable displayable)
     {
-        if (displaying == displayable)
+        if (displaying == displayable && displayable != null)
         {
             UpdateInfo();
         }
@@ -78,6 +78,7 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
     {
         if (gameUnit as IPropertiesDisplayable == displaying)
         {
+            UnitRangeMarker.Hide();
             CloseInfo();
         }
     }

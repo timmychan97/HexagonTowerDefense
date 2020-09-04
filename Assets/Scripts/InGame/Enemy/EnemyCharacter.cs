@@ -241,7 +241,8 @@ public class EnemyCharacter : MonoBehaviour
 			// Disable stuff before ragdoll
 			rb.isKinematic = true;
 			rb.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
-			rb.gameObject.GetComponent<Collider>().enabled = false;
+			if (rb.gameObject.GetComponent<Collider>())
+				rb.gameObject.GetComponent<Collider>().enabled = false;
 
 			ragdollEffect.Activate();
 

@@ -16,6 +16,12 @@ public class EnemySpawner : MonoBehaviour
         HandleSpawning();
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 0, 1, 0.8f);
+        Gizmos.DrawSphere(transform.position, 1f);
+    }
+
     void HandleSpawning()
     {
         List<Wave> toRemove = new List<Wave>(); // remove waves that have no more spawn actions waiting

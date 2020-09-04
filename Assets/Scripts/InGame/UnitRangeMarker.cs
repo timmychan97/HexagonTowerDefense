@@ -26,7 +26,6 @@ public class UnitRangeMarker : MonoBehaviour
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
-
     public static void MoveToUnit(GameUnit unit)
     {
         if(unit)
@@ -42,7 +41,7 @@ public class UnitRangeMarker : MonoBehaviour
     private static void _ShowUnitRangeMarker(GameUnit gameUnit)
     {
         var urm = INSTANCE;
-        Unit unit = gameUnit as Unit;
+        AttackableGameUnit unit = gameUnit as AttackableGameUnit;
         if (unit != null)
         {
             urm.SetRadius(unit.GetAttackRadius());
