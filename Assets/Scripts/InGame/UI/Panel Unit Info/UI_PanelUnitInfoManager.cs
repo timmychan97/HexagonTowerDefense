@@ -78,21 +78,20 @@ public class UI_PanelUnitInfoManager : MonoBehaviour, ISelectionObserver
     {
         if (gameUnit as IPropertiesDisplayable == displaying)
         {
-            UnitRangeMarker.Hide();
+            AttackRangeMarker.Hide();
             CloseInfo();
         }
     }
 
     void ISelectionObserver.OnSelect(Object obj) {
         OnClick((GameObject)obj);
-        UnitRangeMarker.Show();
-        UnitRangeMarker.MoveToUnit(((GameObject)obj).GetComponent<GameUnit>());
+        AttackRangeMarker.FollowUnit(((GameObject)obj).GetComponent<GameUnit>());
     }
 
     void ISelectionObserver.OnDeselect(Object obj)
     {
         CloseInfo();
-        UnitRangeMarker.Hide();
+        AttackRangeMarker.Hide();
     }
 
     void ISelectionObserver.OnMouseDown(Object obj) { }

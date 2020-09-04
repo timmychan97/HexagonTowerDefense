@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-public class UnitRangeMarker : MonoBehaviour
+public class AttackRangeMarker : MonoBehaviour
 {
     // There is only one and the same tower range marker.
     // One marker is reused over and over.
 
-    public static UnitRangeMarker INSTANCE;
+    public static AttackRangeMarker INSTANCE;
 
     public float rotationsPerMinute = 7f;
+
+    private GameUnit followingUnit;
 
     void Awake() => INSTANCE = this;
 
@@ -17,6 +19,11 @@ public class UnitRangeMarker : MonoBehaviour
     {
         // 6f is 360/60
         transform.Rotate(0, 0, 6f * rotationsPerMinute * Time.deltaTime);
+        if (followingUnit && !followingUnit.IsDead())
+        {
+            PrepareTransform(followingUnit);
+            Show();
+        }
     }
 
     public void SetRadius(float radius)
@@ -26,10 +33,14 @@ public class UnitRangeMarker : MonoBehaviour
         transform.localScale = new Vector3(scale, scale, scale);
     }
 
-    public static void MoveToUnit(GameUnit unit)
+    public static void FollowUnit(GameUnit unit)
     {
-        if(unit)
-            _ShowUnitRangeMarker(unit);
+        if (unit && !unit.IsDead())
+        {
+            PrepareTransform(unit);
+            INSTANCE.followingUnit = unit;
+            Show();
+        }
         else
             Hide();
     }
@@ -38,7 +49,7 @@ public class UnitRangeMarker : MonoBehaviour
 
     public static void Show() => INSTANCE.gameObject.SetActive(true);
 
-    private static void _ShowUnitRangeMarker(GameUnit gameUnit)
+    private static void PrepareTransform(GameUnit gameUnit)
     {
         var urm = INSTANCE;
         AttackableGameUnit unit = gameUnit as AttackableGameUnit;

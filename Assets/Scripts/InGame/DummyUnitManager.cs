@@ -25,7 +25,7 @@ public class DummyUnitManager : MonoBehaviour
 
     void HandleDummyGameUnit()
     {
-        if (dummyUnit == null) return;
+        if (dummyUnit == null || dummyUnit.gameObject == null) return;
 
         Tile tile = TileUtils.GetTileUnderMouse();
         if (tile == null) return;
@@ -37,7 +37,11 @@ public class DummyUnitManager : MonoBehaviour
             // If mouse pointed to a different tile
             dummyUnit.transform.position = pos;
             dummyUnitCoords = tile.coords;
-            UnitRangeMarker.MoveToUnit(dummyUnit);
+
+            // Destroy(dummyUnit.gameObject) will run at the end of frame. We use .enabled to detect it.
+            // If the dummy unit is to be destroyed at the end of this frame, we don't make range marker follow it.
+            if (dummyUnit.enabled)
+                AttackRangeMarker.FollowUnit(dummyUnit);
         }
     }
 
@@ -59,7 +63,6 @@ public class DummyUnitManager : MonoBehaviour
         {
             dummyUnit = CreateDummyGameUnit(gameUnitTool.gameUnit);
             UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
-            UnitRangeMarker.Show();
         }
     }
 
@@ -67,7 +70,7 @@ public class DummyUnitManager : MonoBehaviour
     {
         if (dummyUnit != null) Destroy(dummyUnit.gameObject);
         UI_PanelUnitInfoManager.INSTANCE.CloseInfo();
-        UnitRangeMarker.Hide();
+        AttackRangeMarker.Hide();
     }
 
     GameUnit CreateDummyGameUnit(GameUnit gameUnit)
