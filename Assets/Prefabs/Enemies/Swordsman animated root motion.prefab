@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconSmall: {fileID: 0}
-  _name: 
+  _name: Swordsman
   description: 
   maxHp: 100
   cost: 0

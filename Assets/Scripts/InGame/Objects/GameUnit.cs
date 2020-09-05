@@ -48,6 +48,7 @@ public class GameUnit : MonoBehaviour, IDamagable, IPropertiesDisplayable
         hp -= attackInfo.damage;
         if (hp <= 0) 
         {
+            hp = 0;
             Die(attackInfo);
         }
         

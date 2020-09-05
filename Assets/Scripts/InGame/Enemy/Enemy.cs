@@ -19,7 +19,6 @@ public class Enemy : AttackableGameUnit, IAffectable
 
     protected override void Start()
     {
-        _name = "Enemy";
         base.Start();
         ValidateAttachedObjects();
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -152,6 +151,7 @@ public class Enemy : AttackableGameUnit, IAffectable
 
     public override void TakeDmg(AttackInfo attackInfo)
     {
+        if (IsDead()) return;
         base.TakeDmg(attackInfo);
         healthBarPivot.SetHealth(hp);
     }
