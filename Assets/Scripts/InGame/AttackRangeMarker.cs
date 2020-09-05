@@ -58,5 +58,10 @@ public class AttackRangeMarker : MonoBehaviour
             urm.SetRadius(unit.GetAttackRadius());
             urm.transform.position = unit.transform.position;
         }
+        else
+        {
+            urm.SetRadius(0.8f);
+            urm.transform.position = gameUnit.transform.position;
+        }
     }
 }
