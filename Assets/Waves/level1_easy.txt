@@ -35,7 +35,8 @@ wave 9
 	sprinter 10
 end
 wave 10
-	brute 16
-	sprinter 30
+	archer 4
+	brute 4
+	sprinter 4
 end
 end

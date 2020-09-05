@@ -19,10 +19,8 @@ public class Btn_MainMenu : MonoBehaviour
         // text = GetComponentInChildren<Text>();
         // img = GetComponent<Image>();
 
-        if (text == null) 
-        {
+        if (!text) 
             Debug.LogWarning("No Text component in children of Btn_LoadLevel");
-        }
 
     }
 
@@ -32,12 +30,7 @@ public class Btn_MainMenu : MonoBehaviour
         text.color = new Color(1f, 1f, 1f, a);
     }
 
-    public float GetOpacity() {
-        return img.color.a;
-    }
+    public float GetOpacity() => img.color.a;
 
-    public void SetText(string s)
-    {
-        text.text = s;
-    }
+    public void SetText(string s) => text.text = s;
 }

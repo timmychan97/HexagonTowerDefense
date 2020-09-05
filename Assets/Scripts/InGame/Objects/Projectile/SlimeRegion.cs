@@ -65,8 +65,5 @@ public class SlimeRegion : MonoBehaviour
             }
         }
     }
-    public void SetPos(Vector3 pos) 
-    {
-        transform.position = pos;
-    }
+    public void SetPos(Vector3 pos) => transform.position = pos;
 }

@@ -248,9 +248,9 @@ MonoBehaviour:
   enemyName: {fileID: 1099334170449746901}
   level: {fileID: 1099334170413012855}
   hp: {fileID: 1099334168729474411}
-  atk: {fileID: 1099334170188850721}
+  attack: {fileID: 1099334170188850721}
   speed: {fileID: 1099334169888249960}
-  atkSpeed: {fileID: 1099334168596020568}
+  attackSpeed: {fileID: 1099334168596020568}
   worth: {fileID: 3841656649620758497}
 --- !u!1 &1099334168729474325
 GameObject:

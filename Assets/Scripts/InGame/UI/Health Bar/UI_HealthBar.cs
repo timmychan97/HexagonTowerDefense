@@ -12,19 +12,13 @@ public class UI_HealthBar : MonoBehaviour
     {
         // If the pivot is destroyed, destroy this game object
         if (!pivot)
-        {
             Destroy(gameObject);
-        }
         else
         {
             if (forceHidden)
-            {
                 Hide();
-            }
             else
-            {
                 UpdatePosition();
-            }
         }
     }
 
@@ -48,17 +42,23 @@ public class UI_HealthBar : MonoBehaviour
 
 
 
-    public void SetHealth(float health) => slider.value = health;
-
     public void SetMaxHealth(float maxHealth) => slider.maxValue = maxHealth;
 
+    public void SetHealth(float health)
+    {
+        if (health > slider.maxValue)
+        {
+            Debug.LogWarning("You have attempted to set the health over the max health. This cannot be done. " +
+                "Make sure you run SetMaxHealth() first");
+        }
+        slider.value = health;
+    }
+
     public void Hide() => slider.gameObject.SetActive(false);
+
     public void Show()
     {
-        if (forceHidden)
-        {
-            return;
-        }
+        if (forceHidden) return;
         slider.gameObject.SetActive(true);
     }
 

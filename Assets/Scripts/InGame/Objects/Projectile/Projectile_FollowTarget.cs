@@ -1,17 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Projectile_FollowTarget : Projectile
 {
-    GameObject target;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    IAttackable attacker;
+    GameUnit target;
 
-    // Update is called once per frame
     void Update()
     {
         if (target == null)  // disappears when the target object is destroyed
@@ -24,17 +17,23 @@ public class Projectile_FollowTarget : Projectile
         }
     }
 
-    public override void Init(Unit _emitter, GameObject _target)
+    public void Init(float _dmg, GameUnit _target)
     {
+        damage = _dmg;
         target = _target;
-        dmg = _emitter.atk;
-        effect = _emitter.effect;
         transform.LookAt(_target.transform, Vector3.up);
     }
 
-    public override void Init(Unit _emitter, Enemy enemy)
+    public override void Init(Unit _emitter, GameUnit _target)
     {
-        Init(_emitter, enemy.gameObject);
+        effect = _emitter.effect;
+        Init(_emitter.attackDamage, _target);
+    }
+
+    public override void Init(Enemy enemy, GameUnit unit)
+    {
+        attacker = enemy;
+        Init(enemy.attackDamage, unit);
     }
 
     void UpdatePos() 
@@ -54,9 +53,11 @@ public class Projectile_FollowTarget : Projectile
     
     public override void OnHit()
     {
-        Enemy enemy = target.GetComponent<Enemy>();
-        enemy.TakeDmg(dmg);
+        AttackInfo attackInfo = new AttackInfo(attacker, target, damage, this);
+        target.TakeDmg(attackInfo);
         if (effect != null)
-            enemy.TakeEffect(effect);
+        {
+            target.TakeEffect(effect);
+        }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Panel_SelectMode : MainMenuPanel
+﻿public class Panel_SelectMode : MainMenuPanel
 {
     public MainMenuPanel panel_selectLevel;
 

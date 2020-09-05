@@ -15,28 +15,19 @@ public class UI_TopBar : MonoBehaviour
 
     public void SetTextGold(int n) => textGold.text = n.ToString();
 
-    public void SetTextHp(int n) => textHp.text = n.ToString();
+    public void SetTextHp(float hp, float maxHp) => textHp.text = $"{Utils.ConvertToString(hp)}/{Utils.ConvertToString(maxHp)}";
 
     public void SetTextWave(int n) => textWave.text = n.ToString();
 
     public void SetTextCountdown(float f) => textCountdown.text = Mathf.Ceil(f).ToString();
 
-    public void OnNotEnoughGold()
-    {
-        StartCoroutine(ShowNotEnoughGold());
-    }
+    public void OnNotEnoughGold() => StartCoroutine(ShowNotEnoughGold());
 
-    public void OnGainGold()
-    {
-        StartCoroutine(ShowGainGold());
-    }
+    public void OnGainGold(int amount) => StartCoroutine(ShowGainGold(amount));
 
-    public void onSpendGold()
-    {
-        StartCoroutine(ShowSpendGold());
-    }
+    public void OnSpendGold(int amount) => StartCoroutine(ShowSpendGold(amount));
 
-    IEnumerator ShowSpendGold()
+    IEnumerator ShowSpendGold(int amount)
     {
         textGold.color = yellow;
         textGold.fontSize = 18;
@@ -58,7 +49,7 @@ public class UI_TopBar : MonoBehaviour
         textGold.fontStyle = FontStyle.Normal;
     }
 
-    IEnumerator ShowGainGold()
+    IEnumerator ShowGainGold(int amount)
     {
         textGold.color = green;
         textGold.fontSize = 18;
@@ -77,11 +68,18 @@ public class UI_TopBar : MonoBehaviour
         }
     }
 
+    public void OnSpeedUpClicked()
+    {
+        if (GameController.INSTANCE.IsGamePlaying()) 
+        {
+            GameController.INSTANCE.ToggleSpeedUp();
+        }
+    }
+
     public void OnBtnPauseClicked()
     {
         if (GameController.INSTANCE.IsGamePlaying()) 
         {
-            
             GameController.INSTANCE.PauseGame();
         }
         else if (GameController.INSTANCE.IsGamePaused())

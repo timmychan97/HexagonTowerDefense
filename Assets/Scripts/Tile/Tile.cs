@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [SelectionBase]
-public class Tile : MonoBehaviour, ISelectable {
+public class Tile : MonoBehaviour {
 	public static Tile active;
 	public Transform tileContentContainer;
 	public Transform tileMeshContainer;
@@ -44,17 +44,16 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	public bool HasUnit() 
 	{
-		TileContent t = tileContentContainer.GetComponentInChildren<Unit>();
+		IPlacable t = tileContentContainer.GetComponentInChildren<IPlacable>();
 		if (t == null) return false;
 		return true;
 	}
 
-	public Unit GetUnit()
+	public GameUnit GetGameUnit()
 	{
-		return tileContentContainer.GetComponentInChildren<Unit>();
+		return tileContentContainer.GetComponentInChildren<GameUnit>();
 	}
 
-	// returns the instantiated GameObject
 	public void SetTileContent(GameObject obj)
 	{
 		foreach (Transform c in tileContentContainer)
@@ -68,30 +67,9 @@ public class Tile : MonoBehaviour, ISelectable {
 		TileManager.INSTANCE.OnClick(this);
     }
 
+    public void Highlight() => Highlight(null);
 
-	#region highlighter
-	public void Activate()
-	{
-		SetHighlight (transform, true);
-	}
-	public void Deactivate()
-	{
-		SetHighlight (transform, false);
-	}
-
-	void SetHighlight(Transform t, bool isEnabled)
-	{
-		// for each children, if it can be outlined, outline it.
-		return;
-	}
-	#endregion
-
-    public void Highlight()
-    {
-		Highlight(null);
-	}
-
-	public void Highlight(Color? color)
+    public void Highlight(Color? color)
 	{
 		var _propBlock = new MaterialPropertyBlock();
 		var _renderer = tileMeshContainer.GetComponentInChildren<Renderer>();
@@ -120,11 +98,6 @@ public class Tile : MonoBehaviour, ISelectable {
 		_renderer.SetPropertyBlock(_propBlock);
 	}
 
-	public void Select()
-    {
-        throw new System.NotImplementedException();
-    }
-
     public void DeHighlight()
 	{
 		var _propBlock = new MaterialPropertyBlock();
@@ -137,13 +110,5 @@ public class Tile : MonoBehaviour, ISelectable {
 
 	}
 
-    public void DeSelect()
-    {
-        throw new System.NotImplementedException();
-    }
-
-	public float GetY()
-	{
-		return transform.position.y;
-	}
+    public float GetY() => transform.position.y;
 }

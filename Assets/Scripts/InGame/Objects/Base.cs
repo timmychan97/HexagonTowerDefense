@@ -1,40 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
-public class Base : MonoBehaviour, IDamagable
+public class Base : GameUnit
 {
-    public int maxHp;
-    private int hp;
-    // Start is called before the first frame update
-    void Start()
+    public override void Die(AttackInfo attackInfo)
     {
-        hp = maxHp;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void Die()
-    {
+        Debug.LogWarning("Base die animation not implemented");
         // display die animation
     }
 
-    public void TakeDmg(float dmg)
+    public override void TakeDmg(AttackInfo attackInfo)
     {
-        // Debug.Log("Base took damage: " + dmg.ToString());
-        hp -= Mathf.RoundToInt(dmg);
-        if (hp <= 0)
-        {
-            hp = 0;
-            Die();
-        }
-        GameController.INSTANCE.UpdateUiStats();
+        GameController.INSTANCE?.OnBaseTakeDmg(this);
+        base.TakeDmg(attackInfo);
     }
-
-    public int GetHp() { return hp; }
-    public void SetHp(int a) { hp = a; }
 }

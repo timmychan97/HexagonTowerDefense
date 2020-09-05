@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class HealthBarPivot : MonoBehaviour
 {
+    [SerializeField]
     private UI_HealthBar healthBar;
 
-    public void AddUIHealthBar()
+    /// <summary>
+    /// Add HealthBar on the UI
+    /// </summary>
+    public void AddUIHealthBar() => healthBar = UI_HealthBarManager.INSTANCE.AddHealthBar(this);
+
+    /// <summary>
+    /// Add HealthBar on the UI and set both health and max health to the given value
+    /// </summary>
+    public void AddUIHealthBar(float health)
     {
-        healthBar = UI_HealthBarManager.INSTANCE.AddHealthBar(this);
+        AddUIHealthBar();
+
+        // Must set max health first
+        SetMaxHealth(health);
+        SetHealth(health);
     }
 
+    public void RemoveUIHealthBar() => healthBar.Remove();
 
-    public void RemoveUIHealthBar()
-    {
-        healthBar.Remove();
-    }
+    public void SetHealth(float health) => healthBar.SetHealth(health);
 
-
-    public void SetHealth(float health)
-    {
-        healthBar.SetHealth(health);
-    }
-
-    public void SetMaxHealth(float maxHealth)
-    {
-        healthBar.SetMaxHealth(maxHealth);
-    }
+    public void SetMaxHealth(float maxHealth) => healthBar.SetMaxHealth(maxHealth);
 
 
     // Might be helpful when doing Settings
@@ -39,5 +41,12 @@ public class HealthBarPivot : MonoBehaviour
     {
         healthBar.forceHidden = false;
         healthBar.Show();
+    }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position, 0.1f);
     }
 }

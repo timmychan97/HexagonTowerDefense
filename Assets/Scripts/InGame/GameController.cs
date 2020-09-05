@@ -8,32 +8,51 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    public static Level level;
+    /* static variables */ 
+    public static string WAVE_FILE_EXT = ".txt";
+    public static string EASY_SUFFIX = "_easy";
+    public static string NOMRAL_SUFFIX = "_norma";
+    public static string HARD_SUFFIX = "_hard";
+    public static Level level = Level.DEFAULT;   // NOTE: This should be set before loading the scene
     public static GameController INSTANCE;
     public enum GameState {Playing, Paused, Lost, Won};
-    public GameState gameState;
+
+
+    /* UI elements */
     public UI_TopBar topBar;
-    public Base myBase;
     public GameObject panel_gameLost;
     public GameObject panel_gameWon;
     public GameObject panel_pause;
+
+    /* public stats */
     public int numWaves;
     public int gold;
     public int wave;
+    public int maxHp;
+    public float waveCd;
+    /* private stats */
+    float goldGainMultiplier = 1.0f; // Gold gains should be multiplied by this
+    string wavesFilename = "level1";
     int hp;
+    float waveCountdown;
+    string wavesFilePath;
+
+    public GameState gameState;
+    public Base myBase;
     public WaveParser waveParser;
     public EnemySpawner enemySpawner;
     private List<Wave> waves;
-    public string wavesFilename = "level1";
-    string pathFileWaves;
-    public float waveCd;
-    float waveCountdown;
-    public HashSet<Unit> units = new HashSet<Unit>();
+    public HashSet<GameUnit> gameUnits = new HashSet<GameUnit>();
+    public UnitRange pf_unitRange;
+    public EnemyRange pf_enemyRange;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         INSTANCE = this;
+    }
+
+    void Start()
+    {
         if (level == null) 
         {
             level = Level.DEFAULT;
@@ -42,17 +61,11 @@ public class GameController : MonoBehaviour
         gameState = GameState.Playing;
     }
     
-    // Update is called once per frame
     void Update()
     {
         HandleWave();
         HandleGameOver();
     }
-
-    // void LateUpdate()
-    // {
-    //     HandleGameOver();
-    // }
 
     void Init()
     {
@@ -64,6 +77,7 @@ public class GameController : MonoBehaviour
         level = Level.DEFAULT;
         ParseFileWaves(level);
         gameState = GameState.Playing;
+
         InitUI();
         Time.timeScale = 1.0f;
     }
@@ -78,55 +92,62 @@ public class GameController : MonoBehaviour
         UpdateUiStats();
     }
 
-    // Parse the txt file containing info about waves
-    // Then set values of variables
-    // The path of the txt file is given in level as its member variable
     void ParseFileWaves(Level level)
     {
-        wavesFilename = "level1_easy.txt"; // Default txt file name
-        if (level != null) 
-        {
-            if (level.difficulty == GlobalSettings.Difficulty.Easy) 
-            {
-                wavesFilename = level.GetWavesFile() + "_easy.txt";
-            }
-            else if (level.difficulty == GlobalSettings.Difficulty.Normal)
-            {
-                wavesFilename = level.GetWavesFile() + "_normal.txt";
-            }
-            else
-            {
-                wavesFilename = level.GetWavesFile() + "_hard.txt";
-            }
-        }
-        else 
-        {
-            Debug.LogWarning("Level is null");
-        }
-        pathFileWaves = Application.dataPath + "/Waves/" + wavesFilename;
-        Debug.Log($"Start parsing file: {pathFileWaves}");
-        waveParser.ParseFileWaves(pathFileWaves);
+        // Parse the txt file containing info about waves
+        // Then set values of variables
+        // The path of the txt file is given in level as its member variable
+        wavesFilename = level.GetWavesFile() + DifficultyToFileSuffix(level.difficulty);
+        wavesFilePath = Application.dataPath + "/Waves/" + wavesFilename;
+
+        Debug.Log($"Start parsing file: {wavesFilePath}");
+        waveParser.ParseFileWaves(wavesFilePath);
         Debug.Log("Done parsing");
         
-        // set initial game data
+        // get initial game data from WaveParser
         gold = waveParser.GetGold();
-        hp = waveParser.GetHp();
+        maxHp = waveParser.GetHp();
         waveCd = waveParser.GetWaveCd();
         waves = waveParser.GetWaves();
+        // set remaining initial game data
         numWaves = waves.Count;
+        hp = maxHp;   // full health by default
         wave = 0;
         waveCountdown = waveCd;
 
         myBase.SetHp(hp);
-        
-        // Debug.Log($"numWaves = {numWaves}");
-        // Debug.Log($"gold = {gold}");
-        // Debug.Log($"hp = {hp}");
-        // Debug.Log($"waveCd = {waveCd}");
+
+        Debug.Log($"numWaves = {numWaves}\ngold = {gold}\nhp = {hp}\nwaveCd = {waveCd}");
+    }
+
+    string DifficultyToFileSuffix(GlobalSettings.Difficulty difficulty)
+    {
+        // Returns:
+        //      File suffix corresponding to the difficulty.
+        //      If not corresponding suffix is found, returns EASY_SUFFIX
+
+        string ret;
+        switch (difficulty) 
+        {
+            case GlobalSettings.Difficulty.Easy:
+                ret = EASY_SUFFIX;
+                break;
+            case GlobalSettings.Difficulty.Normal:
+                ret = NOMRAL_SUFFIX;
+                break;
+            case GlobalSettings.Difficulty.Hard:
+                ret = HARD_SUFFIX;
+                break;
+            default:
+                ret = EASY_SUFFIX;
+                break;
+        }
+        return ret + WAVE_FILE_EXT;
     }
 
     void HandleWave()
     {
+        if (!IsGamePlaying()) return;
         // Starts next wave automatically when countdown reaches zero
         if (wave == waves.Count) return; // has reached last wave => don't countdown
         waveCountdown -= Time.deltaTime;
@@ -140,7 +161,7 @@ public class GameController : MonoBehaviour
     public void UpdateUiStats()
     {
         topBar.SetTextGold(gold);
-        topBar.SetTextHp(myBase.GetHp());
+        topBar.SetTextHp(myBase.GetHp(), maxHp);
         topBar.SetTextWave(wave);
         topBar.SetTextCountdown(waveCountdown);
     }
@@ -148,7 +169,6 @@ public class GameController : MonoBehaviour
     // start next wave
     public void NextWave()
     {
-        if (!IsGamePlaying()) return;
         if (wave < waves.Count)
         {
             enemySpawner.StartWave(waves[wave]);
@@ -166,7 +186,7 @@ public class GameController : MonoBehaviour
     }
 
     // returns false when fails to buy tower (no money)
-    public bool CanBuyUnit(Unit unit) 
+    public bool CanBuyGameUnit(GameUnit unit) 
     {
         if (!IsGamePlaying())
         {
@@ -179,45 +199,33 @@ public class GameController : MonoBehaviour
         }
         return true;
     }
-    
-    public void OnBuyUnit(Unit unit)
+
+    public void GainGold(int amount, bool absVal = false) 
     {
-        gold -= unit.cost;
-        topBar.onSpendGold();
-        UpdateUiStats();
-        units.Add(unit);
+        // Parameter:
+        //      amount:
+        //          The amount to be gained
+        //
+        //      absVal:
+        //          If absVal is true, the amount will not be multiplied by multiplier
+        float gainAmount = amount;
+        if (!absVal)
+        {
+
+            gainAmount *= goldGainMultiplier;
+        }
+        int gainInt = Mathf.RoundToInt(gainAmount);
+        gold += gainInt;
+        if (gainInt != 0) {
+            UpdateUiStats();
+            topBar.OnGainGold(gainInt);
+        }
     }
 
-    public void OnSellUnit(Unit t)
+    public void AddGainGoldMultiplier(float amount)
     {
-        gold += t.sellWorth;
-        UpdateUiStats();
-    }
-
-    public void GainReward(int _gold) 
-    {
-        gold += _gold;
-        UpdateUiStats();
-        topBar.OnGainGold();
-    }
-
-    public void OnWaveStart()
-    {
-        ++wave;
-        UpdateUiStats();
-    }
-
-    public void OnGameLost()
-    {
-        gameState = GameState.Lost;
-        panel_gameLost.SetActive(true);
-    }
-
-    public void OnGameWon()
-    {
-        gameState = GameState.Won;
-        panel_gameWon.SetActive(true);
-        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
+        // Increase Gain Gold Multiplier by amount
+        goldGainMultiplier += amount;
     }
 
     public void HandleGameOver() 
@@ -233,9 +241,31 @@ public class GameController : MonoBehaviour
         }
     }
 
-    ///////////////////////////////////////////////////
-    //              Pause Game
-    ///////////////////////////////////////////////////
+    public void ToggleSpeedUp()
+    {
+        if (Time.timeScale > 1.0f) 
+        {
+            SpeedDown();
+        }
+        else 
+        {
+            SpeedUp();
+        }
+    }
+
+    public void SpeedUp()
+    {
+        Time.timeScale = 2.0f;
+    }
+
+    public void SpeedDown()
+    {
+        Time.timeScale = 1.0f;
+    }
+
+    ////////////////////////////////////////////
+    //           Change Game State
+    ////////////////////////////////////////////
 
     public void TogglePause()
     {
@@ -272,15 +302,20 @@ public class GameController : MonoBehaviour
     public void RestartGame()
     {
         hp = 100;
-        foreach (Unit u in units) {
+        foreach (GameUnit u in gameUnits) {
             if (u != null) 
             {
                 Destroy(u.gameObject);
             }
         }
-        units.Clear();
+        gameUnits.Clear();
+        BuildingManager.INSTANCE.Init();
         Init();
     }
+
+    //////////////////////////////////////////
+    //        End Change Game State
+    //////////////////////////////////////////
 
     //////////////////////////////////////////
     //         Game State Checks
@@ -321,5 +356,74 @@ public class GameController : MonoBehaviour
 
     /////////////////////////////////////////////
     //       End Game State Checks
-    ////////////////////////////////////////////
+    /////////////////////////////////////////////
+
+    /////////////////////////////////////////////
+    //         Event Listeners
+    /////////////////////////////////////////////
+
+    public void OnWaveStart()
+    {
+        ++wave;
+        UpdateUiStats();
+    }
+
+    public void OnGameLost()
+    {
+        gameState = GameState.Lost;
+        panel_gameLost.SetActive(true);
+        BuildingManager.INSTANCE.StopProduction();
+    }
+
+    public void OnGameWon()
+    {
+        gameState = GameState.Won;
+        panel_gameWon.SetActive(true);
+        PlayerPrefs.SetInt("MaxLevelCompleted", level.levelId);
+        BuildingManager.INSTANCE.StopProduction();
+    }
+
+    public void OnBuyGameUnit(GameUnit gameUnit)
+    {
+        gameUnit.OnBuy();
+        int spendAmount = gameUnit.cost;
+        gameUnits.Add(gameUnit);
+        if (spendAmount != 0)
+        {
+            gold -= gameUnit.cost;
+            topBar.OnSpendGold(spendAmount);
+            UpdateUiStats();
+        }
+    }
+
+    public void OnSellGameUnit(GameUnit gameUnit)
+    {
+        GainGold(gameUnit.sellWorth);
+        UpdateUiStats();
+    }
+
+    public void OnEnemyDie(Enemy enemy)
+    {
+        GainGold(enemy.worth);
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(enemy);
+    }
+
+    public void OnUnitDie(Unit unit)
+    {
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(unit);
+    }
+
+    public void OnBuildingDie(Building building)
+    {
+        UI_PanelUnitInfoManager.INSTANCE.OnGameUnitDie(building);
+    }
+
+    public void OnBaseTakeDmg(Base b)
+    {
+        UpdateUiStats();
+    }
+    
+    /////////////////////////////////////////////
+    //       End Event Listeners
+    /////////////////////////////////////////////
 }
