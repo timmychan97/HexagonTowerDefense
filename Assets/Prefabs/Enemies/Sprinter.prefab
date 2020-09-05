@@ -109,17 +109,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c9e0c71c7e38c4a8b23277422fb65a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iconSmall: {fileID: 0}
+  _name: 
+  description: 
+  maxHp: 50
+  cost: 0
+  sellWorth: 0
+  attackRadius: 2
+  attackDamage: 4
+  attackFrequency: 1
+  pf_range: {fileID: 584755640168841864, guid: ac6c58ae4744d3c4097b0d10b0fe2f4c, type: 3}
   healthBarPivot: {fileID: 8397327465266207525}
   goal: {fileID: 0}
-  enemyName: Sprinter
   level: 1
-  atkRange: 1
-  atk: 3
   moveSpeed: 6
-  atkSpeed: 3
-  maxHp: 50
   worth: 40
-  prevPos: {x: 0, y: 0, z: 0}
 --- !u!54 &382724846640780429
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,3 +205,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd43da1e05e5a141b04a4d45d6ed1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}

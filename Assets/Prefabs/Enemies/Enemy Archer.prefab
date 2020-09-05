@@ -104,6 +104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd43da1e05e5a141b04a4d45d6ed1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
 --- !u!1 &9188607394352264913
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,17 +160,16 @@ MonoBehaviour:
   maxHp: 100
   cost: 20
   sellWorth: 0
+  attackRadius: 6
+  attackDamage: 7
+  attackFrequency: 0.5
+  pf_range: {fileID: 0}
   healthBarPivot: {fileID: 3988821052791350762}
   goal: {fileID: 0}
-  target: {fileID: 0}
   level: 1
-  atkRange: 6
-  atk: 70
   moveSpeed: 3
-  atkSpeed: 2
   worth: 50
-  projectile: {fileID: 279519581720795074, guid: efebab299689aae469ad5b0c8d4590d7,
-    type: 3}
+  pf_projectile: {fileID: 0}
   emitter: {fileID: 4249072395607186261}
 --- !u!54 &5809192357196971108
 Rigidbody:
