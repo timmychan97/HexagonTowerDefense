@@ -33,7 +33,8 @@ public class DummyUnitManager : MonoBehaviour
         Vector3 pos = TileUtils.RGBCoordsToWorld(tile.coords) + Vector3.up * tile.GetY();
         
         if (tile.coords != dummyUnitCoords) 
-        { 
+        {
+            dummyUnit.gameObject.SetActive(true);
             // If mouse pointed to a different tile
             dummyUnit.transform.position = pos;
             dummyUnitCoords = tile.coords;
@@ -62,6 +63,7 @@ public class DummyUnitManager : MonoBehaviour
         if (gameUnitTool != null) 
         {
             dummyUnit = CreateDummyGameUnit(gameUnitTool.gameUnit);
+            dummyUnit.gameObject.SetActive(false); // Don't show it until the mouse is on a tile
             UI_PanelUnitInfoManager.INSTANCE.OnClick(dummyUnit.gameObject);
         }
     }
@@ -77,10 +79,15 @@ public class DummyUnitManager : MonoBehaviour
     {
         GameUnit t = Instantiate(gameUnit);
         t.SetIsDummy(true);
-        Renderer rend = t.GetComponent<Renderer>();
-        if (rend != null) {
-            foreach (Material mat in rend.materials) {
-                mat.SetColor("_Color", new Color(0.3f, 0.3f, 0.3f));
+
+        var rends = t.GetComponentsInChildren<Renderer>();
+        foreach (var rend in rends)
+        {
+            foreach (Material mat in rend.materials)
+            {
+                var col = mat.GetColor("_BaseColor");
+                col.a = 0.5f;
+                //mat.SetColor("_BaseColor", col);
             }
         }
         return t;
