@@ -30,4 +30,29 @@ public class Enemy_WithAnimatedMovement : Enemy
     {
         character.DoRagdoll(attackInfo);
     }
+
+    public override void Die(AttackInfo attackInfo)
+    {
+        GameController.INSTANCE?.OnEnemyDie(this);
+
+        PlayDieAnimation(attackInfo);
+
+
+        navMeshAgent.enabled = false;
+        // Destroy gameObject after seconds
+        Destroy(gameObject, 5f);
+        Destroy(healthBarPivot, 1);
+
+        // Destroy all components, except transform and this script
+        foreach(var comp in GetComponents<Component>())
+        {
+            if (!(comp is Transform) && comp != this) Destroy(comp);
+        }
+
+        if (range && range.gameObject)
+            Destroy(range.gameObject);
+
+        // Destroy this script to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
+        Destroy(this);
+    }
 }

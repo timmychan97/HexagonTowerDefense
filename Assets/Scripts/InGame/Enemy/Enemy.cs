@@ -122,21 +122,14 @@ public class Enemy : AttackableGameUnit, IAffectable
 
     public override void Die(AttackInfo attackInfo)
     {
+        // Assure hp == 0
+        hp = 0;
         GameController.INSTANCE?.OnEnemyDie(this);
 
         PlayDieAnimation(attackInfo);
 
         // Destroy gameObject after seconds
-        Destroy(gameObject, 5f);
-        Destroy(healthBarPivot, 1);
-
-        if (GetComponent<Collider>())
-            Destroy(GetComponent<Collider>());
-        if (range && range.gameObject)
-            Destroy(range.gameObject);
-
-        // Destroy this script to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     protected virtual void PlayDieAnimation(AttackInfo attackInfo)

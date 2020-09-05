@@ -19,6 +19,9 @@ public class AttackableGameUnit : GameUnit, IAttackable
 
     protected virtual void Start()
     {
+        // If there are no attack defined, then do nothing
+        if (attackRadius == 0 || pf_range == null) return;
+
         attackRangeSqr = attackRadius * attackRadius;
         attackPeriod = 1f / attackFrequency;
 
