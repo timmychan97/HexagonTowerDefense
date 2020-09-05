@@ -201,6 +201,7 @@ public class Enemy : AttackableGameUnit, IAffectable
 
     public void RemoveEffect(Effect effect)
     {
+        if (IsDead()) return;
         effects.Remove(effect);
         // restore parameters (only speed for now)
         moveSpeed /= effect.speedScale;
