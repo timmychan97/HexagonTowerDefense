@@ -15,7 +15,7 @@ public class AttackableGameUnit : GameUnit, IAttackable
     [SerializeField] protected IDamagable attackTarget;
 
     public Range pf_range;
-    private Range range;
+    protected Range range;
 
     protected virtual void Start()
     {

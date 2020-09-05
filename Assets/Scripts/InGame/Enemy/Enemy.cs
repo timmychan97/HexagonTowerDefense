@@ -131,8 +131,13 @@ public class Enemy : AttackableGameUnit, IAffectable
         Destroy(gameObject, 5f);
         Destroy(healthBarPivot, 1);
 
-        // Destroy the Collider to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
-        Destroy(GetComponent<Collider>());
+        if (GetComponent<Collider>())
+            Destroy(GetComponent<Collider>());
+        if (range && range.gameObject)
+            Destroy(range.gameObject);
+
+        // Destroy this script to invoke OnTriggerExit() event in the UnitRange object, so that the towers can pick another target
+        Destroy(this);
     }
 
     protected virtual void PlayDieAnimation(AttackInfo attackInfo)
