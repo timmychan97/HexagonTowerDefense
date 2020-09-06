@@ -1,0 +1,15 @@
+For more detailed documentation and explanations please visit:
+https://roadturtlegames.com/milkshake/documentation/
+
+-------- Simple Setup --------
+1) Setup your camera
+	- Make sure that your camera is a child of an empty container GameObject, with its local position and rotation set to (0,0,0), otherwise the shaking will not work correctly.
+	- You may need to move camera movement scripts off of the camera object and onto the container object.
+	- Add a Shaker component to the camera by going to Add Component > MilkShake > Shaker.
+
+2) Create a Shake Preset
+	- Create a shake preset asset by going to Assets > Create > MilkShake > Shake Preset.
+
+3) Shake the camera
+	- Use the methods on the Shaker component to shake the camera.
+	- Shake methods return a ShakeInstance (or populate a list of Shake Instances) which can be used to modify the shake after it has started.

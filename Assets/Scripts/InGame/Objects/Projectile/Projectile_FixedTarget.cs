@@ -141,6 +141,7 @@ public class Projectile_FixedTarget : Projectile
         {
             var pfx = Instantiate(particleEffect.gameObject);
             pfx.transform.position = transform.position;
+            CameraShaker.ExplosionShake(transform.position);
         }
 
         var enemiesInRange = GetEnemiesWithinRadius();
