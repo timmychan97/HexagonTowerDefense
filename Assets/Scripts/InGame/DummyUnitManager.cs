@@ -80,16 +80,16 @@ public class DummyUnitManager : MonoBehaviour
         GameUnit t = Instantiate(gameUnit);
         t.SetIsDummy(true);
 
-        var rends = t.GetComponentsInChildren<Renderer>();
-        foreach (var rend in rends)
-        {
-            foreach (Material mat in rend.materials)
-            {
-                var col = mat.GetColor("_BaseColor");
-                col.a = 0.5f;
-                //mat.SetColor("_BaseColor", col);
-            }
-        }
+        //var rends = t.GetComponentsInChildren<Renderer>();
+        //foreach (var rend in rends)
+        //{
+        //    foreach (Material mat in rend.materials)
+        //    {
+        //        var col = mat.GetColor("_BaseColor");
+        //        col.a = 0.5f;
+        //        //mat.SetColor("_BaseColor", col);
+        //    }
+        //}
         return t;
     }
 }
